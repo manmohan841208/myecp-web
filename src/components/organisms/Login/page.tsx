@@ -1,45 +1,43 @@
 "use client";
 import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import Card from "@/components/atoms/Card";
 import Image from "@/components/atoms/Image";
-import {  Tooltip, DummyCardImage, PointsImg, RewardImg, BannerImage2} from "@/assets/svg";
+import { Tooltip, DummyCardImage, PointsImg, RewardImg, BannerImage2} from "@/assets/svg";
 import Button from "@/components/atoms/Button";
 import { InputField } from "@/components/atoms/InputField";
-// import CarouselDemo from "@/components/atoms/carouselTest";
 import Link from "next/link";
 import CustomAlert from '@/components/atoms/AlertMessage'
 import Carousel from "@/components/atoms/Carousal";
 import CustomCheckbox from "@/components/atoms/Checkbox";
 import { DynamicTooltip } from "@/components/atoms/Tooltip";
 import { useRouter } from 'next/navigation';
-
+import { setUserID, setPassword, setRememberMe } from '@/store/slices/loginSlice';
+import { useLoginUserMutation } from '@/store/services/authApi';
 
 
 const Login = () => {
-  const [userId, setUserId] = useState("");
-  const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
+  const { UserName, Password, rememberMe } = useSelector((state: any) => state.login);
+  const [loginUser, { data, error, isLoading }] = useLoginUserMutation();
+  // const [userId, setUserId] = useState("");
+  // const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [showError, setShowError] = useState(false);
   
-const router = useRouter()
+ const router = useRouter();
 
+const handleLogin = async (e: React.FormEvent) => {
+e.preventDefault();
+try {
+  const result = await loginUser({ UserName, Password, rememberMe }).unwrap();
+  console.log('Login success:', result);
+  // You can redirect or store token here
+} catch (err) {
+  console.error('Login failed:', err);
+}
 
-const handleLogin = (e: React.FormEvent) => {
-  e.preventDefault()
-   // Fake credentials
-  if (
-    userId === 'test@aafes.com' 
-    && 
-    password === 'Test@1234') {
-      setShowError(false);
-      if(remember){
-        router.push("/security-form");
-      }else{
-        router.push("/login/2FA")
-      }
-    } else {
-      setShowError(true);
-    }
+  
 }
 
 
@@ -73,23 +71,18 @@ const handleLogin = (e: React.FormEvent) => {
       <section  className="flex gap-3 w-full ">
         <Card className="lg:w-[35%] w-full !p-3 min-h-[410px] flex flex-col justify-between">
         <div>
-          {showError && (
-              <CustomAlert type="error" description={errorMessage} />
-            )}
+          {showError && <CustomAlert type="error" description={errorMessage}/> }
           <form className="flex flex-col gap-4" onSubmit={handleLogin}>
           <div className="flex flex-col gap-1">
-            <InputField
-                  label="User ID"
-                  value={userId}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setUserId(e.target.value)
-                  }
-                />
+            <InputField 
+              label="User ID" 
+              onChange={(e: any) => dispatch(setUserID(e.target.value))}
+            />
             <div className="flex justify-end items-center gap-1">
               Forgot
               <Link
                 href="#"
-                className="text-[var(--color-link)] text-sm"
+                className="text-blue-600 text-sm hover:text-blue-800 "
               >
                 User ID
               </Link>
@@ -97,47 +90,33 @@ const handleLogin = (e: React.FormEvent) => {
               <DynamicTooltip 
                 side="right"
                 align="center"
-                className="bg-[var(--color-black)] rounded-[4px] "
-                content={
-                  <>
-                    <p>You may </p>
-                    <p> recover your User ID</p>
-                  </>
-                }
-                >
+                className="bg-black rounded-[4px] w-[120px]"
+                content="You may recover your User ID">
                 <Image src={Tooltip} alt="tooltip icon" />
               </DynamicTooltip>
               {/* </div> */}
             </div>
           </div>
           <div className="flex flex-col gap-1">
-            <InputField
-                  label={"Password"}
-                  type="password"
-                  value={password}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                    setPassword(e.target.value)
-                  }
-                />
+            <InputField 
+              label={"Password"} 
+              // iconRight={BlackEyeOpen}
+              type="password"
+              onChange={(e: any) => dispatch(setPassword(e.target.value))}
+            />
             <div className="flex justify-end items-center gap-1">
               Forgot
               <Link
                 href="#"
-                className="text-[var(--color-link)] text-sm  "
+                className="text-blue-600 text-sm hover:text-blue-800 "
               >
                 Password?
               </Link>
               <DynamicTooltip 
                 side="right"
                 align="center"
-                className="bg-[var(--color-black)] rounded-[4px] "
-                content={
-                  <>
-                    <p>You may recover</p>
-                    <p>your Password</p>
-                  </>
-                }
-                >
+                className="bg-black rounded-[4px] w-[120px]"
+                content="You may recover your Password">
                 <Image src={Tooltip} alt="tooltip icon" />
               </DynamicTooltip>
               {/* </div> */}
@@ -145,15 +124,25 @@ const handleLogin = (e: React.FormEvent) => {
           </div>
           <div className="flex items-start justify-between gap-2">
             <div className="flex gap-1 ">
-              
-                  <CustomCheckbox 
-                  label=" Remember User ID"
-                  onChange={()=>setRemember(!remember)}
-                  />
-
+              {/* <input
+                id="remember"
+                type="checkbox"
+                checked={remember}
+                onChange={(e) => setRemember(e.target.checked)}
+                className="accent-blue-600"
+              />
+              <label htmlFor="remember" className="text-sm">
+                Remember User ID
+              </label> */}
+              <CustomCheckbox 
+                id="remember" 
+                label="Remember User ID" 
+                checked={remember} 
+                onChange={setRemember}
+              />
             </div>
             <Button 
-              variant={userId && password ? "primary" : "disable"}
+              variant={UserName && Password ? "primary" : "disabled"}
             >
               Log In
             </Button>
@@ -166,31 +155,40 @@ const handleLogin = (e: React.FormEvent) => {
               New to My ECP?{" "}
               <Link
                 href="#"
-                className="text-[var(--color-link)] text-sm "
+                className="text-blue-600 text-sm hover:text-blue-800 "
               >
                 Please register here
               </Link>
-              <DynamicTooltip 
-                side="right"
-                align="center"
-                className="bg-[var(--color-black)] rounded-[4px] "
-                content={
-                  <>
-                    <p>Your MyECP profile is </p>
-                    <p>unique to MyECP.com</p>
-                  </>
-                }
-                >
-                <Image src={Tooltip} alt="tooltip icon" />
-              </DynamicTooltip>
+              <Image src={Tooltip} alt="tooltip icon" />
             </div>
           </div>
         </Card>
 
       <Card className="w-[65%] !p-0  hidden lg:block  ">
-        <Carousel images={images} autoScroll interval={3000} className="rounded-[8px]"/>
+        {/* <CarouselDemo
+          images={[
+            <Image
+              src={BannerImage}
+              alt="Banner 1"
+              className="w-full h-full object-cover" 
+              key="1"
+            />,
+            <Image
+              src={BannerImage}
+              alt="Banner 2"
+              className="w-full h-full object-cover"
+              key="2"
+            />,
+            <Image
+              src={BannerImage}
+              alt="Banner 3"
+              className="w-full h-full object-cover"
+              key="3"
+            />,
+          ]}
+        /> */}
+        <Carousel images={images} autoScroll interval={3000} className="rounded-lg"/>
       </Card>
-      
       </section>
 
       <section className="card">
@@ -203,7 +201,7 @@ const handleLogin = (e: React.FormEvent) => {
           <Button variant={"primary"} className={"w-auto"}>Apply Now</Button>
           <Link
             href="#"
-            className="text-[var(--color-link)] text-sm   "
+            className="text-blue-600 text-sm hover:text-blue-800 "
           >Learn More</Link>
         </div>
 
@@ -211,7 +209,7 @@ const handleLogin = (e: React.FormEvent) => {
           <Image src={PointsImg} alt="points-img" className="w-82"/>
           <Link
             href="#"
-            className="text-[var(--color-link)] text-sm  "
+            className="text-blue-600 text-sm hover:text-blue-800 "
           >See Rewards Terms and Conditions</Link>
         </div>
 
