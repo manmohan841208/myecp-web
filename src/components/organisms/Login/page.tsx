@@ -14,6 +14,16 @@ import { DynamicTooltip } from "@/components/atoms/Tooltip";
 import { useRouter } from 'next/navigation';
 import { setUserID, setPassword, setRememberMe } from '@/store/slices/loginSlice';
 import { useLoginUserMutation } from '@/store/services/authApi';
+import { 
+  USER_ID_LABEL,
+  USER_PASSWORD_LABEL,
+  LOGIN_BTN,
+  FORGOT,
+  FORGOT_PASSWORD,
+  NEW_TO_MYECP,
+  PLEASE_REGISTER_HERE,
+  REMEMBER_USER_ID
+ } from '@/constants/loginConstants';
 
 
 const Login = () => {
@@ -24,26 +34,26 @@ const Login = () => {
   // const [password, setPassword] = useState("");
   const [remember, setRemember] = useState(false);
   const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
   
  const router = useRouter();
 
 const handleLogin = async (e: React.FormEvent) => {
-e.preventDefault();
-try {
-  const result = await loginUser({ UserName, Password, rememberMe }).unwrap();
-  console.log('Login success:', result);
-  // You can redirect or store token here
-} catch (err) {
-  console.error('Login failed:', err);
+  e.preventDefault();
+  try {
+    const result = await loginUser({ UserName, Password, rememberMe }).unwrap();
+    console.log('Login success:', result);
+    // You can redirect or store token here
+  } catch (err: any) {
+    setShowError(true);
+    setErrorMessage(err.data?.Message || 'Login failed. Please try again.');
+  }
 }
 
-  
-}
-
 
   
 
-  const errorMessage = "The information you entered does not match our records. Your MyECP Profile has been locked for 15 minutes. For immediate assistance, please contact customer service 24/7 at 1-877-891-7827."
+  // const errorMessage = "The information you entered does not match our records. Your MyECP Profile has been locked for 15 minutes. For immediate assistance, please contact customer service 24/7 at 1-877-891-7827."
 
  const images=[
             <Image
@@ -75,18 +85,17 @@ try {
           <form className="flex flex-col gap-4" onSubmit={handleLogin}>
           <div className="flex flex-col gap-1">
             <InputField 
-              label="User ID" 
+              label={USER_ID_LABEL}
               onChange={(e: any) => dispatch(setUserID(e.target.value))}
             />
             <div className="flex justify-end items-center gap-1">
-              Forgot
+              {FORGOT}
               <Link
                 href="#"
                 className="text-blue-600 text-sm hover:text-blue-800 "
               >
-                User ID
+                {USER_ID_LABEL}
               </Link>
-              
               <DynamicTooltip 
                 side="right"
                 align="center"
@@ -94,23 +103,21 @@ try {
                 content="You may recover your User ID">
                 <Image src={Tooltip} alt="tooltip icon" />
               </DynamicTooltip>
-              {/* </div> */}
             </div>
           </div>
           <div className="flex flex-col gap-1">
             <InputField 
-              label={"Password"} 
-              // iconRight={BlackEyeOpen}
+              label={USER_PASSWORD_LABEL} 
               type="password"
               onChange={(e: any) => dispatch(setPassword(e.target.value))}
             />
             <div className="flex justify-end items-center gap-1">
-              Forgot
+              {FORGOT}
               <Link
                 href="#"
                 className="text-blue-600 text-sm hover:text-blue-800 "
               >
-                Password?
+                {FORGOT_PASSWORD}
               </Link>
               <DynamicTooltip 
                 side="right"
@@ -124,19 +131,9 @@ try {
           </div>
           <div className="flex items-start justify-between gap-2">
             <div className="flex gap-1 ">
-              {/* <input
-                id="remember"
-                type="checkbox"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
-                className="accent-blue-600"
-              />
-              <label htmlFor="remember" className="text-sm">
-                Remember User ID
-              </label> */}
               <CustomCheckbox 
                 id="remember" 
-                label="Remember User ID" 
+                label={REMEMBER_USER_ID} 
                 checked={remember} 
                 onChange={setRemember}
               />
@@ -144,7 +141,7 @@ try {
             <Button 
               variant={UserName && Password ? "primary" : "disabled"}
             >
-              Log In
+              {LOGIN_BTN}
             </Button>
           </div>
           </form>
@@ -152,12 +149,12 @@ try {
 
           <div className="text-center text-sm mt-2">
             <div className="flex justify-center items-center gap-1">
-              New to My ECP?{" "}
+              {NEW_TO_MYECP}{" "}
               <Link
                 href="#"
                 className="text-blue-600 text-sm hover:text-blue-800 "
               >
-                Please register here
+                {PLEASE_REGISTER_HERE}
               </Link>
               <Image src={Tooltip} alt="tooltip icon" />
             </div>
@@ -192,7 +189,7 @@ try {
       </section>
 
       <section className="card">
-        <Card className="">
+        <Card className="p-4">
           <h1>MILITARY STAR</h1>
           <div className="flex md:justify-evenly md:items-start gap-4 items-center flex-col justify-center md:flex-row">
             
