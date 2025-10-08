@@ -63,7 +63,8 @@ export { default as PointsImg } from '@/assets/svg/extra/points.png';
 export { default as RewardImg } from '@/assets/svg/extra/rewording.png';
 export { default as BlackEyeOpen } from '@/assets/svg/black/blackEyeOpen.svg';
 export { default as BannerImage2 } from '@/assets/svg/extra/banner-image2.png';
-export { default as email } from '@/assets/svg/extra/email.svg';
-export { default as phone } from '@/assets/svg/extra/phone.svg';
+export { default as Email } from '@/assets/svg/extra/email.svg';
+export { default as Phone } from '@/assets/svg/extra/phone.svg';
+export { default as Relode } from '@/assets/svg/black/relode.svg';
 
 

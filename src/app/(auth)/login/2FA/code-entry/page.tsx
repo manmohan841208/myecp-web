@@ -3,7 +3,7 @@
 import Card from '@/components/atoms/Card'
 import Image from '@/components/atoms/Image'
 import React, { useState } from 'react'
-import { email } from '@/assets/svg'
+import { Email } from '@/assets/svg'
 import { InputField } from '@/components/atoms/InputField'
 import Link from 'next/link'
 import Button from '@/components/atoms/Button'
@@ -31,7 +31,7 @@ const TwoFactAuthCodeEntryPage = () => {
   }
 
   return (
-    <div className="px-4 py-7 md:px-16 !text-base">
+    <div className="px-4 py-4 md:px-16 !text-base">
       <Card
         header={'For Your Added Security'}
         className="bg-[var(--color-white)] !p-0 md:w-[74.65%] w-full"
@@ -76,7 +76,7 @@ const TwoFactAuthCodeEntryPage = () => {
               <div className="flex flex-col pt-9 pb-3">
                 <div className="flex items-center gap-3 pl-4 text-[var(--color-disabled-text)]">
                   <div className="h-[60px] w-[60px] flex justify-center items-center">
-                    <Image src={email} alt="email-img" />
+                    <Image src={Email} alt="email-img" />
                   </div>
 
                   <div className="flex-1">

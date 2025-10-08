@@ -5,7 +5,7 @@ import Card from "@/components/atoms/Card";
 import React from "react";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Label } from "@/components/ui/label";
-import { email, phone } from "@/assets/svg";
+import { Email, Phone } from "@/assets/svg";
 import Image from "@/components/atoms/Image";
 import CustomCheckbox from "@/components/atoms/Checkbox";
 // import CustomAccordion from "@/components/atoms/Accordion";
@@ -17,7 +17,7 @@ const TwoFactorAuthPage = () => {
 
 
   return (
-    <div className="px-4 py-7 md:px-16 !text-base">
+    <div className="px-4 py-4 md:px-16 !text-base">
       <Card
         className="bg-[var(--color-white)] !p-0 md:w-[74.65%] w-full"
         header="For Your Added Security"
@@ -50,7 +50,7 @@ const TwoFactorAuthPage = () => {
                 <RadioGroup className="flex flex-col gap-9">
                   <div className="flex items-center gap-3 pl-4 text-[var(--color-disabled-text)]">
                     <div className="h-15 w-15 flex justify-center items-start ">
-                      <Image src={phone} alt="phone-img" className="opacity-35"/>
+                      <Image src={Phone} alt="phone-img" className="opacity-35"/>
                     </div>
                     <div>
                       <Label htmlFor="r2" className="font-bold text-base">
@@ -71,7 +71,7 @@ const TwoFactorAuthPage = () => {
 
                   <div className="flex items-center gap-3 pl-4">
                     <div className="h-15 w-15 flex justify-center items-center">
-                      <Image src={email} alt="email-img" />
+                      <Image src={Email} alt="email-img" />
                     </div>
                     <div>
                       <Label htmlFor="r2" className="font-bold text-base">

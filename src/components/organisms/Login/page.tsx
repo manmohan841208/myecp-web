@@ -194,7 +194,7 @@ const handleLogin = (e: React.FormEvent) => {
       </section>
 
       <section className="card">
-        <Card className="p-4">
+        <Card className="">
           <h1>MILITARY STAR</h1>
           <div className="flex md:justify-evenly md:items-start gap-4 items-center flex-col justify-center md:flex-row">
             

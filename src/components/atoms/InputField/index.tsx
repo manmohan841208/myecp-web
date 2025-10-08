@@ -1,6 +1,6 @@
 import * as React from "react";
 import { cn } from "@/lib/utils";
-import { Input } from "@/components/ui/input"; // Import the base Input component
+import { Input } from "@/components/ui/input";
 import Image from "@/components/atoms/Image";
 
 interface InputFieldProps extends React.ComponentProps<"input"> {
@@ -8,6 +8,7 @@ interface InputFieldProps extends React.ComponentProps<"input"> {
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
   error?: string;
+  isAsterisk?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -15,19 +16,25 @@ const InputField: React.FC<InputFieldProps> = ({
   iconLeft,
   iconRight,
   error,
+  isAsterisk,
   className,
   ...props
 }) => {
+  const hasError = error !== undefined; // Treat both "" and actual message as error
+
   return (
     <div className="flex flex-col gap-2">
-      <label
-        className={cn(
-          "text-sm font-medium",
-          error ? "text-[var(--text-error)]" : "text-[var(--text]"
-        )}
-      >
-        {label}
-      </label>
+      {label && (
+        <label
+          className={cn(
+            "text-sm font-medium",
+            hasError ? "text-[var(--text-error)]" : "text-[var(--text)]"
+          )}
+        >
+          {label}
+          {isAsterisk && <span className="text-[var(--text-error)] ml-1">*</span>}
+        </label>
+      )}
 
       <div className="relative">
         {iconLeft && (
@@ -40,11 +47,11 @@ const InputField: React.FC<InputFieldProps> = ({
             "pl-4",
             iconLeft && "pl-10",
             iconRight && "pr-10",
-            error &&
+            hasError &&
               "border-[var(--error-border)] focus-visible:border-[var(--error-border)]",
             className
           )}
-          aria-invalid={!!error}
+          aria-invalid={hasError}
           {...props}
         />
         {iconRight && (
@@ -53,6 +60,7 @@ const InputField: React.FC<InputFieldProps> = ({
           </div>
         )}
       </div>
+
       {error && <p className="text-sm text-[var(--text-error)]">{error}</p>}
     </div>
   );
