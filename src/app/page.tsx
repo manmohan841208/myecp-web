@@ -1,10 +1,10 @@
-import React from "react";
+import ProtectedRoute from '@/templates/protectedroutes';
+import React from 'react';
 
 export default function HomePage() {
-
   return (
-      <main className="flex md:px-16 px-4 py-3 gap-8">
-        Home Page
-      </main>
+    <ProtectedRoute>
+      <main className="flex gap-8 px-4 py-3 md:px-16">Home Page</main>
+    </ProtectedRoute>
   );
 }

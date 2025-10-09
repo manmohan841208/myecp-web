@@ -14,8 +14,9 @@ module.exports = {
       'semi': ['error', 'always'],
       'quotes': ['error', 'single'],
       'react/react-in-jsx-scope': 'off',
-      '@typescript-eslint/no-unused-vars': ['warn'],
-      'no-console': 'warn',
+      '@typescript-eslint/no-unused-vars': ['error'],
+      'no-console': 'error',
       'prettier/prettier': ['error'],
+      'custom-rules/no-static-jsx-strings': 'error',
     },
   };
