@@ -205,7 +205,7 @@ const Login = () => {
           <div className="flex md:justify-evenly md:items-start gap-4 items-center flex-col justify-center md:flex-row">
 
             <div className="flex flex-col items-center justify-between h-full ">
-              <Image src={DummyCardImage} alt="dummy-card" className="h-fit" />
+              <Image src={DummyCardImage} alt="Apply Now" className="h-fit" />
               <Button variant={"primary"} className={"w-auto"}>Apply Now</Button>
               <Link
                 href="#"

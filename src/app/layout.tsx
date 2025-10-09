@@ -6,6 +6,7 @@ import "./globals.css";
 import Navbar from "@/components/molecules/Navbar";
 import Footer from "@/components/molecules/Footer";
 import { Providers } from "./providers"
+import { HOME_DESCRIPTION, HOME_Title } from '@/constants/layout';
 
 
 const geistSans = Geist({
@@ -19,8 +20,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "MILITARY STAR",
-  description: "Created by AAFES web team",
+  title: HOME_Title,
+  description: HOME_DESCRIPTION,
 };
 
 export default function RootLayout({
@@ -34,11 +35,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased text-[14px] bg-[#D3D3D3]`}
       >
         <Providers>
-          <Navbar />         
+          <Navbar />
           {children}
           <Footer />
         </Providers>
-        
+
       </body>
     </html>
   );

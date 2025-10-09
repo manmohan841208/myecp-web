@@ -1,6 +1,6 @@
 "use client";
 import Link from "next/link";
-import { useState } from "react";
+import React, { useState } from "react";
 import Image from "@/components/atoms/Image";
 import {
   TagLineLogo,
@@ -25,8 +25,8 @@ export default function Navbar() {
   return (
     <nav className="navbar shadow-md flex px-4 md:px-16 items-center justify-between relative ">
       <div className="flex items-center gap-4 md:gap-6 py-3.5 w-full">
-        <Link href="/">
-          <Image src={MilitryStarLogo} alt="Logo" className="cursor-pointer" />
+        <Link href="/login">
+          <Image src={MilitryStarLogo} alt="Militry Star" className="cursor-pointer" />
         </Link>
         {/* Desktop Nav */}
         <ul className="hidden md:flex gap-6">
@@ -34,9 +34,8 @@ export default function Navbar() {
             <li key={link.name}>
               <Link href={link.href}>
                 <span
-                  className={`text-(--text) hover:text-blue-600 transition ${
-                    selectedBTN === link.name ? "font-extrabold" : ""
-                  }`}
+                  className={`text-(--text) hover:text-blue-600 transition ${selectedBTN === link.name ? "font-extrabold" : ""
+                    }`}
                   onClick={() => setSelectedBTN(link.name)}
                   style={{ cursor: "pointer" }}
                 >
@@ -68,9 +67,8 @@ export default function Navbar() {
               <li key={link.name}>
                 <Link href={link.href}>
                   <span
-                    className={`block text-gray-700 hover:text-blue-600 transition ${
-                      selectedBTN === link.name ? "font-extrabold" : ""
-                    }`}
+                    className={`block text-gray-700 hover:text-blue-600 transition ${selectedBTN === link.name ? "font-extrabold" : ""
+                      }`}
                     onClick={() => {
                       setSelectedBTN(link.name);
                       setMenuOpen(false);
