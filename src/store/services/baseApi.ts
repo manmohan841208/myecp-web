@@ -3,7 +3,7 @@ import {
   fetchBaseQuery,
   FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
-import { BaseQueryFn } from '@reduxjs/toolkit/query';
+import { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query';
 import Router from 'next/router';
 
 interface ErrorResponse {
@@ -25,7 +25,7 @@ const rawBaseQuery = fetchBaseQuery({
 });
 
 const baseQueryWithInterceptor: BaseQueryFn<
-  string,
+  string | FetchArgs,
   unknown,
   FetchBaseQueryError
 > = async (args, api, extraOptions) => {
