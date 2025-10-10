@@ -1,171 +1,195 @@
-"use client";
-import React, { useState } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import Card from "@/components/atoms/Card";
-import Image from "@/components/atoms/Image";
-import { Tooltip, DummyCardImage, PointsImg, RewardImg, BannerImage2} from "@/assets/svg";
-import Button from "@/components/atoms/Button";
-import { InputField } from "@/components/atoms/InputField";
-import Link from "next/link";
-import CustomAlert from '@/components/atoms/AlertMessage'
-import Carousel from "@/components/atoms/Carousal";
-import CustomCheckbox from "@/components/atoms/Checkbox";
-import { DynamicTooltip } from "@/components/atoms/Tooltip";
+'use client';
+import React, { useState } from 'react';
+import { useSelector, useDispatch } from 'react-redux';
+import Card from '@/components/atoms/Card';
+import Image from '@/components/atoms/Image';
+import {
+  Tooltip,
+  DummyCardImage,
+  PointsImg,
+  RewardImg,
+  BannerImage2,
+} from '@/assets/svg';
+import Button from '@/components/atoms/Button';
+import { InputField } from '@/components/atoms/InputField';
+import Link from 'next/link';
+import CustomAlert from '@/components/atoms/AlertMessage';
+import Carousel from '@/components/atoms/Carousal';
+import CustomCheckbox from '@/components/atoms/Checkbox';
+import { DynamicTooltip } from '@/components/atoms/Tooltip';
 import { useRouter } from 'next/navigation';
-import { setUserID, setPassword, setRememberMe } from '@/store/slices/loginSlice';
-import { useLoginUserMutation } from '@/store/services/authApi';
-
+import {
+  setUserID,
+  setPassword,
+  setRememberMe,
+} from '@/store/slices/loginSlice';
+import { useLoginMutation } from '@/store/services/authApi';
+import {
+  USER_ID_LABEL,
+  USER_PASSWORD_LABEL,
+  LOGIN_BTN,
+  FORGOT,
+  FORGOT_PASSWORD,
+  NEW_TO_MYECP,
+  PLEASE_REGISTER_HERE,
+  REMEMBER_USER_ID,
+} from '@/constants/loginConstants';
+import { useAuth } from '@/context/AuthProvider';
 
 const Login = () => {
   const dispatch = useDispatch();
-  const { UserName, Password, rememberMe } = useSelector((state: any) => state.login);
-  const [loginUser, { data, error, isLoading }] = useLoginUserMutation();
-  // const [userId, setUserId] = useState("");
-  // const [password, setPassword] = useState("");
+  const { login } = useAuth();
+  const { UserName, Password, rememberMe } = useSelector(
+    (state: any) => state.login,
+  );
+  const [loginUser, { data, error, isLoading }] = useLoginMutation();
   const [remember, setRemember] = useState(false);
   const [showError, setShowError] = useState(false);
-  
- const router = useRouter();
+  const [errorMessage, setErrorMessage] = useState('');
 
-const handleLogin = async (e: React.FormEvent) => {
-e.preventDefault();
-try {
-  const result = await loginUser({ UserName, Password, rememberMe }).unwrap();
-  console.log('Login success:', result);
-  // You can redirect or store token here
-} catch (err) {
-  console.error('Login failed:', err);
-}
+  const router = useRouter();
 
-  
-}
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    try {
+      const result = await loginUser({
+        UserName,
+        Password,
+        IsSecurityQuestionNeeded: false,
+      }).unwrap();
+      localStorage.setItem('token', result?.Token);
+      if (result?.Token) {
+        login(result?.Token);
+        router.push('/');
+      }
+    } catch (err: any) {
+      setShowError(true);
+      setErrorMessage(err.data?.Message || 'Login failed. Please try again.');
+    }
+  };
 
-
-  
-
-  const errorMessage = "The information you entered does not match our records. Your MyECP Profile has been locked for 15 minutes. For immediate assistance, please contact customer service 24/7 at 1-877-891-7827."
-
- const images=[
-            <Image
-              src={BannerImage2}
-              alt="Banner 1"
-              className="rounded-[8px]" 
-              key="1"
-            />,
-            <Image
-              src={BannerImage2}
-              alt="Banner 2"
-              className="rounded-[8px]"
-              key="2"
-            />,
-            <Image
-              src={BannerImage2}
-              alt="Banner 3"
-              className="rounded-[8px]"
-              key="3"
-            />,
-          ]
+  const images = [
+    <Image
+      src={BannerImage2}
+      alt="Banner 1"
+      className="rounded-[8px]"
+      key="1"
+    />,
+    <Image
+      src={BannerImage2}
+      alt="Banner 2"
+      className="rounded-[8px]"
+      key="2"
+    />,
+    <Image
+      src={BannerImage2}
+      alt="Banner 3"
+      className="rounded-[8px]"
+      key="3"
+    />,
+  ];
 
   return (
-    <div className="flex flex-col gap-3 w-full">
-      <section  className="flex gap-3 w-full ">
-        <Card className="lg:w-[35%] w-full !p-3 min-h-[410px] flex flex-col justify-between">
-        <div>
-          {showError && <CustomAlert type="error" description={errorMessage}/> }
-          <form className="flex flex-col gap-4" onSubmit={handleLogin}>
-          <div className="flex flex-col gap-1">
-            <InputField 
-              label="User ID" 
-              onChange={(e: any) => dispatch(setUserID(e.target.value))}
-            />
-            <div className="flex justify-end items-center gap-1">
-              Forgot
-              <Link
-                href="#"
-                className="text-blue-600 text-sm hover:text-blue-800 "
-              >
-                User ID
-              </Link>
-              
-              <DynamicTooltip 
-                side="right"
-                align="center"
-                className="bg-black rounded-[4px] w-[120px]"
-                content="You may recover your User ID">
-                <Image src={Tooltip} alt="tooltip icon" />
-              </DynamicTooltip>
-              {/* </div> */}
-            </div>
+    <div className="flex w-full flex-col gap-3">
+      <section className="flex w-full gap-3">
+        <Card className="flex min-h-[410px] w-full flex-col justify-between !p-3 lg:w-[35%]">
+          <div>
+            {showError && (
+              <CustomAlert type="error" description={errorMessage} />
+            )}
+            <form className="flex flex-col gap-4" onSubmit={handleLogin}>
+              <div className="flex flex-col gap-1">
+                <InputField
+                  label={USER_ID_LABEL}
+                  onChange={(e: any) =>
+                    dispatch(
+                      setUserID(e.target.value),
+                      setShowError(false),
+                      setErrorMessage(''),
+                    )
+                  }
+                />
+                <div className="flex items-center justify-end gap-1">
+                  {FORGOT}
+                  <Link
+                    href="#"
+                    className="text-sm text-blue-600 hover:text-blue-800"
+                  >
+                    {USER_ID_LABEL}
+                  </Link>
+                  <DynamicTooltip
+                    side="right"
+                    align="center"
+                    className="w-[120px] rounded-[4px] bg-black"
+                    content="You may recover your User ID"
+                  >
+                    <Image src={Tooltip} alt="tooltip icon" />
+                  </DynamicTooltip>
+                </div>
+              </div>
+              <div className="flex flex-col gap-1">
+                <InputField
+                  label={USER_PASSWORD_LABEL}
+                  type="password"
+                  onChange={(e: any) =>
+                    dispatch(
+                      setPassword(e.target.value),
+                      setShowError(false),
+                      setErrorMessage(''),
+                    )
+                  }
+                />
+                <div className="flex items-center justify-end gap-1">
+                  {FORGOT}
+                  <Link
+                    href="#"
+                    className="text-sm text-blue-600 hover:text-blue-800"
+                  >
+                    {FORGOT_PASSWORD}
+                  </Link>
+                  <DynamicTooltip
+                    side="right"
+                    align="center"
+                    className="w-[120px] rounded-[4px] bg-black"
+                    content="You may recover your Password"
+                  >
+                    <Image src={Tooltip} alt="tooltip icon" />
+                  </DynamicTooltip>
+                  {/* </div> */}
+                </div>
+              </div>
+              <div className="flex items-start justify-between gap-2">
+                <div className="flex gap-1">
+                  <CustomCheckbox
+                    id="remember"
+                    label={REMEMBER_USER_ID}
+                    checked={remember}
+                    onChange={setRemember}
+                  />
+                </div>
+                <Button variant={UserName && Password ? 'primary' : 'disabled'}>
+                  {LOGIN_BTN}
+                </Button>
+              </div>
+            </form>
           </div>
-          <div className="flex flex-col gap-1">
-            <InputField 
-              label={"Password"} 
-              // iconRight={BlackEyeOpen}
-              type="password"
-              onChange={(e: any) => dispatch(setPassword(e.target.value))}
-            />
-            <div className="flex justify-end items-center gap-1">
-              Forgot
-              <Link
-                href="#"
-                className="text-blue-600 text-sm hover:text-blue-800 "
-              >
-                Password?
-              </Link>
-              <DynamicTooltip 
-                side="right"
-                align="center"
-                className="bg-black rounded-[4px] w-[120px]"
-                content="You may recover your Password">
-                <Image src={Tooltip} alt="tooltip icon" />
-              </DynamicTooltip>
-              {/* </div> */}
-            </div>
-          </div>
-          <div className="flex items-start justify-between gap-2">
-            <div className="flex gap-1 ">
-              {/* <input
-                id="remember"
-                type="checkbox"
-                checked={remember}
-                onChange={(e) => setRemember(e.target.checked)}
-                className="accent-blue-600"
-              />
-              <label htmlFor="remember" className="text-sm">
-                Remember User ID
-              </label> */}
-              <CustomCheckbox 
-                id="remember" 
-                label="Remember User ID" 
-                checked={remember} 
-                onChange={setRemember}
-              />
-            </div>
-            <Button 
-              variant={UserName && Password ? "primary" : "disabled"}
-            >
-              Log In
-            </Button>
-          </div>
-          </form>
-        </div>
 
-          <div className="text-center text-sm mt-2">
-            <div className="flex justify-center items-center gap-1">
-              New to My ECP?{" "}
+          <div className="mt-2 text-center text-sm">
+            <div className="flex items-center justify-center gap-1">
+              {NEW_TO_MYECP}{' '}
               <Link
                 href="#"
-                className="text-blue-600 text-sm hover:text-blue-800 "
+                className="text-sm text-blue-600 hover:text-blue-800"
               >
-                Please register here
+                {PLEASE_REGISTER_HERE}
               </Link>
               <Image src={Tooltip} alt="tooltip icon" />
             </div>
           </div>
         </Card>
 
-      <Card className="w-[65%] !p-0  hidden lg:block  ">
-        {/* <CarouselDemo
+        <Card className="hidden w-[65%] !p-0 lg:block">
+          {/* <CarouselDemo
           images={[
             <Image
               src={BannerImage}
@@ -187,40 +211,48 @@ try {
             />,
           ]}
         /> */}
-        <Carousel images={images} autoScroll interval={3000} className="rounded-lg"/>
-      </Card>
+          <Carousel
+            images={images}
+            autoScroll
+            interval={3000}
+            className="rounded-lg"
+          />
+        </Card>
       </section>
 
       <section className="card">
-        <Card className="">
+        <Card className="p-4">
           <h1>MILITARY STAR</h1>
-          <div className="flex md:justify-evenly md:items-start gap-4 items-center flex-col justify-center md:flex-row">
-            
-          <div className="flex flex-col items-center justify-between h-full ">
-          <Image src={DummyCardImage} alt="dummy-card" className="h-fit"/>
-          <Button variant={"primary"} className={"w-auto"}>Apply Now</Button>
-          <Link
-            href="#"
-            className="text-blue-600 text-sm hover:text-blue-800 "
-          >Learn More</Link>
-        </div>
+          <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:items-start md:justify-evenly">
+            <div className="flex h-full flex-col items-center justify-between">
+              <Image src={DummyCardImage} alt="dummy-card" className="h-fit" />
+              <Button variant={'primary'} className={'w-auto'}>
+                Apply Now
+              </Button>
+              <Link
+                href="#"
+                className="text-sm text-blue-600 hover:text-blue-800"
+              >
+                Learn More
+              </Link>
+            </div>
 
-        <div className="flex flex-col justify-center items-center">
-          <Image src={PointsImg} alt="points-img" className="w-82"/>
-          <Link
-            href="#"
-            className="text-blue-600 text-sm hover:text-blue-800 "
-          >See Rewards Terms and Conditions</Link>
-        </div>
+            <div className="flex flex-col items-center justify-center">
+              <Image src={PointsImg} alt="points-img" className="w-82" />
+              <Link
+                href="#"
+                className="text-sm text-blue-600 hover:text-blue-800"
+              >
+                See Rewards Terms and Conditions
+              </Link>
+            </div>
 
-        <div>
-          <Image src={RewardImg} alt="reward-img" className="w-76"/>
-        </div>
-
-      </div>
-      
-    </Card>
-  </section>
+            <div>
+              <Image src={RewardImg} alt="reward-img" className="w-76" />
+            </div>
+          </div>
+        </Card>
+      </section>
     </div>
   );
 };

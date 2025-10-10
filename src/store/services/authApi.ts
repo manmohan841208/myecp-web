@@ -1,17 +1,40 @@
-import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+// src/services/api/authApi.ts
+import { baseApi } from './baseApi';
 
-export const authApi = createApi({
-  reducerPath: 'authApi',
-  baseQuery: fetchBaseQuery({ baseUrl: 'https://myecp-dev-dpavtgrx.uc.gateway.dev/api' }), // Adjust base URL as needed
+interface LoginRequest {
+  UserName: string;
+  Password: string;
+  IsSecurityQuestionNeeded: boolean;
+}
+
+interface LoginResponse {
+  UserId: number;
+  UserName: string;
+  FirstName: string;
+  LastName: string;
+  MiddleName: string;
+  CID: string;
+  LastLoginDate: string; // or Date if parsed
+  Token: string; // JWT token
+  Expiration: string; // ISO date string
+  NavigateToSecPage: boolean;
+  Account: {
+    FirstName: string;
+    MiddleName: string;
+    LastName: string;
+  };
+}
+
+export const authApi = baseApi.injectEndpoints({
   endpoints: (builder) => ({
-    loginUser: builder.mutation({
-      query: ({ UserName, Password, rememberMe }) => ({
+    login: builder.mutation<LoginResponse, LoginRequest>({
+      query: (credentials) => ({
         url: '/login',
         method: 'POST',
-        body: { UserName, Password, IsSecurityQuestionNeeded: rememberMe },
+        body: credentials,
       }),
     }),
   }),
 });
 
-export const { useLoginUserMutation } = authApi;
+export const { useLoginMutation } = authApi;

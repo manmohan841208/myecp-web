@@ -5,7 +5,7 @@ type UIButtonVariant =
   | "default"
   | "secondary"
   | "primary"
-  | "disable"
+  | "disabled"
   | "outline"
   | null
   | undefined;

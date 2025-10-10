@@ -17,6 +17,7 @@ const customJestConfig = {
     '^@pages/(.*)$': '<rootDir>/src/pages/$1',
   },
   testEnvironment: 'jest-environment-jsdom',
+  coverageReporters: ['text', 'lcov', 'html'],
 };
 
 module.exports = createJestConfig(customJestConfig);
