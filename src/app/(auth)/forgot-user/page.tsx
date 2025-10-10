@@ -6,7 +6,7 @@ import { InputField } from '@/components/atoms/InputField';
 import { Relode } from '@/assets/svg';
 import Image from '@/components/atoms/Image';
 import CustomAlert from '@/components/atoms/AlertMessage';
-import {NotSecure} from '@/assets/svg'
+import { NotSecure } from '@/assets/svg'
 import { useRouter } from 'next/navigation';
 // import DatePicker from '@/components/atoms/Calendar/page';
 
@@ -14,7 +14,7 @@ import { useRouter } from 'next/navigation';
 
 export default function ForgotUserIdPage() {
 
-  const captcha : string = 'HE7L00'
+  const captcha: string = 'HE7L00'
 
   const route = useRouter()
 
@@ -94,7 +94,7 @@ export default function ForgotUserIdPage() {
                 onChange={handleChange}
                 name="lastName"
                 value={form.lastName}
-                className={`${showCredentialError ? "text-[var(--text-error)]": ""}`}
+                className={`${showCredentialError ? "text-[var(--text-error)]" : ""}`}
               />
             </div>
 
@@ -103,7 +103,7 @@ export default function ForgotUserIdPage() {
                 label="Last 5 Digits of SSN "
                 isAsterisk={true}
                 error={showCredentialError ? '' : undefined}
-                className={`${showCredentialError ? "text-[var(--text-error)]": ""}`}
+                className={`${showCredentialError ? "text-[var(--text-error)]" : ""}`}
                 onChange={handleChange}
                 name="ssn"
                 type="password"
@@ -118,7 +118,7 @@ export default function ForgotUserIdPage() {
               <InputField
                 label="Date of Birth"
                 isAsterisk={true}
-                className={`${showCredentialError ? "text-[var(--text-error)]": ""}`}
+                className={`${showCredentialError ? "text-[var(--text-error)]" : ""}`}
                 error={showCredentialError ? '' : undefined}
                 type="date"
                 name="dob"
@@ -141,22 +141,21 @@ export default function ForgotUserIdPage() {
 
               <div className='w-1/2'>
                 <InputField
-                placeholder="Enter Captcha Code"
-                value={form.captchaInput}
-                name="captchaInput"
-                onChange={handleChange}
-                error={showCaptchaError ? '' : undefined}
-                className={showCaptchaError ? 'text-[var(--text-error)]' : ''}
-                iconRight={showCaptchaError ? NotSecure : ''}
+                  placeholder="Enter Captcha Code"
+                  value={form.captchaInput}
+                  name="captchaInput"
+                  onChange={handleChange}
+                  error={showCaptchaError ? '' : undefined}
+                  className={showCaptchaError ? 'text-[var(--text-error)]' : ''}
+                  iconRight={showCaptchaError ? NotSecure : ''}
                 />
-                
-                </div>
+
+              </div>
             </div>
 
             <p
-              className={`text-sm sm:w-1/2 w-full mt-1 ${
-                showCaptchaError ? 'text-[var(--text-error)]' : ''
-              }`}
+              className={`text-sm sm:w-1/2 w-full mt-1 ${showCaptchaError ? 'text-[var(--text-error)]' : ''
+                }`}
             >
               Please enter the string as shown above before clicking on &quot;Validate&quot;
             </p>
