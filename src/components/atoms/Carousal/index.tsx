@@ -1,7 +1,7 @@
 // components/ui/Carousel.tsx
 'use client'
 
-import { useEffect, useState,useCallback } from 'react'
+import React, { useEffect, useState, useCallback } from 'react'
 import { ChevronLeft, ChevronRight } from 'lucide-react'
 import clsx from 'clsx'
 import type { ReactNode } from 'react'
@@ -25,20 +25,20 @@ export default function Carousel({
   const total = images.length
 
   // const nextSlide = () => setCurrent((prev) => (prev + 1) % total)
-  
-const nextSlide = useCallback(() => {
-  setCurrent((prev) => (prev + 1) % total)
-}, [total])
+
+  const nextSlide = useCallback(() => {
+    setCurrent((prev) => (prev + 1) % total)
+  }, [total])
 
   const prevSlide = () => setCurrent((prev) => (prev - 1 + total) % total)
 
-  
 
-useEffect(() => {
-  if (!autoScroll) return
-  const timer = setInterval(nextSlide, interval)
-  return () => clearInterval(timer)
-}, [autoScroll, interval, nextSlide])
+
+  useEffect(() => {
+    if (!autoScroll) return
+    const timer = setInterval(nextSlide, interval)
+    return () => clearInterval(timer)
+  }, [autoScroll, interval, nextSlide])
 
 
   return (

@@ -5,9 +5,9 @@ import Image from "@/components/atoms/Image";
 import { BannerImage, Tooltip, DummyCardImage, PointsImg, RewardImg, BlackEyeOpen, BannerImage2 } from "@/assets/svg";
 import Button from "@/components/atoms/Button";
 import { InputField } from "@/components/atoms/InputField";
-import CarouselDemo from "@/components/atoms/carouselTest";
+// import CarouselDemo from "@/components/atoms/carouselTest";
 import Link from "next/link";
-import CustomAlert from '@/components/atoms/AlertMessage'
+// import CustomAlert from '@/components/atoms/AlertMessage'
 import Carousel from "@/components/atoms/Carousal";
 import { DynamicTooltip } from "@/components/atoms/Tooltip";
 

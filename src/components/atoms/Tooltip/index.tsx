@@ -1,3 +1,4 @@
+import React from 'react';
 import {
   Tooltip,
   TooltipContent,
@@ -24,7 +25,7 @@ export function DynamicTooltip({
     <TooltipProvider>
       <Tooltip>
         <TooltipTrigger asChild>{children}</TooltipTrigger>
-        <TooltipContent 
+        <TooltipContent
           className={className}
           side={side}
           align={align}

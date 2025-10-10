@@ -1,3 +1,4 @@
+import React from 'react';
 // import { Button } from "@/components/ui/button";
 import { DynamicTooltip } from "@/components/atoms/Tooltip/index";
 // import { Calender , Tooltip} from "@/assets/svg";
@@ -24,7 +25,7 @@ export default function HomePage() {
         </DynamicTooltip> */}
 
         {/* Example 2: Tooltip with side position */}
-        <DynamicTooltip 
+        <DynamicTooltip
           content="Tooltip text"
           className="bg-black rounded-[4px]"
           side="top"
