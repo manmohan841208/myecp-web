@@ -75,14 +75,13 @@ export default function SecurityForm() {
               <Button variant={'outline'}>Cancel</Button>
               <Button
                 variant={securityQuestion.length > 2 ? "primary" : 'disable'}
-                onClick={(e) => {
+                onClick={(e: any) => {
                   if (securityQuestion.length <= 2) {
                     e.preventDefault();
                     setErrorMessage("Please first fill the security question, then continue.");
                     setShowError(true);
                   }
                 }}
-                type='submit'
               >
                 Continue
               </Button>
