@@ -12,7 +12,7 @@ import { useRouter } from 'next/navigation';
 
 
 
-export default function ForgotUserIdPage() {
+export default function RecoverUserIDPage() {
 
   const captcha : string = 'HE7L00'
 
@@ -28,6 +28,7 @@ export default function ForgotUserIdPage() {
 
   const [showCredentialError, setShowCredentialError] = useState(false);
   const [showCaptchaError, setShowCaptchaError] = useState(false);
+  const [ssnLengthError, setSsnLengthError] = useState(false)
 
   const isFormValid = form.lastName && form.ssn && form.dob && form.captchaInput;
 
@@ -36,6 +37,12 @@ export default function ForgotUserIdPage() {
   };
 
   const handleValidate = () => {
+
+    if(form.ssn.length < 5){
+      setSsnLengthError(true);
+      return;
+    }
+
     const staticCredentials = {
       lastName: 'white',
       ssn: '12345',
@@ -67,7 +74,7 @@ export default function ForgotUserIdPage() {
 
     if (isCredentialValid && isCaptchaValid) {
       setCaptchaVerify('');
-      route.push('/')
+      route.push('/login')
     }
   };
 
@@ -79,7 +86,7 @@ export default function ForgotUserIdPage() {
             <CustomAlert type="error" description={captchaVerify} />
           )}
 
-          <div className="flex justify-end pt-3">
+          <div className="flex justify-end ">
             <b>
               <span className="text-[var(--text-error)] px-1">*</span>Required Fields
             </b>
@@ -99,17 +106,26 @@ export default function ForgotUserIdPage() {
             </div>
 
             <div className="sm:w-1/2 w-full">
-              <InputField
-                label="Last 5 Digits of SSN "
-                isAsterisk={true}
-                error={showCredentialError ? '' : undefined}
-                className={`${showCredentialError ? "text-[var(--text-error)]": ""}`}
-                onChange={handleChange}
-                name="ssn"
-                type="password"
-                maxLength={5}
-                value={form.ssn}
-              />
+               <InputField
+                 label="Last 5 Digits of SSN "
+                 isAsterisk={true}
+                 error={
+                  ssnLengthError
+                   ? 'SSN must contain 5 digits'
+                   : showCredentialError
+                   ? ''
+                   : undefined
+                 }
+                 iconRight={ssnLengthError ? NotSecure : '' }
+                 className={`${
+                  ssnLengthError || showCredentialError ? 'text-[var(--text-error)]' : ''
+                 }`}
+                 onChange={handleChange}
+                 name="ssn"
+                 type="password"
+                 maxLength={5}
+                 value={form.ssn}
+                />
             </div>
           </Card>
 

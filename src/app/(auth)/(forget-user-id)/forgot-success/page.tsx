@@ -5,7 +5,7 @@ import { Tooltip } from "@/assets/svg"
 import Image from "@/components/atoms/Image"
 
 
-export default function RecoverUserID(){
+export default function SuccessRecoverUserIDPage(){
     return(
     <div className="px-4 py-4 md:px-16 !text-base w-full">
       <Card
