@@ -1,3 +1,4 @@
+import React from "react";
 import { Alert, AlertTitle, AlertDescription } from "@/components/ui/alert";
 import { cn } from "@/lib/utils";
 
@@ -17,7 +18,7 @@ export default function CustomAlert({
     error: "border-[var(--error-background)] text-[var(--error-background)]",
     info: "border-[var(--primary-color)] text-[var(--primary-color)]",
     success:
-      "border-[var(--success-background)] text-[var(--success-background)]",
+      "bg-[var(--success-background)] text-white border-none",
   };
 
   return (

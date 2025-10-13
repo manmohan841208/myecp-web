@@ -112,7 +112,7 @@ const Login = () => {
                 <div className="flex items-center justify-end gap-1">
                   {FORGOT}
                   <Link
-                    href="#"
+                    href="/forgot-user"
                     className="text-sm text-blue-600 hover:text-blue-800"
                   >
                     {USER_ID_LABEL}
@@ -142,7 +142,7 @@ const Login = () => {
                 <div className="flex items-center justify-end gap-1">
                   {FORGOT}
                   <Link
-                    href="#"
+                    href="/forgot-password"
                     className="text-sm text-blue-600 hover:text-blue-800"
                   >
                     {FORGOT_PASSWORD}
@@ -167,7 +167,7 @@ const Login = () => {
                     onChange={setRemember}
                   />
                 </div>
-                <Button variant={UserName && Password ? 'primary' : 'disabled'}>
+                <Button variant={UserName && Password ? 'primary' : 'disable'}>
                   {LOGIN_BTN}
                 </Button>
               </div>
