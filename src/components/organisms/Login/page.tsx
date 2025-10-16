@@ -86,8 +86,22 @@ const Login = () => {
   }, [promotionData, isLoading]);
 
   const imageComponents = [
-    <Image src={BannerImage2} alt="Banner 1" className="rounded-lg" key="1" />,
-    <Image src={BannerImage2} alt="Banner 2" className="rounded-lg" key="2" />,
+    <Image
+      src={process.env.NEXT_PUBLIC_API_BASE_URL + '/promotion-images?id=2836'}
+      alt="Banner 1"
+      className="rounded-[8px]"
+      key="1"
+      width={800}
+      height={300}
+    />,
+    <Image
+      src={process.env.NEXT_PUBLIC_API_BASE_URL + '/promotion-images?id=2838'}
+      alt="Banner 2"
+      className="rounded-[8px]"
+      key="2"
+      width={800}
+      height={300}
+    />,
   ];
 
   return (

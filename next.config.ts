@@ -4,7 +4,7 @@ const nextConfig: NextConfig = {
   /* config options here */
   
 images: {
-    domains: ['myecpalpha.aafes.com'],
+    domains: ['myecp-dev-dpavtgrx.uc.gateway.dev'],
   },
 
 };
