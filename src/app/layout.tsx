@@ -5,8 +5,9 @@ import { Geist, Geist_Mono } from 'next/font/google';
 import './globals.css';
 import Navbar from '@/components/molecules/Navbar';
 import Footer from '@/components/molecules/Footer';
-import { Providers } from './providers';
+import { ReduxProviders } from '@/providers/reduxprovider';
 import { AuthProvider } from '@/context/AuthProvider';
+// import { SessionProvider } from 'next-auth/react';
 
 const geistSans = Geist({
   variable: '--font-geist-sans',
@@ -34,11 +35,11 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} bg-[#D3D3D3] text-[14px] antialiased`}
       >
         <AuthProvider>
-          <Providers>
+          <ReduxProviders>
             <Navbar />
             {children}
             <Footer />
-          </Providers>
+          </ReduxProviders>
         </AuthProvider>
       </body>
     </html>

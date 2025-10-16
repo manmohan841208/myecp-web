@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useState, useMemo, ReactElement, useEffect } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Card from '@/components/atoms/Card';
 import Image from '@/components/atoms/Image';
@@ -35,6 +35,8 @@ import {
   REMEMBER_USER_ID,
 } from '@/constants/loginConstants';
 import { useAuth } from '@/context/AuthProvider';
+import { useGetPromotionsQuery } from '@/store/services/promotionsApi';
+import { generatePromotionImages } from '@/components/molecules/PromotionBanners';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -42,23 +44,30 @@ const Login = () => {
   const { UserName, Password, rememberMe } = useSelector(
     (state: any) => state.login,
   );
-  const [loginUser, { data, error, isLoading }] = useLoginMutation();
+  const [loginUser, { isLoading }] = useLoginMutation();
+  const { data: promotionData } = useGetPromotionsQuery(1);
   const [remember, setRemember] = useState(false);
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [images, setImages] = useState<ReactElement[]>([]);
 
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const result = await loginUser({
+      const result: any = await loginUser({
         UserName,
         Password,
-        IsSecurityQuestionNeeded: false,
+        IsSecurityQuestionNeeded: true,
       }).unwrap();
+      localStorage.setItem('userInfo', JSON.stringify(result));
       localStorage.setItem('token', result?.Token);
-      if (result?.Token) {
+      if (result?.IsSecurityQuestionsNeeded) {
+        router.push('/security-questions');
+      } else if (result?.Is2FANeeded) {
+        router.push('/login/2FA');
+      } else {
         login(result?.Token);
         router.push('/');
       }
@@ -68,25 +77,17 @@ const Login = () => {
     }
   };
 
-  const images = [
-    <Image
-      src={BannerImage2}
-      alt="Banner 1"
-      className="rounded-[8px]"
-      key="1"
-    />,
-    <Image
-      src={BannerImage2}
-      alt="Banner 2"
-      className="rounded-[8px]"
-      key="2"
-    />,
-    <Image
-      src={BannerImage2}
-      alt="Banner 3"
-      className="rounded-[8px]"
-      key="3"
-    />,
+  useEffect(() => {
+    if (!isLoading && promotionData) {
+      const baseUrl = process.env.NEXT_PUBLIC_BANNER_IMAGE_BASE_URL;
+      const generatedImages = generatePromotionImages(promotionData, baseUrl);
+      setImages(generatedImages);
+    }
+  }, [promotionData, isLoading]);
+
+  const imageComponents = [
+    <Image src={BannerImage2} alt="Banner 1" className="rounded-lg" key="1" />,
+    <Image src={BannerImage2} alt="Banner 2" className="rounded-lg" key="2" />,
   ];
 
   return (
@@ -189,30 +190,8 @@ const Login = () => {
         </Card>
 
         <Card className="hidden w-[65%] !p-0 lg:block">
-          {/* <CarouselDemo
-          images={[
-            <Image
-              src={BannerImage}
-              alt="Banner 1"
-              className="w-full h-full object-cover" 
-              key="1"
-            />,
-            <Image
-              src={BannerImage}
-              alt="Banner 2"
-              className="w-full h-full object-cover"
-              key="2"
-            />,
-            <Image
-              src={BannerImage}
-              alt="Banner 3"
-              className="w-full h-full object-cover"
-              key="3"
-            />,
-          ]}
-        /> */}
           <Carousel
-            images={images}
+            images={imageComponents}
             autoScroll
             interval={3000}
             className="rounded-lg"

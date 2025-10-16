@@ -9,6 +9,11 @@ type UserInfo = {
   Token: string; // JWT token
   Expiration: string; // ISO date string
   NavigateToSecPage: boolean;
+  Is2FANeeded: boolean;
+  IsTwoFAOtpIn: boolean;
+  IsSMSOptIn: boolean;
+  IsTwoFAEmailOptIn: boolean;
+  IsSecurityQuestionsNeeded: boolean;
   Account: {
     FirstName: string;
     MiddleName: string;
