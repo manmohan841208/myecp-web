@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Card from '@/components/atoms/Card';
 import Image from '@/components/atoms/Image';
@@ -36,6 +36,7 @@ import {
   REMEMBER_USER_ID,
 } from '@/constants/loginConstants';
 import { useAuth } from '@/context/AuthProvider';
+import { getCookie, removeCookie, setCookie } from '@/components/utils/cookies';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -43,29 +44,55 @@ const Login = () => {
   const { UserName, Password, rememberMe } = useSelector(
     (state: any) => state.login,
   );
-  const [loginUser, { data, error, isLoading }] = useLoginMutation();
-  const [remember, setRemember] = useState(false);
+  const [loginUser] = useLoginMutation();
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+
+  useEffect(() => {
+    const userNameCookie: any = getCookie('userName');
+    if (userNameCookie) {
+      dispatch(setUserID(userNameCookie));
+      dispatch(setRememberMe(true));
+    } else if (!userNameCookie) {
+      dispatch(setRememberMe(false));
+    }
+  }, [dispatch]);
 
   const router = useRouter();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const result = await loginUser({
+      const result: any = await loginUser({
         UserName,
         Password,
         IsSecurityQuestionNeeded: false,
       }).unwrap();
+      localStorage.setItem('userInfo', JSON.stringify(result));
       localStorage.setItem('token', result?.Token);
-      if (result?.Token) {
+      if (
+        rememberMe &&
+        (!result?.Question || result?.Question === '' || !result?.QuestionID)
+      ) {
+        setCookie('userName', result?.UserName, 30 * 24 * 60 * 60); // 30 days
+      } else if (!rememberMe) {
+        removeCookie('userName'); // Remove cookie
+      }
+      if (result?.IsSecurityQuestionsNeeded) {
+        router.push('/security-questions');
+      } else if (result?.Is2FANeeded) {
+        router.push('/login/2FA');
+      } else {
         login(result?.Token);
         router.push('/');
       }
     } catch (err: any) {
       setShowError(true);
-      setErrorMessage(err.data?.Message || 'Login failed. Please try again.');
+      setErrorMessage(
+        err.data?.Message
+          ? err.data?.Message
+          : err.data?.message || 'Login failed. Please try again.',
+      );
     }
   };
 
@@ -110,6 +137,7 @@ const Login = () => {
                       setErrorMessage(''),
                     )
                   }
+                  value={UserName}
                 />
                 <div className="flex items-center justify-end gap-1">
                   {FORGOT}
@@ -165,8 +193,10 @@ const Login = () => {
                   <CustomCheckbox
                     id="remember"
                     label={REMEMBER_USER_ID}
-                    checked={remember}
-                    onChange={setRemember}
+                    checked={rememberMe}
+                    onChange={() => {
+                      dispatch(setRememberMe(!rememberMe));
+                    }}
                   />
                 </div>
                 <Button variant={UserName && Password ? 'primary' : 'disable'}>
