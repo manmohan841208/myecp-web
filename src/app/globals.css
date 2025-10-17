@@ -71,6 +71,8 @@
   --secondary-border: var(--color-red);
   --border: var(--color-black);
 
+  --disable-bg: (var(--color-grey-table))
+
   --primary-btn-background: var(--color-blue);
   --primary-color: var(--color-blue);
   --secondary-color: var(--color-green);
@@ -134,3 +136,8 @@
     box-shadow: none;
   }
 }
+
+.border{
+  border: 1px solid #042757;
+}
+

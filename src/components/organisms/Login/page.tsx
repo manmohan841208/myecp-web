@@ -8,6 +8,7 @@ import {
   DummyCardImage,
   PointsImg,
   RewardImg,
+  BannerImage,
   BannerImage2,
 } from '@/assets/svg';
 import Button from '@/components/atoms/Button';
@@ -97,13 +98,13 @@ const Login = () => {
 
   const images = [
     <Image
-      src={BannerImage2}
+      src={BannerImage}
       alt="Banner 1"
       className="rounded-[8px]"
       key="1"
     />,
     <Image
-      src={BannerImage2}
+      src={BannerImage}
       alt="Banner 2"
       className="rounded-[8px]"
       key="2"
@@ -117,9 +118,10 @@ const Login = () => {
   ];
 
   return (
-    <div className="flex w-full flex-col gap-3">
-      <section className="flex w-full gap-3">
-        <Card className="flex min-h-[410px] w-full flex-col justify-between !p-3 lg:w-[35%]">
+    // Center horizontally (by width) on all screens while keeping max-width:1152px
+    <div className="flex w-full flex-col gap-4 max-w-[1152px] mx-auto">
+      <section className="flex w-full gap-4">
+        <Card className="flex min-h-[373px] lg:max-h-[373px]  w-full flex-col justify-between !p-3 lg:max-w-[410px]" >
           <div>
             {showError && (
               <CustomAlert type="error" description={errorMessage} />
@@ -208,39 +210,25 @@ const Login = () => {
             <div className="flex items-center justify-center gap-1">
               {NEW_TO_MYECP}{' '}
               <Link
-                href="#"
+                href="/create-profile"
                 className="text-sm text-blue-600 hover:text-blue-800"
               >
                 {PLEASE_REGISTER_HERE}
               </Link>
-              <Image src={Tooltip} alt="tooltip icon" />
+              <DynamicTooltip
+                side="right"
+                align="center"
+                className="w-[152px] rounded-[4px] bg-black"
+                content="Your MyECP profile is unique to MyECP.com"
+              >
+                <Image src={Tooltip} alt="tooltip icon" />
+              </DynamicTooltip>
             </div>
           </div>
+          
         </Card>
 
-        <Card className="hidden w-[65%] !p-0 lg:block">
-          {/* <CarouselDemo
-          images={[
-            <Image
-              src={BannerImage}
-              alt="Banner 1"
-              className="w-full h-full object-cover" 
-              key="1"
-            />,
-            <Image
-              src={BannerImage}
-              alt="Banner 2"
-              className="w-full h-full object-cover"
-              key="2"
-            />,
-            <Image
-              src={BannerImage}
-              alt="Banner 3"
-              className="w-full h-full object-cover"
-              key="3"
-            />,
-          ]}
-        /> */}
+        <Card className="w-ull relative hidden max-h-[373px] overflow-hidden !p-0 shadow-lg lg:block">
           <Carousel
             images={images}
             autoScroll
@@ -248,17 +236,41 @@ const Login = () => {
             className="rounded-lg"
           />
         </Card>
+        
       </section>
 
-      <section className="card">
-        <Card className="p-4">
-          <h1>MILITARY STAR</h1>
-          <div className="flex flex-col items-center justify-center gap-4 md:flex-row md:items-start md:justify-evenly">
-            <div className="flex h-full flex-col items-center justify-between">
-              <Image src={DummyCardImage} alt="dummy-card" className="h-fit" />
-              <Button variant={'primary'} className={'w-auto'}>
-                Apply Now
-              </Button>
+
+      <section className="w-full">
+
+
+        <Card className=" h-full lg:max-h-[300px] w-full px-4 ">
+          <div className='max-h-9 py-2'>
+            <h1 className="!text-base">MILITARY STAR</h1>
+          </div>
+
+            {/* <p className='text-sm text-black hidden sm:text-[12px] sm:block'>
+            </p> */}
+            <div className='w-full text-white hidden lg:hidden sm:block'>
+              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus, maxime! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum, quo deleniti itaque cupiditate vero nihil blanditiis exercitationem, nisi 
+             </div>
+            
+
+          <div className='w-full flex flex-col gap-6 lg:flex-row lg:justify-evenly lg:gap-2 pb-[14px]'>
+ 
+            {/* Column 1 - Dummy Card Image + Button + Learn More */}
+            <div className="flex flex-col items-center justify-between md:basis-1/3 max-h-[250px]">
+              <div className="flex max-h-[182px] max-w-[240px] flex-col items-center justify-center">
+                <Image
+                  src={DummyCardImage}
+                  alt="dummy-card"
+                  className="max-h-[182px] max-w-[240px]"
+                />
+              </div>
+              <div className="flex max-h-10 w-full items-center justify-center">
+                <Button variant={'primary'} className="max-w-[97px]">
+                  Apply Now
+                </Button>
+              </div>
               <Link
                 href="#"
                 className="text-sm text-blue-600 hover:text-blue-800"
@@ -267,22 +279,34 @@ const Login = () => {
               </Link>
             </div>
 
-            <div className="flex flex-col items-center justify-center">
-              <Image src={PointsImg} alt="points-img" className="w-82" />
-              <Link
-                href="#"
-                className="text-sm text-blue-600 hover:text-blue-800"
-              >
-                See Rewards Terms and Conditions
-              </Link>
+            {/* Column 2 - Points Image + Terms Link */}
+            <div className="flex flex-col items-center justify-between md:basis-1/3 ">
+              <div className='max-h-[246px]  max-w-[384px] flex flex-col items-center justify-center'>
+                  <div className="max-h-[222px] max-w-[331px]">
+                    <Image src={PointsImg} alt="points-img" className="max-h-[222px]" />
+                  </div>
+
+                  <Link
+                    href="#"
+                    className="text-sm text-blue-600 hover:text-blue-800"
+                  >
+                    See Rewards Terms and Conditions
+                  </Link>
+              </div>
             </div>
 
-            <div>
-              <Image src={RewardImg} alt="reward-img" className="w-76" />
+            {/* Column 3 - Reward Image */}
+            <div className="flex items-center justify-center md:basis-1/3 max-h-[243px]">
+              <div className="max-h-[243px]  max-w-[304px]">
+                <Image src={RewardImg} alt="reward-img" className="max-h-[243px] max-w-[304px]" />
+              </div>
             </div>
+
           </div>
         </Card>
       </section>
+
+
     </div>
   );
 };
