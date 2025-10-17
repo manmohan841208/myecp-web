@@ -55,10 +55,11 @@ const ResetPasswordPage = () => {
               Submit
             </Button>
           </div>
+
         </div>
       </Card>
     </div>
-  );
-};
+  )
+}
 
-export default ResetPasswordPage;
+export default ResetPasswordPage
