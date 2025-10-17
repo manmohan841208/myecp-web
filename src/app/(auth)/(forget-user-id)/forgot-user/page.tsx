@@ -79,9 +79,12 @@ export default function RecoverUserIDPage() {
   };
 
   return (
-    <div className="p-4 md:px-16 !text-base">
-      <Card className="bg-[var(--color-white)] !p-0 md:w-[74.65%] w-full" header="Forgot User ID?">
-        <div className="p-6 flex flex-col sm:gap-4">
+    <div className="p-4 !text-base md:px-16">
+      <Card
+        className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
+        header="Forgot User ID?"
+      >
+        <div className="flex flex-col p-6 sm:gap-4">
           {captchaVerify && (showCredentialError || showCaptchaError) && (
             <CustomAlert type="error" description={captchaVerify} />
           )}
@@ -96,7 +99,7 @@ export default function RecoverUserIDPage() {
             <div className="sm:w-1/2 w-full">
               <InputField
                 label="Last Name"
-                isAsterisk={true}
+                mandantory={true}
                 error={showCredentialError ? '' : undefined}
                 onChange={handleChange}
                 name="lastName"
@@ -108,7 +111,7 @@ export default function RecoverUserIDPage() {
             <div className="sm:w-1/2 w-full">
                <InputField
                  label="Last 5 Digits of SSN "
-                 isAsterisk={true}
+                 mandantory={true}
                  error={
                   ssnLengthError
                    ? 'SSN must contain 5 digits'
@@ -133,7 +136,7 @@ export default function RecoverUserIDPage() {
             <div className="w-full sm:w-1/2">
               <InputField
                 label="Date of Birth"
-                isAsterisk={true}
+                mandantory={true}
                 className={`${showCredentialError ? "text-[var(--text-error)]": ""}`}
                 error={showCredentialError ? '' : undefined}
                 type="date"
@@ -181,7 +184,10 @@ export default function RecoverUserIDPage() {
           <div className="flex items-center justify-end gap-2">
             <Button variant="outline">Cancel</Button>
 
-            <Button variant={isFormValid ? 'primary' : 'disable'} onClick={handleValidate}>
+            <Button
+              variant={isFormValid ? 'primary' : 'disable'}
+              onClick={handleValidate}
+            >
               Validate
             </Button>
           </div>
