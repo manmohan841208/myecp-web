@@ -37,5 +37,7 @@ export { default as BannerImage2 } from '@/assets/svg/extra/banner-image2.png';
 export { default as Email } from '@/assets/svg/extra/email.svg';
 export { default as Phone } from '@/assets/svg/extra/phone.svg';
 export { default as Relode } from '@/assets/svg/black/relode.svg';
-
+export { default as Advertisement1 } from '@/assets/svg/extra/Advertisement2.png';
+export { default as Advertisement2 } from '@/assets/svg/extra/Advertisement1.png';
+export {default as TooltipBlue} from '@/assets/svg/extra/blue-tooltip.svg'
 

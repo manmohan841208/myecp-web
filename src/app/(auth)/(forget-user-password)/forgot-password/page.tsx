@@ -6,17 +6,14 @@ import { InputField } from '@/components/atoms/InputField';
 import { Relode } from '@/assets/svg';
 import Image from '@/components/atoms/Image';
 import CustomAlert from '@/components/atoms/AlertMessage';
-import {NotSecure} from '@/assets/svg'
+import { NotSecure } from '@/assets/svg';
 import { useRouter } from 'next/navigation';
 // import DatePicker from '@/components/atoms/Calendar/page';
 
-
-
 export default function ForgotUserIdPage() {
+  const captcha: string = 'HE7L00';
 
-  const captcha : string = 'HE7L00'
-
-  const route = useRouter()
+  const route = useRouter();
 
   const [captchaVerify, setCaptchaVerify] = useState('');
   const [form, setForm] = useState({
@@ -29,8 +26,8 @@ export default function ForgotUserIdPage() {
   const [showCredentialError, setShowCredentialError] = useState(false);
   const [showCaptchaError, setShowCaptchaError] = useState(false);
 
-
-  const isFormValid = form.lastName && form.ssn && form.dob && form.captchaInput;
+  const isFormValid =
+    form.lastName && form.ssn && form.dob && form.captchaInput;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -53,7 +50,7 @@ export default function ForgotUserIdPage() {
     if (!isCredentialValid) {
       setShowCredentialError(true);
       setCaptchaVerify(
-        'The credentials you entered do not match our records. Please validate your information and try again. For additional assistance, please contact customer service at 1-877-891-7827.'
+        'The credentials you entered do not match our records. Please validate your information and try again. For additional assistance, please contact customer service at 1-877-891-7827.',
       );
     } else {
       setShowCredentialError(false);
@@ -68,43 +65,47 @@ export default function ForgotUserIdPage() {
 
     if (isCredentialValid && isCaptchaValid) {
       setCaptchaVerify('');
-      route.push('/')
+      route.push('/');
     }
   };
 
   return (
-    <div className="p-4 md:px-16 !text-base">
-      <Card className="bg-[var(--color-white)] !p-0 md:w-[74.65%] w-full" header="Forgot Password?">
-        <div className="p-6 flex flex-col sm:gap-4">
+    <div className="p-4 !text-base md:px-16">
+      <Card
+        className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
+        header="Forgot Password?"
+      >
+        <div className="flex flex-col p-6 sm:gap-4">
           {captchaVerify && (showCredentialError || showCaptchaError) && (
             <CustomAlert type="error" description={captchaVerify} />
           )}
 
-          <div className="flex justify-end ">
+          <div className="flex justify-end">
             <b>
-              <span className="text-[var(--text-error)] px-1">*</span>Required Fields
+              <span className="px-1 text-[var(--text-error)]">*</span>Required
+              Fields
             </b>
           </div>
 
-          <Card className="customCard w-full md:p-6 px-6 py-3 flex flex-col sm:flex-row gap-3">
-            <div className="sm:w-1/2 w-full">
+          <Card className="customCard flex w-full flex-col gap-3 px-6 py-3 sm:flex-row md:p-6">
+            <div className="w-full sm:w-1/2">
               <InputField
                 label="User ID"
-                isAsterisk={true}
+                mandantory={true}
                 error={showCredentialError ? '' : undefined}
                 onChange={handleChange}
                 name="lastName"
                 value={form.lastName}
-                className={`${showCredentialError ? "text-[var(--text-error)]": ""}`}
+                className={`${showCredentialError ? 'text-[var(--text-error)]' : ''}`}
               />
             </div>
 
-            <div className="sm:w-1/2 w-full">
+            <div className="w-full sm:w-1/2">
               <InputField
                 label="Last 5 Digits of SSN "
-                isAsterisk={true}
+                mandantory={true}
                 error={showCredentialError ? '' : undefined}
-                className={`${showCredentialError ? "text-[var(--text-error)]": ""}`}
+                className={`${showCredentialError ? 'text-[var(--text-error)]' : ''}`}
                 onChange={handleChange}
                 name="ssn"
                 type="password"
@@ -114,12 +115,12 @@ export default function ForgotUserIdPage() {
             </div>
           </Card>
 
-          <Card className="customCard w-full md:p-6 px-6 flex gap-3">
+          <Card className="customCard flex w-full gap-3 px-6 md:p-6">
             <div className="w-full sm:w-1/2">
               <InputField
                 label="Date of Birth"
-                isAsterisk={true}
-                className={`${showCredentialError ? "text-[var(--text-error)]": ""}`}
+                mandantory={true}
+                className={`${showCredentialError ? 'text-[var(--text-error)]' : ''}`}
                 error={showCredentialError ? '' : undefined}
                 type="date"
                 name="dob"
@@ -130,43 +131,48 @@ export default function ForgotUserIdPage() {
             </div>
           </Card>
 
-          <Card className="customCard sm:p-6 px-6 py-4 flex flex-col">
-            <div className="flex flex-col gap-2">
+          <Card className="customCard flex flex-col px-6 py-4 sm:p-6">
+            <div className="flex flex-col gap-4">
               <div className="flex gap-2">
-                <div className="px-[12px] py-1 text-xl bg-[#000f73] text-white">{captcha}</div>
+                <div className="bg-[#000f73] px-[12px] py-1 text-xl text-white">
+                  {captcha}
+                </div>
 
-                <Button className="!p-1 !bg-transparent">
+                <Button className="!bg-transparent !p-1">
                   <Image src={Relode} alt="relode-img" />
                 </Button>
               </div>
 
-              <div className='w-1/2'>
+              <div className="w-1/2">
                 <InputField
-                placeholder="Enter Captcha Code"
-                value={form.captchaInput}
-                name="captchaInput"
-                onChange={handleChange}
-                error={showCaptchaError ? '' : undefined}
-                className={showCaptchaError ? 'text-[var(--text-error)]' : ''}
-                iconRight={showCaptchaError ? NotSecure : ''}
+                  placeholder="Enter Captcha Code"
+                  value={form.captchaInput}
+                  name="captchaInput"
+                  onChange={handleChange}
+                  error={showCaptchaError ? '' : undefined}
+                  className={showCaptchaError ? 'text-[var(--text-error)]' : ''}
+                  iconRight={showCaptchaError ? NotSecure : ''}
                 />
-                
-                </div>
+              </div>
             </div>
 
             <p
-              className={`text-sm sm:w-1/2 w-full mt-1 ${
+              className={`mt-1 w-full text-sm sm:w-1/2 ${
                 showCaptchaError ? 'text-[var(--text-error)]' : ''
               }`}
             >
-              Please enter the string as shown above before clicking on &quot;Validate&quot;
+              Please enter the string as shown above before clicking on
+              &quot;Validate&quot;
             </p>
           </Card>
 
           <div className="flex items-center justify-end gap-2">
             <Button variant="outline">Cancel</Button>
 
-            <Button variant={isFormValid ? 'primary' : 'disable'} onClick={handleValidate}>
+            <Button
+              variant={isFormValid ? 'primary' : 'disable'}
+              onClick={handleValidate}
+            >
               Validate
             </Button>
           </div>
