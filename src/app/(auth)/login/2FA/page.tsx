@@ -15,7 +15,7 @@ const TwoFactorAuthPage = () => {
   const route = useRouter();
 
   return (
-    <div className="mx-auto max-w-[1152px] bg-red-400 p-4 !text-base ">
+    <div className="mx-auto max-w-[1152px] p-4 !text-base ">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
         header="For Your Added Security"
@@ -28,7 +28,7 @@ const TwoFactorAuthPage = () => {
             </b>
           </div>
 
-          <p>
+          <p className=' text-sm sm:!text-base'>
             We need to confirm it’s really you. As part of the two-factor
             authentication process, we’ll send you an authentication code
             through one of the below delivery methods.
@@ -98,12 +98,13 @@ const TwoFactorAuthPage = () => {
             <div>
               <CustomCheckbox label="Remember User ID" className="!text-sm" />
             </div>
-            <div className="flex items-center justify-center gap-2">
-              <Button variant={'outline'}>Cancel</Button>
+            <div className="flex items-center justify-center gap-2 h-10">
+              <Button variant={'outline'} className='h-full'>Cancel</Button>
 
               <Button
                 variant={'primary'}
                 onClick={() => route.push('/login/2FA/code-entry')}
+                className='h-full'
               >
                 Continue
               </Button>

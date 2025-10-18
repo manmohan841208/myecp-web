@@ -6,8 +6,7 @@ import Image from '@/components/atoms/Image';
 
 export default function SuccessRecoverUserIDPage() {
   return (
-    <div className="mx-auto max-w-[1152px] bg-red-400">
-      <div className="w-full py-4 !text-base ">
+      <div className="mx-auto max-w-[1152px] p-4 !text-base ">
         <Card
           className="w-full bg-[var(--color-white)] !p-0 md:max-w-[802px]"
           header="Confirmation"
@@ -42,6 +41,5 @@ export default function SuccessRecoverUserIDPage() {
           </div>
         </Card>
       </div>
-    </div>
   );
 }

@@ -10,7 +10,7 @@ import { NotSecure } from '@/assets/svg';
 import { useRouter } from 'next/navigation';
 // import DatePicker from '@/components/atoms/Calendar/page';
 
-export default function SuccessRecoverUserPasswordPage() {
+export default function ForgotUserIdPage() {
   const captcha: string = 'HE7L00';
 
   const route = useRouter();
@@ -25,7 +25,6 @@ export default function SuccessRecoverUserPasswordPage() {
 
   const [showCredentialError, setShowCredentialError] = useState(false);
   const [showCaptchaError, setShowCaptchaError] = useState(false);
-  const [ssnLengthError, setSsnLengthError] = useState(false);
 
   const isFormValid =
     form.lastName && form.ssn && form.dob && form.captchaInput;
@@ -35,11 +34,6 @@ export default function SuccessRecoverUserPasswordPage() {
   };
 
   const handleValidate = () => {
-    if (form.ssn.length < 5) {
-      setSsnLengthError(true);
-      return;
-    }
-
     const staticCredentials = {
       lastName: 'white',
       ssn: '12345',
@@ -71,15 +65,15 @@ export default function SuccessRecoverUserPasswordPage() {
 
     if (isCredentialValid && isCaptchaValid) {
       setCaptchaVerify('');
-      route.push('/login');
+      route.push('/');
     }
   };
 
   return (
-    <div className="mx-auto max-w-[1152px] bg-red-400 p-4 !text-base ">
+    <div className="mx-auto max-w-[1152px] p-4 !text-base ">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
-        header="Forgot User ID?"
+        header="Forgot Password?"
       >
         <div className="flex flex-col p-6 sm:gap-4">
           {captchaVerify && (showCredentialError || showCaptchaError) && (
@@ -96,7 +90,7 @@ export default function SuccessRecoverUserPasswordPage() {
           <Card className="customCard flex w-full flex-col gap-3 px-6 py-3 sm:flex-row md:p-6">
             <div className="w-full sm:w-1/2">
               <InputField
-                label="Last Name"
+                label="User ID"
                 mandantory={true}
                 error={showCredentialError ? '' : undefined}
                 onChange={handleChange}
@@ -110,19 +104,8 @@ export default function SuccessRecoverUserPasswordPage() {
               <InputField
                 label="Last 5 Digits of SSN "
                 mandantory={true}
-                error={
-                  ssnLengthError
-                    ? 'SSN must contain 5 digits'
-                    : showCredentialError
-                      ? ''
-                      : undefined
-                }
-                iconRight={ssnLengthError ? NotSecure : ''}
-                className={`${
-                  ssnLengthError || showCredentialError
-                    ? 'text-[var(--text-error)]'
-                    : ''
-                }`}
+                error={showCredentialError ? '' : undefined}
+                className={`${showCredentialError ? 'text-[var(--text-error)]' : ''}`}
                 onChange={handleChange}
                 name="ssn"
                 type="password"
@@ -149,7 +132,7 @@ export default function SuccessRecoverUserPasswordPage() {
           </Card>
 
           <Card className="customCard flex flex-col px-6 py-4 sm:p-6">
-            <div className="flex flex-col gap-2">
+            <div className="flex flex-col gap-4">
               <div className="flex gap-2">
                 <div className="bg-[#000f73] px-[12px] py-1 text-xl text-white">
                   {captcha}

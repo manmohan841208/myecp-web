@@ -10,10 +10,10 @@ import React from 'react';
 
 const ResetPasswordPage = () => {
   return (
-    <div className="mx-auto max-w-[1152px] bg-red-400 p-4 !text-base ">
+    <div className="mx-auto max-w-[1152px] p-4 !text-base ">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
-        header="For Your Security"
+        header="Reset Password"
       >
         <div className="flex flex-col p-6 !pb-0 sm:gap-4">
           {/* <CustomAlert type="error" description="Password not match" /> */}
@@ -30,7 +30,7 @@ const ResetPasswordPage = () => {
               <InputField
                 label="New Password"
                 mandantory={true}
-                name="lastName"
+                type="password"
               />
             </div>
 
@@ -38,19 +38,17 @@ const ResetPasswordPage = () => {
               <InputField
                 label="Confirm Password"
                 mandantory={true}
-                name="ssn"
                 type="password"
-                maxLength={5}
               />
             </div>
           </Card>
 
-          <div className="flex items-center justify-end gap-2 mb-4">
-            <Button variant="outline">Cancel</Button>
+          <div className="flex items-center justify-end gap-2 mb-4 h-10">
+            <Button variant="outline" className='h-full'>Cancel</Button>
 
             <Button
               variant="disable"
-              className="disabled:cursor-not-allowed disabled:opacity-50"
+              className="disabled:cursor-not-allowed disabled:opacity-50 h-full"
             >
               Submit
             </Button>

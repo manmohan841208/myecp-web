@@ -28,7 +28,7 @@ const TwoFactAuthCodeEntryPage = () => {
   };
 
   return (
-    <div className="mx-auto max-w-[1152px] bg-red-400 p-4 !text-base ">
+    <div className="mx-auto max-w-[1152px] p-4 !text-base ">
       <Card
         header={'For Your Added Security'}
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
@@ -49,7 +49,7 @@ const TwoFactAuthCodeEntryPage = () => {
             </b>
           </div>
 
-          <p>
+          <p className=' text-sm sm:!text-base'>
             <span className="font-bold">Check your Email.</span> An email with
             your authentication code has been sent. Please enter it below and
             click “Confirm”
@@ -104,7 +104,7 @@ const TwoFactAuthCodeEntryPage = () => {
 
             <Button
               variant={isEmpty ? 'disable' : 'primary'}
-              className="h-full disabled:cursor-not-allowed disabled:opacity-50"
+              className="h-full disabled:cursor-not-allowed disabled:opacity-50 "
               onClick={handleContinue}
             >
               Continue

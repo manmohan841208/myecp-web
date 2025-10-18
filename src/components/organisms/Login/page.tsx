@@ -169,7 +169,7 @@ const Login = () => {
                     onChange={setRemember}
                   />
                 </div>
-                <Button variant={UserName && Password ? 'primary' : 'disable'}>
+                <Button variant={UserName && Password ? 'primary' : 'disable'} className='h-10'>
                   {LOGIN_BTN}
                 </Button>
               </div>

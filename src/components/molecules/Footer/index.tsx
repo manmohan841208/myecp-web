@@ -6,7 +6,7 @@ const Footer = () => {
   // console.log(CurrentYear)
 
   return (
-    <div className='mx-auto max-w-[1152px] bg-green-400 py-4 !text-base '>
+    <div className='mx-auto max-w-[1152px] px-4  text-sm sm:!text-base '>
       <p>Privacy Policy │ Site Policy</p>
       <p>© {CurrentYear} Exchange Credit Program. All rights reserved.</p>
     </div>

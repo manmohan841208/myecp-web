@@ -28,12 +28,12 @@ const ForYourSecurityPage = () => {
   const isEmpty = !city || !friendName;
 
   return (
-    <div className="mx-auto max-w-[1152px] bg-red-400 p-4 !text-base ">
+    <div className="mx-auto max-w-[1152px] p-4 !text-base ">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
         header="For Your Security"
       >
-        <div className="flex flex-col p-6 !pb-0 sm:gap-4">
+        <div className="flex flex-col p-6 !pb-0 gap-4">
           {showAlert && (
             <CustomAlert
               type="error"
@@ -48,7 +48,7 @@ const ForYourSecurityPage = () => {
             </b>
           </div>
 
-          <p>
+          <p className='text-sm sm:!text-base'>
             To verify and protect your account, please answer your security
             questions.
           </p>
@@ -92,12 +92,12 @@ const ForYourSecurityPage = () => {
             </div>
           </Card>
 
-          <div className="flex items-center justify-end gap-2 mb-4">
-            <Button variant="outline">Cancel</Button>
+          <div className="flex items-center justify-end gap-2 mb-4 h-10">
+            <Button variant="outline" className='h-full'>Cancel</Button>
 
             <Button
               variant={isEmpty ? 'disable' : 'primary'}
-              className="disabled:cursor-not-allowed disabled:opacity-50"
+              className="disabled:cursor-not-allowed disabled:opacity-50 h-full"
               //   disable={isEmpty}
               onClick={handleSubmit}
             >

@@ -26,9 +26,9 @@ export default function SecurityForm() {
   };
 
   return (
-    <div className="mx-auto max-w-[1152px] bg-red-400 p-4 !text-base ">
+    <div className="mx-auto max-w-[1152px] p-4 !text-base  ">
       <Card
-        className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
+        className="w-full bg-[var(--color-white)] !px-0 md:max-w-[860px]"
         header="For Your Added Security"
       >
         <div className="flex flex-col gap-4 px-4">
@@ -47,7 +47,7 @@ export default function SecurityForm() {
             </b>
           </div>
 
-          <p className="text-base">
+          <p className=" text-sm sm:!text-base">
             We need to confirm it&apos; really you. To verify and protect your
             account, please answer your security question.
           </p>
@@ -73,14 +73,14 @@ export default function SecurityForm() {
                 <CustomCheckbox label="Remember User ID" className="!text-sm" />
               </div>
 
-              <p>
+              <p className=' text-sm sm:!text-base'>
                 Do not select this option if you are using a public computer,
                 such as in a library.
               </p>
             </Card>
 
-            <div className="flex items-center justify-end gap-2 py-4">
-              <Button variant={'outline'}>Cancel</Button>
+            <div className="flex items-center justify-end gap-2 py-4 ">
+              <Button variant={'outline'} className='h-full'>Cancel</Button>
               <Button
                 variant={securityQuestion.length > 2 ? 'primary' : 'disable'}
                 onClick={(e: any) => {
@@ -92,6 +92,7 @@ export default function SecurityForm() {
                     setShowError(true);
                   }
                 }}
+                className='h-full'
               >
                 Continue
               </Button>

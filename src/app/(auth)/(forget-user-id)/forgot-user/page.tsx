@@ -76,7 +76,7 @@ export default function RecoverUserIDPage() {
   };
 
   return (
-    <div className="mx-auto max-w-[1152px] bg-red-400 py-4 !text-base ">
+    <div className="mx-auto max-w-[1152px] p-4 !text-base ">
       {/* <div className="p-4 !text-base lg:px-16"> */}
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
@@ -161,14 +161,14 @@ export default function RecoverUserIDPage() {
                 </Button>
               </div>
 
-              <div className="w-1/2">
+              <div className="w-2/3">
                 <InputField
                   placeholder="Enter Captcha Code"
                   value={form.captchaInput}
                   name="captchaInput"
                   onChange={handleChange}
                   error={showCaptchaError ? '' : undefined}
-                  className={showCaptchaError ? 'text-[var(--text-error)]' : ''}
+                  className={`text-sm sm:!text-base ${showCaptchaError ? 'text-[var(--text-error)]' : ''}`}
                   iconRight={showCaptchaError ? NotSecure : ''}
                 />
               </div>
@@ -184,8 +184,8 @@ export default function RecoverUserIDPage() {
             </p>
           </Card>
 
-          <div className="flex items-center justify-end gap-2">
-            <Button variant="outline">Cancel</Button>
+          <div className="flex items-center justify-end gap-2 h-10">
+            <Button variant="outline" className=''>Cancel</Button>
 
             <Button
               variant={isFormValid ? 'primary' : 'disable'}
