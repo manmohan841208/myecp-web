@@ -10,9 +10,9 @@ import React from 'react';
 
 const ResetPasswordPage = () => {
   return (
-    <div className="p-4 !text-base md:px-16">
+    <div className="mx-auto max-w-[1152px] bg-red-400 p-4 !text-base ">
       <Card
-        className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
+        className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
         header="For Your Security"
       >
         <div className="flex flex-col p-6 !pb-0 sm:gap-4">
@@ -45,7 +45,7 @@ const ResetPasswordPage = () => {
             </div>
           </Card>
 
-          <div className="flex items-center justify-end gap-2 pb-4">
+          <div className="flex items-center justify-end gap-2 mb-4">
             <Button variant="outline">Cancel</Button>
 
             <Button
@@ -55,11 +55,10 @@ const ResetPasswordPage = () => {
               Submit
             </Button>
           </div>
-
         </div>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default ResetPasswordPage
+export default ResetPasswordPage;

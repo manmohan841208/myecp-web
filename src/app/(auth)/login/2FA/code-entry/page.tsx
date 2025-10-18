@@ -1,81 +1,73 @@
-'use client'
+'use client';
 
-import Card from '@/components/atoms/Card'
-import Image from '@/components/atoms/Image'
-import React, { useState } from 'react'
-import { Email } from '@/assets/svg'
-import { InputField } from '@/components/atoms/InputField'
-import Link from 'next/link'
-import Button from '@/components/atoms/Button'
-import CustomAlert from '@/components/atoms/AlertMessage'
-import { useRouter } from 'next/navigation'
-
+import Card from '@/components/atoms/Card';
+import Image from '@/components/atoms/Image';
+import React, { useState } from 'react';
+import { Email } from '@/assets/svg';
+import { InputField } from '@/components/atoms/InputField';
+import Link from 'next/link';
+import Button from '@/components/atoms/Button';
+import CustomAlert from '@/components/atoms/AlertMessage';
+import { useRouter } from 'next/navigation';
 
 const TwoFactAuthCodeEntryPage = () => {
+  const [code, setCode] = useState('');
+  const [showError, setShowError] = useState(false);
 
-  const [code, setCode] = useState('')
-  const [showError, setShowError] = useState(false)
+  const isEmpty = code.trim().length < 6;
 
+  const router = useRouter();
 
-  const isEmpty = code.trim().length < 6
-
-  const router = useRouter()
-
-  const handleContinue =()=>{
-    if( code === "123456" ){
-      setShowError(false)
-      router.push('/account-summary')
-    }else{
-      setShowError(true)
+  const handleContinue = () => {
+    if (code === '123456') {
+      setShowError(false);
+      router.push('/account-summary');
+    } else {
+      setShowError(true);
     }
-  }
+  };
 
   return (
-    <div className="px-4 py-4 md:px-16 !text-base">
+    <div className="mx-auto max-w-[1152px] bg-red-400 p-4 !text-base ">
       <Card
         header={'For Your Added Security'}
-        className="bg-[var(--color-white)] !p-0 md:w-[74.65%] w-full"
+        className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
       >
+        <div className="flex flex-col gap-4 px-4">
+          {showError && (
+            <CustomAlert
+              type="error"
+              className="mt-3"
+              description={`We're sorry! The code you entered is either expired or invalid. Please try again.`}
+            />
+          )}
 
-        <div className="px-4 flex flex-col gap-4">
-
-          {
-            showError &&
-            ( 
-                <CustomAlert 
-                type="error" 
-                className='mt-3' 
-                description={`We're sorry! The code you entered is either expired or invalid. Please try again.`} 
-                />
-            )
-          }
-            
           <div className="flex justify-end pt-3">
             <b>
-              <span className="text-[var(--text-error)] px-1">*</span>Required Fields
+              <span className="px-1 text-[var(--text-error)]">*</span>Required
+              Fields
             </b>
           </div>
 
-          
-        <p>
-          <span className="font-bold">Check your Email.</span>{" "}
-          An email with your authentication code has been sent. Please enter it below and click “Confirm”
-        </p>
-
-
+          <p>
+            <span className="font-bold">Check your Email.</span> An email with
+            your authentication code has been sent. Please enter it below and
+            click “Confirm”
+          </p>
 
           <Card
-            className="bg-[var(--color-white)] !p-0 w-full"
+            className="w-full bg-[var(--color-white)] !p-0"
             header={
               <>
-                Select Delivery Method <span className="text-[var(--text-error)]">*</span>
+                Select Delivery Method{' '}
+                <span className="text-[var(--text-error)]">*</span>
               </>
             }
           >
             <div className="px-3">
               <div className="flex flex-col pt-9 pb-3">
                 <div className="flex items-center gap-3 pl-4 text-[var(--color-disabled-text)]">
-                  <div className="h-[60px] w-[60px] flex justify-center items-center">
+                  <div className="flex h-[60px] w-[60px] items-center justify-center">
                     <Image src={Email} alt="email-img" />
                   </div>
 
@@ -87,10 +79,10 @@ const TwoFactAuthCodeEntryPage = () => {
                           <span className="text-[var(--text-error)]">*</span>
                         </div>
                       }
-                      className="w-full sm:w-1/2 border-black text-base text-black"
+                      // className="w-full border-black text-base text-black sm:w-1/2"
                       value={code}
-                      onChange={
-                        (e: React.ChangeEvent<HTMLInputElement>) => setCode(e.target.value)
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setCode(e.target.value)
                       }
                       inputMode="numeric"
                       maxLength={6}
@@ -99,21 +91,20 @@ const TwoFactAuthCodeEntryPage = () => {
                 </div>
               </div>
 
-              <div className="pb-5 text-sm ps-[calc(1rem+60px+0.75rem)]">
-                <Link href="#" className='text-[var(--hyperlink)]'>
+              <div className="ps-[calc(1rem+60px+0.75rem)] pb-5 text-sm">
+                <Link href="#" className="text-[var(--hyperlink)]">
                   Click here to request a new authentication code
                 </Link>
               </div>
             </div>
           </Card>
 
-          <div className="flex items-center justify-end pb-4 gap-2">
-            <Button variant={'outline'}>Cancel</Button>
+          <div className="flex items-center justify-end gap-2 mb-4 h-10">
+            <Button variant={'outline'} className='h-full'>Cancel</Button>
 
-            
             <Button
-              variant={isEmpty?'disable': 'primary'}              
-              className="disabled:opacity-50 disabled:cursor-not-allowed"
+              variant={isEmpty ? 'disable' : 'primary'}
+              className="h-full disabled:cursor-not-allowed disabled:opacity-50"
               onClick={handleContinue}
             >
               Continue
@@ -122,7 +113,7 @@ const TwoFactAuthCodeEntryPage = () => {
         </div>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default TwoFactAuthCodeEntryPage
+export default TwoFactAuthCodeEntryPage;

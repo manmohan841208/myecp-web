@@ -14,93 +14,87 @@ import CustomCheckbox from '@/components/atoms/Checkbox';
 import TimeOutPage from '@/components/molecules/TimeOut';
 import ButtonExample from '@/components/atoms/Button/example';
 
-
 export default function CreateProfile() {
   const captcha = 'HE7L00';
 
   const [showTimeout, setShowTimeout] = useState(false);
-  const [cancelRegistration, setCancelRegistration] = useState(false)
+  const [cancelRegistration, setCancelRegistration] = useState(false);
 
   const route = useRouter();
 
   return (
     <div className="flex w-full gap-4 p-4 !text-base md:px-16">
+      {/* This is Seassion Time-out part */}
+      {showTimeout && (
+        <div className="fixed inset-0 z-50">
+          {/* Background overlay */}
+          <div className="pointer-events-none absolute inset-0 bg-black opacity-25" />
 
+          {/* Modal content */}
+          <div className="relative z-10 flex h-full items-center justify-center">
+            <TimeOutPage
+              // className=""
+              message={
+                <div className="flex p-5">
+                  <div className="flex flex-col gap-2">
+                    <p className="text-base">
+                      Your session is inactive and the data will be lost in{' '}
+                      <span className="text-lg text-[var(--color-red)]">
+                        0:54
+                      </span>{' '}
+                      if you do not continue with the action.
+                    </p>
 
-        {/* This is Seassion Time-out part */}
-        {showTimeout && (
-          <div className="fixed inset-0 z-50">
-            {/* Background overlay */}
-            <div className="absolute inset-0 bg-black opacity-25 pointer-events-none" />
-        
-            {/* Modal content */}
-            <div className="relative z-10 flex items-center justify-center h-full">
-              <TimeOutPage
-                // className=""
-                message={
-                    <div className='flex p-5'>
-                        <div className='flex flex-col gap-2'>
+                    <p>
+                      Please click “Next” button on the main page to continue.
+                    </p>
 
-                            <p className='text-base'>
-                              Your session is inactive and the data will be lost in{' '}
-                              <span className="text-[var(--color-red)] text-lg">0:54</span>{' '}
-                              if you do not continue with the action.
-                            </p>
-                            
-                            <p>Please click “Next” button on the main page to continue.</p>
-                        
-                        <div className='w-full flex justify-end'>
-                            <Button
-                            variant={'primary'}
-                            >
-                                Continue
-                            </Button>
-                        </div>
-                        
-                        </div>
+                    <div className="flex w-full justify-end">
+                      <Button variant={'primary'}>Continue</Button>
                     </div>
-                }
-              />
-            </div>
+                  </div>
+                </div>
+              }
+            />
           </div>
-        )}
+        </div>
+      )}
 
       <Card
-        className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
+        className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
         header="Create your Profile"
       >
+        <div className="w-full pt-6 pr-6 pl-6">
+          <div className="flex h-10 w-full items-center justify-evenly">
+            <div className="flex h-[1px] w-4/5 items-center justify-between bg-[var(--color-blue)]">
+              <Button
+                className="flex h-[25px] w-[25px] items-center justify-center rounded-full"
+                variant="primary"
+              >
+                1
+              </Button>
 
-        <div className='w-full pt-6 pl-6 pr-6 '>
-          <div className='flex items-center justify-evenly w-full h-10 '>
-              <div className='bg-[var(--color-blue)] flex items-center justify-between w-4/5 h-[1px] '>
-                  <Button 
-                    className='h-[25px] w-[25px] rounded-full flex justify-center items-center'
-                    variant="primary"
-                  >
-                      1
-                  </Button>
-                  
-                  <Button 
-                    className='bg-white h-[25px] w-[25px] rounded-full flex justify-center items-center'
-                    variant="outline"
-                  >
-                      2
-                  </Button>
-                  
-                  <Button 
-                    className='bg-white h-[25px] w-[25px] rounded-full flex justify-center items-center'
-                    variant="outline"
-                  >
-                      3
-                  </Button>
-                  
-                  <Button 
-                    className='bg-white h-[25px] w-[25px] rounded-full flex justify-center items-center'
-                    variant="outline"
-                  >
-                      4
-                  </Button>
-              </div>
+              <Button
+                className="flex h-[25px] w-[25px] items-center justify-center rounded-full bg-white"
+                variant="outline"
+              >
+                2
+              </Button>
+
+              <Button
+                className="flex h-[25px] w-[25px] items-center justify-center rounded-full bg-white"
+                variant="outline"
+              >
+                3
+              </Button>
+
+              <Button
+                className="flex h-[25px] w-[25px] items-center justify-center rounded-full bg-white"
+                variant="outline"
+              >
+                4
+              </Button>
+            </div>
           </div>
         </div>
 
@@ -116,7 +110,7 @@ export default function CreateProfile() {
 
           <Card className="customCard flex w-full flex-col gap-3 px-6 py-3 sm:flex-row md:p-6">
             <div className="flex w-full flex-col gap-4">
-              <div className="flex flex-col sm:flex-row gap-4 ">
+              <div className="flex flex-col gap-4 sm:flex-row">
                 <div className="sm:w-1/2">
                   <InputField
                     label="Card Number"
@@ -126,12 +120,12 @@ export default function CreateProfile() {
                   />
                 </div>
 
-                <div className="flex gap-1 sm:w-1/2 w-full">
+                <div className="flex w-full gap-1 sm:w-1/2">
                   <InputField
                     label="Expiration Date"
                     mandantory={true}
                     placeholder="Month"
-                    help='Card expiration date'
+                    help="Card expiration date"
                   />
                   <InputField
                     label=""
@@ -141,16 +135,16 @@ export default function CreateProfile() {
                 </div>
               </div>
 
-              <div className="flex flex-col sm:flex-row gap-4">
-                <div className="sm:w-1/2 ">
+              <div className="flex flex-col gap-4 sm:flex-row">
+                <div className="sm:w-1/2">
                   <InputField
                     label="Social Security Number"
                     mandantory={true}
                     name="SocialSecurityNumber"
                     placeholder="***_**_****"
-                    help='The social security number you
-                        enter must match our records.'
-                    helpWidth='w-[200px]'
+                    help="The social security number you
+                        enter must match our records."
+                    helpWidth="w-[200px]"
                   />
                 </div>
 
@@ -160,9 +154,9 @@ export default function CreateProfile() {
                     mandantory={true}
                     name="DateOfBirth"
                     placeholder="MM/DD/YYYY"
-                    help='The date of birth you enter
-must match our records.'
-                    helpWidth='w-[165px]'
+                    help="The date of birth you enter
+must match our records."
+                    helpWidth="w-[165px]"
                   />
                 </div>
               </div>
@@ -170,8 +164,8 @@ must match our records.'
           </Card>
 
           <Card className="customCard flex w-full gap-3 px-6 md:p-6">
-            <div className="flex w-full flex-col gap-4 ">
-              <div className="flex sm:flex-row flex-col gap-4 ">
+            <div className="flex w-full flex-col gap-4">
+              <div className="flex flex-col gap-4 sm:flex-row">
                 <div className="sm:w-1/2">
                   <InputField
                     label="Enter a Valid Email ID"
@@ -230,8 +224,8 @@ must match our records.'
         </div>
       </Card>
 
-        {/* This is Advertisement part */}
-      <div className="hidden md:flex w-[23%] flex-col gap-4 ">
+      {/* This is Advertisement part */}
+      <div className="hidden w-[23%] flex-col gap-4 md:flex">
         <Card className="relative overflow-hidden shadow-lg">
           <Image src={Advertisement1} className="" alt="advertisement" />
         </Card>
@@ -241,47 +235,37 @@ must match our records.'
         </Card>
       </div>
 
+      {/* This is Cancel Registration part */}
+      {cancelRegistration && (
+        <div className="fixed inset-0 z-50">
+          {/* Background overlay */}
+          <div className="pointer-events-none absolute inset-0 bg-black opacity-25" />
 
-       {/* This is Cancel Registration part */}
-        {cancelRegistration && (
-          <div className="fixed inset-0 z-50">
-            {/* Background overlay */}
-            <div className="absolute inset-0 bg-black opacity-25 pointer-events-none" />
-        
-            {/* Modal content */}
-            <div className="relative z-10 flex items-center justify-center h-full">
-              <TimeOutPage
-                // className=""
-                message={
-                    <div className='flex p-5'>
-                        <div className='flex flex-col gap-2'>
+          {/* Modal content */}
+          <div className="relative z-10 flex h-full items-center justify-center">
+            <TimeOutPage
+              // className=""
+              message={
+                <div className="flex p-5">
+                  <div className="flex flex-col gap-2">
+                    <p className="text-base">
+                      This action will result in losing the data entered on this
+                      page and will not complete the registration process. Do
+                      you wish to continue?
+                    </p>
 
-                            <p className='text-base'>
-                              This action will result in losing the data entered on this page and will not complete the registration process. Do you wish to continue?
-                            </p>
-                            
-                        <div className='w-full flex justify-end gap-2'>
-                            <Button
-                            variant={'outline'}
-                            >
-                                Cancel
-                            </Button>
+                    <div className="flex w-full justify-end gap-2">
+                      <Button variant={'outline'}>Cancel</Button>
 
-                            <Button
-                            variant={'primary'}
-                            >
-                                Continue
-                            </Button>
-                        </div>
-                        
-                        </div>
+                      <Button variant={'primary'}>Continue</Button>
                     </div>
-                }
-              />
-            </div>
+                  </div>
+                </div>
+              }
+            />
           </div>
-        )}
-
+        </div>
+      )}
     </div>
   );
 }

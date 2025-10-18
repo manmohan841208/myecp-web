@@ -1,31 +1,29 @@
-'use client'
+'use client';
 
-import Button from "@/components/atoms/Button";
-import Card from "@/components/atoms/Card";
-import React from "react";
-import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
-import { Label } from "@/components/ui/label";
-import { Email, Phone } from "@/assets/svg";
-import Image from "@/components/atoms/Image";
-import CustomCheckbox from "@/components/atoms/Checkbox";
+import Button from '@/components/atoms/Button';
+import Card from '@/components/atoms/Card';
+import React from 'react';
+import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
+import { Label } from '@/components/ui/label';
+import { Email, Phone } from '@/assets/svg';
+import Image from '@/components/atoms/Image';
+import CustomCheckbox from '@/components/atoms/Checkbox';
 // import CustomAccordion from "@/components/atoms/Accordion";
-import { useRouter} from "next/navigation";
+import { useRouter } from 'next/navigation';
 
 const TwoFactorAuthPage = () => {
-
-  const route = useRouter()
-
+  const route = useRouter();
 
   return (
-    <div className="px-4 py-4 md:px-16 !text-base">
+    <div className="mx-auto max-w-[1152px] bg-red-400 p-4 !text-base ">
       <Card
-        className="bg-[var(--color-white)] !p-0 md:w-[74.65%] w-full"
+        className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
         header="For Your Added Security"
       >
-        <div className="px-4 flex flex-col gap-4">
+        <div className="flex flex-col gap-4 px-4">
           <div className="flex justify-end pt-3">
             <b>
-              <span className="text-[var(--text-error)] px-1">*</span>Required
+              <span className="px-1 text-[var(--text-error)]">*</span>Required
               Fields
             </b>
           </div>
@@ -37,26 +35,30 @@ const TwoFactorAuthPage = () => {
           </p>
 
           <Card
-            className="bg-[var(--color-white)] !p-0  w-full "
+            className="w-full bg-[var(--color-white)] !p-0"
             header={
               <>
-                Select Delivery Method{" "}
+                Select Delivery Method{' '}
                 <span className="text-[var(--text-error)]">*</span>
               </>
             }
           >
             <div className="px-3">
-              <div className=" flex flex-col py-9">
+              <div className="flex flex-col py-9">
                 <RadioGroup className="flex flex-col gap-9">
                   <div className="flex items-center gap-3 pl-4 text-[var(--color-disabled-text)]">
-                    <div className="h-15 w-15 flex justify-center items-start ">
-                      <Image src={Phone} alt="phone-img" className="opacity-35"/>
+                    <div className="flex h-15 w-15 items-start justify-center">
+                      <Image
+                        src={Phone}
+                        alt="phone-img"
+                        className="opacity-35"
+                      />
                     </div>
                     <div>
-                      <Label htmlFor="r2" className="font-bold text-base">
+                      <Label htmlFor="r2" className="text-base font-bold">
                         Phone
                       </Label>
-                      <div className=" flex items-center justify-start gap-1 ">
+                      <div className="flex items-center justify-start gap-1">
                         <RadioGroupItem value="phone" id="r2" />
                         <span>******7890</span>
                       </div>
@@ -70,15 +72,15 @@ const TwoFactorAuthPage = () => {
                   </div>
 
                   <div className="flex items-center gap-3 pl-4">
-                    <div className="h-15 w-15 flex justify-center items-center">
+                    <div className="flex h-15 w-15 items-center justify-center">
                       <Image src={Email} alt="email-img" />
                     </div>
                     <div>
-                      <Label htmlFor="r2" className="font-bold text-base">
+                      <Label htmlFor="r2" className="text-base font-bold">
                         Email
                       </Label>
-                      <div className=" flex items-center justify-center gap-1">
-                        <RadioGroupItem value="email" id="r2" checked={true}/>
+                      <div className="flex items-center justify-center gap-1">
+                        <RadioGroupItem value="email" id="r2" checked={true} />
                         <span>T***1@GMAIL.COM</span>
                       </div>
                     </div>
@@ -92,33 +94,23 @@ const TwoFactorAuthPage = () => {
               </div>
             </div>
           </Card>
-          <div className=" flex justify-between items-center pb-4">
+          <div className="flex items-center justify-between pb-4">
             <div>
-              <CustomCheckbox 
-              label="Remember User ID" 
-              className="!text-sm " 
-              />
+              <CustomCheckbox label="Remember User ID" className="!text-sm" />
             </div>
             <div className="flex items-center justify-center gap-2">
-              
-              <Button 
-              variant={"outline"}
-              >
-                Cancel
-                </Button>
+              <Button variant={'outline'}>Cancel</Button>
 
-              <Button 
-              variant={"primary"}
-              onClick={()=>route.push('/login/2FA/code-entry')}
+              <Button
+                variant={'primary'}
+                onClick={() => route.push('/login/2FA/code-entry')}
               >
                 Continue
-                </Button>
-
+              </Button>
             </div>
           </div>
         </div>
       </Card>
-
     </div>
   );
 };
