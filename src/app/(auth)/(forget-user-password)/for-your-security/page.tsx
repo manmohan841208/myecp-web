@@ -18,7 +18,7 @@ const ForYourSecurityPage = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<any>({
     Question1Id: securityQuestions.Question1Id,
     Question1Text: securityQuestions.Question1Text,
     Answer1: '',
@@ -34,7 +34,7 @@ const ForYourSecurityPage = () => {
     setErrorMessage('');
     setShowAlert(false);
     const { name, value } = e.target;
-    setForm((prev) => ({
+    setForm((prev: any) => ({
       ...prev,
       [name]: value,
       UserName: localStorage.getItem('forgotPwdUserName') || '',

@@ -2,8 +2,8 @@ import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import loginReducer from './slices/loginSlice';
 import { authApi } from './services/authApi';
 import forgotPWDSecurityQuestionsReducer from '@/store/slices/forgotSecurityQuestionsSlice';
-import { resetPasswordApi } from './services/resetPasswordApi';
 import resetPasswordReducer from '@/store/slices/resetPasswordSlice';
+import forgotUserNameReducer from './slices/forgotUserNameSlice';
 
 import {
   persistStore,
@@ -21,13 +21,14 @@ const rootReducer = combineReducers({
   login: loginReducer,
   securityQuestions: forgotPWDSecurityQuestionsReducer,
   resetPassword: resetPasswordReducer,
+  forgotUserName: forgotUserNameReducer,
   [authApi.reducerPath]: authApi.reducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['securityQuestions'], // only persist this slice
+  whitelist: ['securityQuestions', 'forgotUserName'], // only persist this slice
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

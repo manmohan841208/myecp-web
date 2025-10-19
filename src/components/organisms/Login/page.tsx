@@ -142,7 +142,7 @@ const Login = () => {
                 <div className="flex items-center justify-end gap-1">
                   {FORGOT}
                   <Link
-                    href="/forgot-user"
+                    href="/forgot-userid"
                     className="text-sm text-blue-600 hover:text-blue-800"
                   >
                     {USER_ID_LABEL}
