@@ -1,102 +1,154 @@
-'use client'
+'use client';
 
-import CustomAlert from '@/components/atoms/AlertMessage'
-import Button from '@/components/atoms/Button'
-import Card from '@/components/atoms/Card'
-import { InputField } from '@/components/atoms/InputField'
-import React, { useState } from 'react'
-import { useRouter } from 'next/navigation'
+import CustomAlert from '@/components/atoms/AlertMessage';
+import Button from '@/components/atoms/Button';
+import Card from '@/components/atoms/Card';
+import { InputField } from '@/components/atoms/InputField';
+import React, { useState } from 'react';
+import { useRouter } from 'next/navigation';
+import { useSelector } from 'react-redux';
+import { RootState } from '@/store/store';
+import { useValidateSecurityAnswersMutation } from '@/store/services/validateSQApi';
 
 const ForYourSecurityPage = () => {
-  const [city, setCity] = useState('')
-  const [friendName, setFriendName] = useState('')
-  const [showAlert, setShowAlert] = useState(false)
-  const router = useRouter()
+  const securityQuestions = useSelector(
+    (state: RootState) => state.securityQuestions,
+  );
+  const [validateAnswers] = useValidateSecurityAnswersMutation();
+  const [showAlert, setShowAlert] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const router = useRouter();
+  const [form, setForm] = useState({
+    Question1Id: securityQuestions.Question1Id,
+    Question1Text: securityQuestions.Question1Text,
+    Answer1: '',
+    Question2Id: securityQuestions.Question2Id,
+    Question2Text: securityQuestions.Question2Text,
+    Answer2: '',
+    UserName: localStorage.getItem('forgotPwdUserName') || '',
+  });
 
-  const correctCity = 'Texas'
-  const correctFriendName = 'John'
+  const isFormValid = form.Answer1 && form.Answer2;
 
-  const handleSubmit = () => {
-    if (city === correctCity && friendName === correctFriendName) {
-      router.push('/login')
-    console.log('true')
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setErrorMessage('');
+    setShowAlert(false);
+    const { name, value } = e.target;
+    setForm((prev) => ({
+      ...prev,
+      [name]: value,
+      UserName: localStorage.getItem('forgotPwdUserName') || '',
+    }));
+  };
+
+  const handleSubmit = async () => {
+    if (isFormValid) {
+      try {
+        const response: any = await validateAnswers(form).unwrap();
+        if (response?.error) {
+          setShowAlert(true);
+          setErrorMessage(
+            response?.error?.data?.Message
+              ? response?.error?.data?.Message
+              : response?.error?.data?.message ||
+                  'Something went wrong! Please try again.',
+          );
+        } else {
+          router.push('/reset-password');
+        }
+      } catch (err: any) {
+        setShowAlert(true);
+        setErrorMessage(
+          err?.data?.Message
+            ? err?.data?.Message
+            : err?.data?.message || 'Something went wrong! Please try again.',
+        );
+      }
     } else {
-      setShowAlert(true)
+      setShowAlert(true);
+      setErrorMessage('Please answer all security questions.');
     }
-  }
-
-  const isEmpty = !city || !friendName
+  };
 
   return (
-    <div className="p-4 md:px-16 !text-base">
-      <Card className="bg-[var(--color-white)] !p-0 md:w-[74.65%] w-full" header="For Your Security">
-        <div className="p-6 !pb-0 flex flex-col sm:gap-4">
-
-          {showAlert && (
-            <CustomAlert type="error" description="The information you entered does not match our records. You have 2 attempts remaining. Security questions are selected at random. The below questions may have changed " />
-          )}
+    <div className="p-4 !text-base md:px-16">
+      <Card
+        className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
+        header="For Your Security"
+      >
+        <div className="flex flex-col p-6 !pb-0 sm:gap-4">
+          {showAlert && <CustomAlert type="error" description={errorMessage} />}
 
           <div className="flex justify-end">
             <b>
-              <span className="text-[var(--text-error)] px-1">*</span>Required Fields
+              <span className="px-1 text-[var(--text-error)]">*</span>Required
+              Fields
             </b>
           </div>
 
           <p>
-            To verify and protect your account, please answer your security questions.
+            To verify and protect your account, please answer your security
+            questions.
           </p>
 
-          <Card className="bg-[var(--color-white)] w-full flex p-6">
+          <Card className="flex w-full bg-[var(--color-white)] p-6">
             <div className="flex-1">
               <InputField
                 label={
                   <div className="flex gap-1">
-                    <p className="text-black">In what city was your highschool? (enter full name of city only.)</p>
+                    <p className="text-black">
+                      {securityQuestions?.Question1Text}
+                    </p>
                     <span className="text-[var(--text-error)]">*</span>
                   </div>
                 }
-                error={isEmpty ? "" : undefined}
-                className="w-full sm:w-1/2 border-black text-base text-black"
-                value={city}
-                onChange={(e) => setCity(e.target.value)}
+                error={isFormValid ? '' : undefined}
+                className="w-full border-black text-base text-black sm:w-1/2"
+                value={form.Answer1}
+                name="Answer1"
+                onChange={handleChange}
               />
             </div>
           </Card>
 
-          <Card className="bg-[var(--color-white)] w-full flex p-6">
+          <Card className="flex w-full bg-[var(--color-white)] p-6">
             <div className="flex-1">
               <InputField
                 label={
                   <div className="flex gap-1">
-                    <p className="text-black">What is your best friend’s first name?</p>
+                    <p className="text-black">
+                      {securityQuestions?.Question2Text}
+                    </p>
                     <span className="">*</span>
                   </div>
                 }
-                error={isEmpty ? "" : undefined}
-                className="w-full sm:w-1/2 border-black text-base text-black"
-                value={friendName}
-                onChange={(e) => setFriendName(e.target.value)}
+                name="Answer2"
+                error={isFormValid ? '' : undefined}
+                className="w-full border-black text-base text-black sm:w-1/2"
+                value={form.Answer2}
+                onChange={handleChange}
               />
             </div>
           </Card>
 
-          <div className="flex items-center justify-end pb-4 gap-2">
-            <Button variant="outline">Cancel</Button>
+          <div className="flex items-center justify-end gap-2 pb-4">
+            <Button variant="outline" onClick={() => router.back()}>
+              Cancel
+            </Button>
 
             <Button
-              variant={isEmpty ? 'disable' : 'primary'}
-              className="disabled:opacity-50 disabled:cursor-not-allowed"
-            //   disable={isEmpty}
+              variant={!isFormValid ? 'disable' : 'primary'}
+              className="disabled:cursor-not-allowed disabled:opacity-50"
+              disabled={!isFormValid}
               onClick={handleSubmit}
             >
               Reset Password
             </Button>
           </div>
-
         </div>
       </Card>
     </div>
-  )
-}
+  );
+};
 
-export default ForYourSecurityPage
+export default ForYourSecurityPage;

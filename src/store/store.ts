@@ -1,12 +1,48 @@
-import { configureStore } from '@reduxjs/toolkit';
+import { configureStore, combineReducers } from '@reduxjs/toolkit';
 import loginReducer from './slices/loginSlice';
 import { authApi } from './services/authApi';
+import forgotPWDSecurityQuestionsReducer from '@/store/slices/forgotSecurityQuestionsSlice';
+import { resetPasswordApi } from './services/resetPasswordApi';
+import resetPasswordReducer from '@/store/slices/resetPasswordSlice';
+
+import {
+  persistStore,
+  persistReducer,
+  FLUSH,
+  REHYDRATE,
+  PAUSE,
+  PERSIST,
+  PURGE,
+  REGISTER,
+} from 'redux-persist';
+import storage from 'redux-persist/lib/storage';
+
+const rootReducer = combineReducers({
+  login: loginReducer,
+  securityQuestions: forgotPWDSecurityQuestionsReducer,
+  resetPassword: resetPasswordReducer,
+  [authApi.reducerPath]: authApi.reducer,
+});
+
+const persistConfig = {
+  key: 'root',
+  storage,
+  whitelist: ['securityQuestions'], // only persist this slice
+};
+const persistedReducer = persistReducer(persistConfig, rootReducer);
 
 export const store = configureStore({
-  reducer: {
-    login: loginReducer,
-    [authApi.reducerPath]: authApi.reducer,
-  },
+  reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
-    getDefaultMiddleware().concat(authApi.middleware),
+    getDefaultMiddleware({
+      serializableCheck: {
+        // Ignore redux-persist actions
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+    }).concat(authApi.middleware),
 });
+
+export const persistor = persistStore(store);
+
+export type RootState = ReturnType<typeof store.getState>;
+export type AppDispatch = typeof store.dispatch;
