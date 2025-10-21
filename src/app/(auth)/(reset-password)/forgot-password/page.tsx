@@ -26,8 +26,8 @@ export default function ForgotUserIdPage() {
   const [showCredentialError, setShowCredentialError] = useState(false);
   const [showCaptchaError, setShowCaptchaError] = useState(false);
 
-
-  const isFormValid = form.lastName && form.ssn && form.dob && form.captchaInput;
+  const isFormValid =
+    form.lastName && form.ssn && form.dob && form.captchaInput;
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setForm({ ...form, [e.target.name]: e.target.value });
@@ -70,9 +70,9 @@ export default function ForgotUserIdPage() {
   };
 
   return (
-    <div className="p-4 !text-base md:px-16">
+    <div className="mx-auto max-w-[1152px] p-4 !text-base ">
       <Card
-        className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
+        className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
         header="Forgot Password?"
       >
         <div className="flex flex-col p-6 sm:gap-4">
@@ -80,7 +80,7 @@ export default function ForgotUserIdPage() {
             <CustomAlert type="error" description={captchaVerify} />
           )}
 
-          <div className="flex justify-end ">
+          <div className="flex justify-end">
             <b>
               <span className="px-1 text-[var(--text-error)]">*</span>Required
               Fields
