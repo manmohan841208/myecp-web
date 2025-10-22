@@ -119,9 +119,9 @@ const Login = () => {
 
   return (
     // Center horizontally (by width) on all screens while keeping max-width:1152px
-    <div className="flex w-full flex-col gap-4 max-w-[1152px] mx-auto">
+    <div className="mx-auto flex w-full max-w-[1152px] flex-col gap-4">
       <section className="flex w-full gap-4">
-        <Card className="flex min-h-[373px] lg:max-h-[373px]  w-full flex-col justify-between !p-3 lg:max-w-[410px]" >
+        <Card className="flex min-h-[373px] w-full flex-col justify-between !p-3 lg:max-h-[373px] lg:max-w-[410px]">
           <div>
             {showError && (
               <CustomAlert type="error" description={errorMessage} />
@@ -142,7 +142,7 @@ const Login = () => {
                 <div className="flex items-center justify-end gap-1">
                   {FORGOT}
                   <Link
-                    href="/forgot-user"
+                    href="/forgot-userid"
                     className="text-sm text-blue-600 hover:text-blue-800"
                   >
                     {USER_ID_LABEL}
@@ -225,7 +225,6 @@ const Login = () => {
               </DynamicTooltip>
             </div>
           </div>
-          
         </Card>
 
         <Card className="w-ull relative hidden max-h-[373px] overflow-hidden !p-0 shadow-lg lg:block">
@@ -236,29 +235,26 @@ const Login = () => {
             className="rounded-lg"
           />
         </Card>
-        
       </section>
 
-
       <section className="w-full">
-
-
-        <Card className=" h-full lg:max-h-[300px] w-full px-4 ">
-          <div className='max-h-9 py-2'>
+        <Card className="h-full w-full px-4 lg:max-h-[300px]">
+          <div className="max-h-9 py-2">
             <h1 className="!text-base">MILITARY STAR</h1>
           </div>
 
-            {/* <p className='text-sm text-black hidden sm:text-[12px] sm:block'>
+          {/* <p className='text-sm text-black hidden sm:text-[12px] sm:block'>
             </p> */}
-            <div className='w-full text-white hidden lg:hidden sm:block'>
-              Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus, maxime! Lorem ipsum dolor sit amet consectetur, adipisicing elit. Dolorum, quo deleniti itaque cupiditate vero nihil blanditiis exercitationem, nisi 
-             </div>
-            
+          <div className="hidden w-full text-white sm:block lg:hidden">
+            Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
+            maxime! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
+            Dolorum, quo deleniti itaque cupiditate vero nihil blanditiis
+            exercitationem, nisi
+          </div>
 
-          <div className='w-full flex flex-col gap-6 lg:flex-row lg:justify-evenly lg:gap-2 pb-[14px]'>
- 
+          <div className="flex w-full flex-col gap-6 pb-[14px] lg:flex-row lg:justify-evenly lg:gap-2">
             {/* Column 1 - Dummy Card Image + Button + Learn More */}
-            <div className="flex flex-col items-center justify-between md:basis-1/3 max-h-[250px]">
+            <div className="flex max-h-[250px] flex-col items-center justify-between md:basis-1/3">
               <div className="flex max-h-[182px] max-w-[240px] flex-col items-center justify-center">
                 <Image
                   src={DummyCardImage}
@@ -280,33 +276,38 @@ const Login = () => {
             </div>
 
             {/* Column 2 - Points Image + Terms Link */}
-            <div className="flex flex-col items-center justify-between md:basis-1/3 ">
-              <div className='max-h-[246px]  max-w-[384px] flex flex-col items-center justify-center'>
-                  <div className="max-h-[222px] max-w-[331px]">
-                    <Image src={PointsImg} alt="points-img" className="max-h-[222px]" />
-                  </div>
+            <div className="flex flex-col items-center justify-between md:basis-1/3">
+              <div className="flex max-h-[246px] max-w-[384px] flex-col items-center justify-center">
+                <div className="max-h-[222px] max-w-[331px]">
+                  <Image
+                    src={PointsImg}
+                    alt="points-img"
+                    className="max-h-[222px]"
+                  />
+                </div>
 
-                  <Link
-                    href="#"
-                    className="text-sm text-blue-600 hover:text-blue-800"
-                  >
-                    See Rewards Terms and Conditions
-                  </Link>
+                <Link
+                  href="#"
+                  className="text-sm text-blue-600 hover:text-blue-800"
+                >
+                  See Rewards Terms and Conditions
+                </Link>
               </div>
             </div>
 
             {/* Column 3 - Reward Image */}
-            <div className="flex items-center justify-center md:basis-1/3 max-h-[243px]">
-              <div className="max-h-[243px]  max-w-[304px]">
-                <Image src={RewardImg} alt="reward-img" className="max-h-[243px] max-w-[304px]" />
+            <div className="flex max-h-[243px] items-center justify-center md:basis-1/3">
+              <div className="max-h-[243px] max-w-[304px]">
+                <Image
+                  src={RewardImg}
+                  alt="reward-img"
+                  className="max-h-[243px] max-w-[304px]"
+                />
               </div>
             </div>
-
           </div>
         </Card>
       </section>
-
-
     </div>
   );
 };
