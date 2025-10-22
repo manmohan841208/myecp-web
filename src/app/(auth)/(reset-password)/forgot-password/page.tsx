@@ -121,9 +121,9 @@ export default function ForgotUserIdPage() {
   };
 
   return (
-    <div className="p-4 !text-base md:px-16">
+    <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
-        className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
+        className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
         header="Forgot Password?"
       >
         <div className="flex flex-col p-6 sm:gap-4">
