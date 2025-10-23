@@ -1,18 +1,14 @@
-import * as React from 'react';
-import { cn } from '@/lib/utils';
-import { Input } from '@/components/ui/input';
-import Image from '@/components/atoms/Image';
-import { TooltipBlue } from '@/assets/svg';
-import { DynamicTooltip } from '@/components/atoms/Tooltip';
+import * as React from "react";
+import { cn } from "@/lib/utils";
+import { Input } from "@/components/ui/input";
+import Image from "@/components/atoms/Image";
 
-interface InputFieldProps extends React.ComponentProps<'input'> {
+interface InputFieldProps extends React.ComponentProps<"input"> {
   label?: React.ReactNode;
   iconLeft?: React.ReactNode;
   iconRight?: React.ReactNode;
   error?: string;
-  mandantory?: boolean;
-  help?: string;
-  helpWidth?: string | number;
+  isAsterisk?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -20,64 +16,46 @@ const InputField: React.FC<InputFieldProps> = ({
   iconLeft,
   iconRight,
   error,
-  mandantory,
+  isAsterisk,
   className,
-  help,
-  helpWidth,
   ...props
 }) => {
-  const hasError = error !== undefined;
+  const hasError = error !== undefined; // Treat both "" and actual message as error
 
   return (
-    <div className="flex flex-col gap-2 ">
-      {/* Render label if it's not undefined, and apply fixed height */}
-      {label !== undefined && (
+    <div className="flex flex-col gap-2">
+      {label && (
         <label
           className={cn(
-            'flex h-5 items-center text-sm font-medium ', // Fixed height added here
-            hasError ? 'text-[var(--text-error)]' : 'text-[var(--text)]',
+            "text-sm font-medium",
+            hasError ? "text-[var(--text-error)]" : "text-[var(--text)]"
           )}
         >
           {label}
-          {mandantory && (
-            <span className="ml-1 text-[var(--text-error)]">*</span>
-          )}
-
-          {help && (
-            <span className="ml-1">
-              <DynamicTooltip
-                className={`rounded-[4px] bg-black ${helpWidth}`}
-                side="top"
-                align="center"
-                content={help}
-              >
-                <Image src={TooltipBlue} alt="blue-tooltip" />
-              </DynamicTooltip>
-            </span>
-          )}
+          {isAsterisk && <span className="text-[var(--text-error)] ml-1">*</span>}
         </label>
       )}
 
       <div className="relative">
         {iconLeft && (
-          <div className="absolute top-1/2 left-3 -translate-y-1/2 text-[var(--color-grey-medium)]">
+          <div className="absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-grey-medium)]">
             {iconLeft}
           </div>
         )}
         <Input
           className={cn(
-            'pl-4',
-            iconLeft && 'pl-10',
-            iconRight && 'pr-10',
+            "pl-4",
+            iconLeft && "pl-10",
+            iconRight && "pr-10",
             hasError &&
-              'border-[var(--error-border)] focus-visible:border-[var(--error-border)]',
-            className,
+              "border-[var(--error-border)] focus-visible:border-[var(--error-border)]",
+            className
           )}
           aria-invalid={hasError}
           {...props}
         />
         {iconRight && (
-          <div className="absolute top-1/2 right-3 -translate-y-1/2 text-[var(--color-grey-medium)]">
+          <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[var(--color-grey-medium)]">
             <Image src={iconRight as string} alt="img" />
           </div>
         )}

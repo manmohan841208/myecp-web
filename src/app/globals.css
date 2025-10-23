@@ -54,7 +54,7 @@
   --color-grey-table-alt: #F1F1F1;
   --color-blue: #042757;
   --color-blue-light: #C4D6EB;
-  --color-green: #297D21;
+  --color-green: #318B29;
   --color-red: #B70100;
   --color-link: #0000FF;
   --color-disabled-text: #848484;
@@ -70,8 +70,6 @@
   
   --secondary-border: var(--color-red);
   --border: var(--color-black);
-
-  --disable-bg: (var(--color-grey-table))
 
   --primary-btn-background: var(--color-blue);
   --primary-color: var(--color-blue);
@@ -136,8 +134,3 @@
     box-shadow: none;
   }
 }
-
-.border{
-  border: 1px solid #042757;
-}
-

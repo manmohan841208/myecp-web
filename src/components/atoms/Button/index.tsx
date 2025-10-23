@@ -14,7 +14,7 @@ type UIButtonVariant =
 interface ButtonProps {
   variant?: UIButtonVariant;
   children: React.ReactNode;
-  onClick?: (e: any) => void;
+  onClick?: () => void;
   className?: string;
 }
 

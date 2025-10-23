@@ -1,8 +1,37 @@
+// import Calender from '@/assets/svg/black/calendar.svg'
+// import Card from '@/assets/svg/black/card.svg'
+// import DownArrow from '@/assets/svg/black/down_arrow.svg'
+// import HamburgerMenu from '@/assets/svg/black/hamburger_menu.svg'
+// import Info from '@/assets/svg/black/info.svg'
+// import TooltipOutline from '@/assets/svg/black/tooltip_outline.svg'
+// import Tooltip from '@/assets/svg/black/tooltip.svg'
+// import Warning from '@/assets/svg/black/warning.svg'
+// import Account from '@/assets/svg/extra/account.svg'
+// import GreyInfo from '@/assets/svg/extra/grey_info.svg'
+// import LogOut from '@/assets/svg/extra/log_out.svg'
+// import NotSecure from '@/assets/svg/extra/not_secure.svg'
+// import Paperless from '@/assets/svg/extra/paperless.svg'
+// import AddCircle from '@/assets/svg/white/add_circle.svg'
+// import Dollar from '@/assets/svg/white/dollar.svg'
+// import Download from '@/assets/svg/white/download.svg'
+// import Eye from '@/assets/svg/white/eye.svg'
+// import InfoWhite from '@/assets/svg/white/info_white.svg'
+// import Mail from '@/assets/svg/white/mail.svg'
+// import MinusCircle from '@/assets/svg/white/minus_circle.svg'
+// import Minus from '@/assets/svg/white/minus.svg'
+// import Mobile from '@/assets/svg/white/mobile.svg'
+// import Plus from '@/assets/svg/white/plus.svg'
+// import Print from '@/assets/svg/white/print.svg'
+
+
+// const svgIcons = {Calender,Card,DownArrow,HamburgerMenu,Info,Tooltip,TooltipOutline,Warning,Account,GreyInfo,LogOut,NotSecure,Paperless,AddCircle,Dollar,Download,Eye,InfoWhite,Mail,MinusCircle,Minus,Mobile,Plus,Print};
+
+// export default svgIcons;
+
 
 export { default as Calendar } from '@/assets/svg/black/calendar.svg';
 export { default as Card } from '@/assets/svg/black/card.svg';
 export { default as DownArrow } from '@/assets/svg/black/down_arrow.svg';
-export { default as UpArrow } from '@/assets/svg/black/up-arrow.svg';
 export { default as HamburgerMenu } from '@/assets/svg/black/hamburger_menu.svg';
 export { default as Info } from '@/assets/svg/black/info.svg';
 export { default as TooltipOutline } from '@/assets/svg/black/tooltip_outline.svg';
@@ -37,7 +66,5 @@ export { default as BannerImage2 } from '@/assets/svg/extra/banner-image2.png';
 export { default as Email } from '@/assets/svg/extra/email.svg';
 export { default as Phone } from '@/assets/svg/extra/phone.svg';
 export { default as Relode } from '@/assets/svg/black/relode.svg';
-export { default as Advertisement1 } from '@/assets/svg/extra/Advertisement2.png';
-export { default as Advertisement2 } from '@/assets/svg/extra/Advertisement1.png';
-export {default as TooltipBlue} from '@/assets/svg/extra/blue-tooltip.svg'
+
 
