@@ -66,7 +66,7 @@ const Login = () => {
       const result: any = await loginUser({
         UserName,
         Password,
-        IsSecurityQuestionNeeded: false,
+        IsSecurityQuestionNeeded: true,
       }).unwrap();
       localStorage.setItem('userInfo', JSON.stringify(result));
       localStorage.setItem('token', result?.Token);
@@ -199,7 +199,10 @@ const Login = () => {
                     }}
                   />
                 </div>
-                <Button variant={UserName && Password ? 'primary' : 'disable'} className='h-10'>
+                <Button
+                  variant={UserName && Password ? 'primary' : 'disable'}
+                  className="h-10"
+                >
                   {LOGIN_BTN}
                 </Button>
               </div>

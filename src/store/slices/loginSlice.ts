@@ -2,7 +2,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface LoginState {
-    UserName: string;
+  UserName: string;
   Password: string;
   rememberMe: boolean;
 }
@@ -34,5 +34,6 @@ const loginSlice = createSlice({
   },
 });
 
-export const { setUserID, setPassword, setRememberMe, resetLogin } = loginSlice.actions;
+export const { setUserID, setPassword, setRememberMe, resetLogin } =
+  loginSlice.actions;
 export default loginSlice.reducer;
