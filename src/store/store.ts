@@ -4,6 +4,7 @@ import { authApi } from './services/authApi';
 import forgotPWDSecurityQuestionsReducer from '@/store/slices/forgotSecurityQuestionsSlice';
 import resetPasswordReducer from '@/store/slices/resetPasswordSlice';
 import forgotUserNameReducer from './slices/forgotUserNameSlice';
+import sendOtpSliceReducer from './slices/sendOtpSlice';
 
 import {
   persistStore,
@@ -22,13 +23,14 @@ const rootReducer = combineReducers({
   securityQuestions: forgotPWDSecurityQuestionsReducer,
   resetPassword: resetPasswordReducer,
   forgotUserName: forgotUserNameReducer,
+  sendOtpSlice: sendOtpSliceReducer,
   [authApi.reducerPath]: authApi.reducer,
 });
 
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['securityQuestions', 'forgotUserName'], // only persist this slice
+  whitelist: ['login', 'securityQuestions', 'forgotUserName', '2FA'], // only persist this slice
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 

@@ -9,26 +9,92 @@ import Link from 'next/link';
 import Button from '@/components/atoms/Button';
 import CustomAlert from '@/components/atoms/AlertMessage';
 import { useRouter } from 'next/navigation';
+import { useSendOtpMutation } from '@/store/services/sendOtpApi';
+import { useSelector, useDispatch } from 'react-redux';
+import { setSelectedOption, setOtpResponse } from '@/store/slices/sendOtpSlice';
+import { useVerifyOtpMutation } from '@/store/services/verifyOtpApi';
 
 const TwoFactAuthCodeEntryPage = () => {
   const [code, setCode] = useState('');
   const [showError, setShowError] = useState(false);
+  const [errorMessage, setErrorMessage] = useState('');
+  const userData: any = JSON.parse(localStorage.getItem('userInfo'));
+  const [sendOtpTrigger, { data, isLoading, error }] = useSendOtpMutation();
+  const [verifyOtpTrigger, { data: verifyData, isLoading: isVerifying }] =
+    useVerifyOtpMutation();
+  const dispatch = useDispatch();
+  const selectedOption = useSelector((state: any) => {
+    return state?.sendOtpSlice?.selectedOption;
+  });
+  const encryptedOtp = useSelector((state: any) => {
+    return state?.sendOtpSlice?.otpResponse;
+  });
 
   const isEmpty = code.trim().length < 6;
 
   const router = useRouter();
 
-  const handleContinue = () => {
-    if (code === '123456') {
-      setShowError(false);
-      router.push('/account-summary');
-    } else {
+  const handleContinue = async () => {
+    if (isEmpty) {
       setShowError(true);
+      setErrorMessage(`Please enter the 6-digit authentication code.`);
+      return;
+    }
+    const payload: any = {
+      UserId: userData?.UserId?.toString(),
+      Otp: encryptedOtp,
+      EnteredOtp: code,
+    };
+
+    try {
+      const result: any = await verifyOtpTrigger(payload).unwrap();
+      if (result?.Token) {
+        localStorage.setItem('userInfo', JSON.stringify(result));
+        localStorage.setItem('token', result?.Token);
+        router.push('/account-summary');
+      }
+    } catch (err: any) {
+      setShowError(true);
+      setErrorMessage(
+        err?.data?.message ||
+          `We're sorry! The code you entered is either expired or invalid. Please try again.`,
+      );
+    }
+  };
+
+  const getOtp = async () => {
+    try {
+      const payload: any = {
+        UserId: userData?.UserId?.toString(),
+        OtpOption: selectedOption,
+      };
+
+      const response = await sendOtpTrigger(payload).unwrap();
+      if (response?.Otp) {
+        dispatch(setSelectedOption(selectedOption));
+        dispatch(setOtpResponse(response?.Otp));
+      }
+    } catch (err: any) {
+      setShowError(true);
+      setErrorMessage(
+        err?.data?.message ||
+          `We're sorry! The code you entered is either expired or invalid. Please try again.`,
+      );
+    }
+  };
+
+  const handleCodeChange = (e: any) => {
+    setErrorMessage('');
+    setShowError(false);
+    const inputCode = e.target.value;
+    // Allow only numeric input and limit to 6 characters
+    if (/^\d{0,6}$/.test(inputCode)) {
+      setCode(inputCode);
     }
   };
 
   return (
-    <div className="mx-auto max-w-[1152px] p-4 !text-base ">
+    <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
         header={'For Your Added Security'}
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
@@ -38,7 +104,11 @@ const TwoFactAuthCodeEntryPage = () => {
             <CustomAlert
               type="error"
               className="mt-3"
-              description={`We're sorry! The code you entered is either expired or invalid. Please try again.`}
+              description={
+                errorMessage
+                  ? errorMessage
+                  : `We're sorry! The code you entered is either expired or invalid. Please try again.`
+              }
             />
           )}
 
@@ -49,7 +119,7 @@ const TwoFactAuthCodeEntryPage = () => {
             </b>
           </div>
 
-          <p className=' text-sm sm:!text-base'>
+          <p className="text-sm sm:!text-base">
             <span className="font-bold">Check your Email.</span> An email with
             your authentication code has been sent. Please enter it below and
             click “Confirm”
@@ -81,9 +151,7 @@ const TwoFactAuthCodeEntryPage = () => {
                       }
                       // className="w-full border-black text-base text-black sm:w-1/2"
                       value={code}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                        setCode(e.target.value)
-                      }
+                      onChange={(e: any) => handleCodeChange(e)}
                       inputMode="numeric"
                       maxLength={6}
                     />
@@ -92,19 +160,29 @@ const TwoFactAuthCodeEntryPage = () => {
               </div>
 
               <div className="ps-[calc(1rem+60px+0.75rem)] pb-5 text-sm">
-                <Link href="#" className="text-[var(--hyperlink)]">
+                <Link
+                  href="#"
+                  className="text-[var(--hyperlink)]"
+                  onClick={() => getOtp()}
+                >
                   Click here to request a new authentication code
                 </Link>
               </div>
             </div>
           </Card>
 
-          <div className="flex items-center justify-end gap-2 mb-4 h-10">
-            <Button variant={'outline'} className='h-full'>Cancel</Button>
+          <div className="mb-4 flex h-10 items-center justify-end gap-2">
+            <Button
+              variant={'outline'}
+              className="h-full"
+              onClick={() => router.back()}
+            >
+              Cancel
+            </Button>
 
             <Button
               variant={isEmpty ? 'disable' : 'primary'}
-              className="h-full disabled:cursor-not-allowed disabled:opacity-50 "
+              className="h-full disabled:cursor-not-allowed disabled:opacity-50"
               onClick={handleContinue}
             >
               Continue
