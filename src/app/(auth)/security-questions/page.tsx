@@ -3,24 +3,74 @@
 import Button from '@/components/atoms/Button';
 import Card from '@/components/atoms/Card';
 import { InputField } from '@/components/atoms/InputField';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import CustomCheckbox from '@/components/atoms/Checkbox';
 import { useRouter } from 'next/navigation';
 import CustomAlert from '@/components/atoms/AlertMessage';
+import { useVerifySecurityQuestionMutation } from '@/store/services/verifySecurityQuestionApi';
+import { useSelector } from 'react-redux';
 
 export default function SecurityForm() {
   const [securityQuestion, setSecurityQuestion] = useState('');
+  const [answer, setAnswer] = useState('');
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [rememberDevice, setRememberDevice] = useState(false);
+  const [userInfo, setUserInfo] = useState<any>(null);
+
+  const rememberMe = useSelector((state: any) => {
+    return state?.login?.rememberMe;
+  });
+
+  const [verifySecurityQuestion, { data, isLoading, error }] =
+    useVerifySecurityQuestionMutation();
 
   const router = useRouter();
 
-  const handleLogin = (e: React.FormEvent) => {
+  useEffect(() => {
+    const stored = localStorage.getItem('userInfo');
+    if (stored) {
+      const userInfo = JSON.parse(stored);
+      setUserInfo(userInfo);
+      setSecurityQuestion(userInfo?.Question || '');
+    }
+  }, []);
+
+  const handleLogin = async (e: React.FormEvent) => {
+    if (answer.trim().length === 0) {
+      setErrorMessage('Please provide an answer to the security question.');
+      setShowError(true);
+      e.preventDefault();
+      return;
+    }
+
     e.preventDefault();
-    if (securityQuestion === 'test') {
-      router.push('/account-summary');
-    } else {
-      setErrorMessage('Oops! The answer you entered is incorrect.');
+    const payload = {
+      UserId: userInfo?.UserId || '',
+      QuestionID: userInfo?.QuestionID || 0,
+      Answer: answer,
+      RememberDevice: rememberDevice,
+      RememberUserID: rememberMe ? rememberMe : false,
+    };
+
+    try {
+      const response: any = await verifySecurityQuestion(payload).unwrap();
+      if (response?.Message) {
+        setErrorMessage(
+          response?.Message
+            ? response?.Message
+            : 'Oops! The answer you entered is incorrect.',
+        );
+      } else {
+        localStorage.setItem('userInfo', response);
+        router.push('/account-summary');
+      }
+    } catch (err: any) {
+      setErrorMessage(
+        err?.data?.Message
+          ? err?.data?.Message
+          : 'Oops! The answer you entered is incorrect.',
+      );
       setShowError(true);
     }
   };
@@ -56,13 +106,13 @@ export default function SecurityForm() {
             <Card className="flex flex-col gap-3 border-t-4 border-t-[#D3D3D3] bg-white px-[38px] pt-9 pb-6">
               <InputField
                 type="text"
-                value={securityQuestion}
+                value={answer}
                 onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
-                  setSecurityQuestion(e.target.value)
+                  setAnswer(e.target.value)
                 }
                 label={
                   <>
-                    What is the first name of your oldest niece?{' '}
+                    {securityQuestion ? securityQuestion : ''}{' '}
                     <span className="text-[var(--text-error)]">*</span>
                   </>
                 }
@@ -70,7 +120,14 @@ export default function SecurityForm() {
               />
 
               <div>
-                <CustomCheckbox label="Remember User ID" className="!text-sm" />
+                <CustomCheckbox
+                  label="Remember Device"
+                  className="!text-sm"
+                  checked={rememberDevice}
+                  onChange={() => {
+                    setRememberDevice(!rememberDevice);
+                  }}
+                />
               </div>
 
               <p className="text-sm sm:!text-base">
@@ -80,11 +137,15 @@ export default function SecurityForm() {
             </Card>
 
             <div className="flex items-center justify-end gap-2 py-4">
-              <Button variant={'outline'} className="h-full">
+              <Button
+                variant={'outline'}
+                className="h-full"
+                onClick={() => router.back()}
+              >
                 Cancel
               </Button>
               <Button
-                variant={securityQuestion.length > 2 ? 'primary' : 'disable'}
+                variant={answer.length > 2 ? 'primary' : 'disable'}
                 onClick={(e: any) => {
                   if (securityQuestion.length <= 2) {
                     e.preventDefault();
@@ -94,6 +155,7 @@ export default function SecurityForm() {
                     setShowError(true);
                   }
                 }}
+                disabled={answer.length > 2 ? false : true}
                 className="h-full"
               >
                 Continue
