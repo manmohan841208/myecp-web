@@ -23,7 +23,7 @@ export default function CreateProfile() {
   const route = useRouter();
 
   return (
-    <div className="flex w-full gap-4 p-4 !text-base md:px-16 ">
+    <div className="flex w-full gap-4 p-4 !text-base md:px-16">
       {/* This is Seassion Time-out part */}
       {showTimeout && (
         <div className="fixed inset-0 z-50">
