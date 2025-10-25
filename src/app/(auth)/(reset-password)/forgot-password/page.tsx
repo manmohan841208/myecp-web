@@ -15,7 +15,7 @@ import { useLazyGetCaptchaImageQuery } from '@/store/services/getCaptchaApi';
 import { extractTextFromCaptchaBlob } from '@/utils/blobToText';
 import {
   forgotPasswordSchema,
-  ForgotPasswordFormValues,
+  type ForgotPasswordFormValues,
 } from '@/schemas/forgotPasswordSchema';
 import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';

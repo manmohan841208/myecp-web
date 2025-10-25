@@ -37,7 +37,7 @@ interface UserInfo {
 
 const TwoFactorAuthPage = () => {
   const route = useRouter();
-  const userData: any = JSON.parse(localStorage.getItem('userInfo'));
+  const userData: any = JSON.parse(localStorage.getItem('userInfo') || 'null');
   const [sendOtpTrigger, { data, isLoading, error }] = useSendOtpMutation();
   const [selectedOtpOption, setSelectedOtpOption] = React.useState<
     'Email' | 'SMS' | ''

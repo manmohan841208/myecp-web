@@ -7,7 +7,7 @@ import { InputField } from '@/components/atoms/InputField';
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import type { RootState } from '@/store/store';
 import { useValidateSecurityAnswersMutation } from '@/store/services/validateSQApi';
 
 const ForYourSecurityPage = () => {
