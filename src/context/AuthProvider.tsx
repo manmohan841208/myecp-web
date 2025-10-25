@@ -6,8 +6,8 @@ import {
   getSession,
   setSession,
   clearSession,
-  Session,
-  User,
+  type Session,
+  // User,
 } from '@/lib/session';
 
 interface AuthContextType {

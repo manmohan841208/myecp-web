@@ -1,9 +1,9 @@
 import {
   createApi,
   fetchBaseQuery,
-  FetchBaseQueryError,
+  type FetchBaseQueryError,
 } from '@reduxjs/toolkit/query/react';
-import { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query';
+import type { BaseQueryFn, FetchArgs } from '@reduxjs/toolkit/query';
 import Router from 'next/router';
 
 interface ErrorResponse {

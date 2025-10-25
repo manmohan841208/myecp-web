@@ -1,5 +1,5 @@
 // features/securityQuestions/securityQuestionsSlice.ts
-import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { createSlice, type PayloadAction } from '@reduxjs/toolkit';
 
 interface ForgotPWDSecurityQuestionsState {
   Question1Id: number | null;
