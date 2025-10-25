@@ -124,7 +124,7 @@ const Login = () => {
         <Card className="flex min-h-[373px] lg:max-h-[373px]  w-full flex-col justify-between !p-3 lg:max-w-[410px]" >
           <div>
             {showError && (
-              <CustomAlert type="error" description={errorMessage} />
+              <CustomAlert type="error" description={errorMessage}/>
             )}
             <form className="flex flex-col gap-4" onSubmit={handleLogin}>
               <div className="flex flex-col gap-1">
