@@ -5,7 +5,7 @@ import Button from '@/components/atoms/Button';
 import { Tooltip } from '@/assets/svg';
 import Image from '@/components/atoms/Image';
 import { useSelector } from 'react-redux';
-import { RootState } from '@/store/store';
+import type { RootState } from '@/store/store';
 
 export default function SuccessRecoverUserIDPage() {
   const userName = useSelector(

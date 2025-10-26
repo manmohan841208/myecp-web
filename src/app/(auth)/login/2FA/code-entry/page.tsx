@@ -18,7 +18,7 @@ const TwoFactAuthCodeEntryPage = () => {
   const [code, setCode] = useState('');
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
-  const userData: any = JSON.parse(localStorage.getItem('userInfo'));
+  const userData: any = JSON.parse(localStorage.getItem('userInfo') || 'null');
   const [sendOtpTrigger, { data, isLoading, error }] = useSendOtpMutation();
   const [verifyOtpTrigger, { data: verifyData, isLoading: isVerifying }] =
     useVerifyOtpMutation();
