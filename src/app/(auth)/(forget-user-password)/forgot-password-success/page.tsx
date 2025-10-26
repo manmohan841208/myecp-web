@@ -88,7 +88,7 @@ export default function SuccessRecoverUserPasswordPage(){
       >
         <div className="flex flex-col p-6 sm:gap-4">
           {captchaVerify && (showCredentialError || showCaptchaError) && (
-            <CustomAlert type="error" description={captchaVerify} />
+            <CustomAlert type="error" description={captchaVerify}  className='mb-2'/>
           )}
 
           <div className="flex justify-end ">

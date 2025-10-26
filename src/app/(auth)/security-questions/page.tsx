@@ -85,12 +85,12 @@ export default function SecurityForm() {
           {showError && (
             <CustomAlert
               type="error"
-              className="mt-3"
+              className="mt-2"
               description={errorMessage}
             />
           )}
 
-          <div className="flex justify-end pt-3">
+          <div className="flex justify-end ">
             <b>
               <span className="px-1 text-[var(--text-error)]">*</span>Required
               Fields
@@ -116,7 +116,7 @@ export default function SecurityForm() {
                     <span className="text-[var(--text-error)]">*</span>
                   </>
                 }
-                className="w-full border-[2px] border-[var(--primary-color)] sm:w-[47.95%]"
+                className="w-full border-[2px] border-[var(--primary-color)] "
               />
 
               <div>

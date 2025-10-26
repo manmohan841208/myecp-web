@@ -78,7 +78,7 @@ const TwoFactorAuthPage = () => {
           {showError && (
             <CustomAlert
               type="error"
-              className="mt-3"
+               className='my-2'
               description={
                 errorMessage
                   ? errorMessage

@@ -128,9 +128,9 @@ export default function ForgotUserIdPage() {
       >
         <div className="flex flex-col p-6 sm:gap-4">
           {(showCredentialError || showCaptchaError) && captchaVerify && (
-            <CustomAlert type="error" description={captchaVerify} />
+            <CustomAlert type="error" description={captchaVerify}  className='mb-2'/>
           )}
-          {showError && <CustomAlert type="error" description={errorMessage} />}
+          {showError && <CustomAlert type="error" description={errorMessage}  className='mb-2'/>}
 
           <div className="flex justify-end">
             <b>
@@ -149,7 +149,7 @@ export default function ForgotUserIdPage() {
                 name="UserName"
                 value={form.UserName}
                 className={
-                  showCredentialError ? 'text-[var(--text-error)]' : ''
+                  showCredentialError ? 'text-[var(--text-error)] w-full' : 'w-full'
                 }
               />
             </div>
@@ -160,7 +160,7 @@ export default function ForgotUserIdPage() {
                 mandantory
                 error={showCredentialError ? '' : undefined}
                 className={
-                  showCredentialError ? 'text-[var(--text-error)]' : ''
+                  showCredentialError ? 'text-[var(--text-error)] w-full' : 'w-full'
                 }
                 onChange={handleChange}
                 name="SSNLast5"
@@ -177,7 +177,7 @@ export default function ForgotUserIdPage() {
                 label="Date of Birth"
                 mandantory
                 className={
-                  showCredentialError ? 'text-[var(--text-error)]' : ''
+                  showCredentialError ? 'text-[var(--text-error)] w-full' : 'w-full'
                 }
                 error={showCredentialError ? '' : undefined}
                 type="date"
@@ -189,7 +189,7 @@ export default function ForgotUserIdPage() {
             </div>
           </Card>
 
-          <Card className="customCard flex flex-col px-6 py-4 sm:p-6">
+          <Card className="customCard flex flex-col lg:px-6 py-4 md:p-6">
             <div className="flex flex-col gap-4">
               <div className="flex gap-2">
                 <div className="bg-[#000f73] px-[12px] py-1 text-xl text-white">
@@ -204,14 +204,14 @@ export default function ForgotUserIdPage() {
                 </Button>
               </div>
 
-              <div className="w-1/2">
+              <div className="w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2 ">
                 <InputField
                   placeholder="Enter Captcha Code"
                   value={captchaVerify}
                   name="captchaInput"
                   onChange={(e) => handleCaptchaChange(e.target.value)}
                   error={showCaptchaError ? '' : undefined}
-                  className={showCaptchaError ? 'text-[var(--text-error)]' : ''}
+                  className={showCaptchaError ? 'text-[var(--text-error)] w-full' : 'w-full'}
                   iconRight={showCaptchaError ? NotSecure : ''}
                 />
               </div>

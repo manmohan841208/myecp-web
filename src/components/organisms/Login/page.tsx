@@ -121,13 +121,13 @@ const Login = () => {
     // Center horizontally (by width) on all screens while keeping max-width:1152px
     <div className="mx-auto flex w-full max-w-[1152px] flex-col gap-4">
       <section className="flex w-full gap-4">
-        <Card className="flex min-h-[373px] w-full flex-col justify-between !p-3 lg:max-h-[373px] lg:max-w-[410px]">
+<Card className="flex min-h-[373px] w-full flex-col justify-between !p-3 lg:max-w-[410px]">
           <div>
             {showError && (
-              <CustomAlert type="error" description={errorMessage}/>
-            )}
+              <CustomAlert type="error" description={errorMessage} className='mb-2'/>
+            )} 
             <form className="flex flex-col gap-4" onSubmit={handleLogin}>
-              <div className="flex flex-col gap-1">
+              <div className="flex flex-col gap-1 ">
                 <InputField
                   label={USER_ID_LABEL}
                   onChange={(e: any) =>
@@ -137,6 +137,7 @@ const Login = () => {
                       setErrorMessage(''),
                     )
                   }
+                  className='w-full'
                   value={UserName}
                 />
                 <div className="flex items-center justify-end gap-1">
@@ -168,6 +169,7 @@ const Login = () => {
                       setErrorMessage(''),
                     )
                   }
+                  className='w-full'
                 />
                 <div className="flex items-center justify-end gap-1">
                   {FORGOT}
@@ -251,8 +253,6 @@ const Login = () => {
           <div className="hidden w-full text-white sm:block lg:hidden">
             Lorem ipsum dolor sit, amet consectetur adipisicing elit. Natus,
             maxime! Lorem ipsum dolor sit amet consectetur, adipisicing elit.
-            Dolorum, quo deleniti itaque cupiditate vero nihil blanditiis
-            exercitationem, nisi
           </div>
 
           <div className="flex w-full flex-col gap-6 pb-[14px] lg:flex-row lg:justify-evenly lg:gap-2">
