@@ -88,7 +88,7 @@ export default function SuccessRecoverUserPasswordPage(){
       >
         <div className="flex flex-col p-6 sm:gap-4">
           {captchaVerify && (showCredentialError || showCaptchaError) && (
-            <CustomAlert type="error" description={captchaVerify} />
+            <CustomAlert type="error" description={captchaVerify}  className='mb-2'/>
           )}
 
           <div className="flex justify-end ">
@@ -97,7 +97,7 @@ export default function SuccessRecoverUserPasswordPage(){
             </b>
           </div>
 
-          <Card className="customCard w-full md:p-6 px-6 py-3 flex flex-col sm:flex-row gap-3">
+          <Card className="customCard w-full md:p-6 lg:px-6 py-3 flex flex-col sm:flex-row gap-3">
             <div className="sm:w-1/2 w-full">
               <InputField
                 label="Last Name"
@@ -134,7 +134,7 @@ export default function SuccessRecoverUserPasswordPage(){
             </div>
           </Card>
 
-          <Card className="customCard w-full md:p-6 px-6 flex gap-3">
+          <Card className="customCard w-full md:p-6 lg:px-6 flex gap-3">
             <div className="w-full sm:w-1/2">
               <InputField
                 label="Date of Birth"
@@ -150,7 +150,7 @@ export default function SuccessRecoverUserPasswordPage(){
             </div>
           </Card>
 
-          <Card className="customCard sm:p-6 px-6 py-4 flex flex-col">
+          <Card className="customCard md:p-6 lg:px-6 py-4 flex flex-col">
             <div className="flex flex-col gap-2">
               <div className="flex gap-2">
                 <div className="px-[12px] py-1 text-xl bg-[#000f73] text-white">{captcha}</div>
