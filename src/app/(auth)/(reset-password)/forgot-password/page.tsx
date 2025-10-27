@@ -45,7 +45,6 @@ export default function ForgotUserIdPage() {
   const [errorMessage, setErrorMessage] = useState('');
 
   const dob = `${form.DOB_Year}-${form.DOB_Month}-${form.DOB_Day}`;
-  const isFormValid = form.UserName && form.SSNLast5 && dob && captchaVerify;
 
   const [trigger, { data: blob, isFetching }] = useLazyGetCaptchaImageQuery();
   const [captchaText, setCaptchaText] = useState('');
@@ -96,7 +95,7 @@ export default function ForgotUserIdPage() {
     }
 
     const payload: any = {
-      LastName: data.UserName,
+      UserName: data.UserName,
       SSNLast5: data.SSNLast5,
       DOB_Day: form.DOB_Day,
       DOB_Month: form.DOB_Month,
@@ -169,6 +168,7 @@ export default function ForgotUserIdPage() {
                       ? 'w-full text-[var(--text-error)]'
                       : 'w-full'
                   }
+                  onChange={handleChange}
                 />
               </div>
 
@@ -186,6 +186,7 @@ export default function ForgotUserIdPage() {
                   name="SSNLast5"
                   type="password"
                   maxLength={5}
+                  onChange={handleChange}
                 />
               </div>
             </Card>
@@ -200,15 +201,12 @@ export default function ForgotUserIdPage() {
                       ? 'w-full text-[var(--text-error)]'
                       : 'w-full'
                   }
-                  {...register('dob', {
-                    onChange: (e: any) => {
-                      handleDOBChange(e);
-                    },
-                  })}
+                  {...register('dob')}
                   error={errors.dob?.message}
                   type="date"
                   name="dob"
                   value={dob}
+                  onChange={handleDOBChange}
                   max={new Date().toISOString().split('T')[0]}
                 />
               </div>
@@ -232,13 +230,10 @@ export default function ForgotUserIdPage() {
                 <div className="w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2">
                   <InputField
                     placeholder="Enter Captcha Code"
-                    {...register('captchaInput', {
-                      onChange: (e: any) => {
-                        handleCaptchaChange(e.target.value);
-                      },
-                    })}
+                    {...register('captchaInput')}
                     error={errors.captchaInput?.message}
                     name="captchaInput"
+                    onChange={(e) => handleCaptchaChange(e.target.value)}
                     className={
                       showCaptchaError
                         ? 'w-full text-[var(--text-error)]'
