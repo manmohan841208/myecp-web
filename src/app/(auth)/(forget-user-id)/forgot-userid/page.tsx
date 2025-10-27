@@ -14,7 +14,7 @@ import { useForgotUserNameMutation } from '@/store/services/forgotUserNameApi';
 import { useDispatch } from 'react-redux';
 import { setForgotUserName } from '@/store/slices/forgotUserNameSlice';
 import { CANCEL, REQUIRED_FIELDS } from '@/constants/commonConstants';
-import { useForm } from 'react-hook-form';
+import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   forgotUserIdSchema,
@@ -22,6 +22,8 @@ import {
 } from '@/schemas/forgotUserNameSchema';
 import { PLEASE_ENTER_THE_STRING_AS_SHOWN_ABOVE } from '@/constants/forgotUserIdConstants';
 import { Loader } from '@/components/atoms/Loader';
+import DatePicker from '@/components/atoms/Calendar/page';
+import { format } from 'date-fns';
 
 export default function RecoverUserIDPage() {
   const route = useRouter();
@@ -38,6 +40,7 @@ export default function RecoverUserIDPage() {
   });
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -66,7 +69,7 @@ export default function RecoverUserIDPage() {
   };
 
   const handleDOBChange = (date: any) => {
-    const [year, month, day] = date.split('-');
+    const [month, day, year] = date.split('/');
     setShowError(false);
     setErrorMessage('');
     setForm((prev) => ({
@@ -174,7 +177,7 @@ export default function RecoverUserIDPage() {
             </Card>
             <Card className="customCard flex w-full gap-3 px-6 md:p-6">
               <div className="w-full sm:w-1/2">
-                <InputField
+                {/* <InputField
                   label="Date of Birth"
                   mandantory
                   className={
@@ -191,6 +194,23 @@ export default function RecoverUserIDPage() {
                   type="date"
                   name="dob"
                   max={new Date().toISOString().split('T')[0]}
+                /> */}
+
+                <Controller
+                  name="dob"
+                  control={control}
+                  render={({ field, fieldState }) => (
+                    <DatePicker
+                      value={field.value}
+                      onChange={(date) => {
+                        handleDOBChange(date ? format(date, 'MM/dd/yyyy') : '');
+                        field.onChange(date ? format(date, 'MM/dd/yyyy') : '');
+                      }}
+                      name={field.name}
+                      label="Date of Birth"
+                      error={fieldState.error?.message}
+                    />
+                  )}
                 />
               </div>
             </Card>

@@ -17,13 +17,15 @@ import {
   forgotPasswordSchema,
   type ForgotPasswordFormValues,
 } from '@/schemas/forgotPasswordSchema';
-import { useForm } from 'react-hook-form';
+import { Controller, useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { CANCEL, REQUIRED_FIELDS } from '@/constants/commonConstants';
 import { Loader } from '@/components/atoms/Loader';
 import { FORGOT_PASSWORD } from '@/constants/forgotPasswordConstants';
 import { PLEASE_ENTER_THE_STRING_AS_SHOWN_ABOVE } from '@/constants/forgotUserIdConstants';
 import { set } from 'zod';
+import DatePicker from '@/components/atoms/Calendar/page';
+import { format } from 'date-fns';
 
 export default function ForgotUserIdPage() {
   const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
@@ -50,6 +52,7 @@ export default function ForgotUserIdPage() {
   const [captchaText, setCaptchaText] = useState('');
 
   const {
+    control,
     register,
     handleSubmit,
     formState: { errors, isValid },
@@ -76,8 +79,10 @@ export default function ForgotUserIdPage() {
     setShowError(false);
   };
 
-  const handleDOBChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const [year, month, day] = e.target.value.split('-');
+  const handleDOBChange = (date: any) => {
+    const [month, day, year] = date.split('/');
+    setShowError(false);
+    setErrorMessage('');
     setForm((prev) => ({
       ...prev,
       DOB_Year: year,
@@ -104,6 +109,7 @@ export default function ForgotUserIdPage() {
 
     try {
       const response: any = await forgotPassword(payload).unwrap();
+      localStorage.setItem('forgotPwdUserName', data.UserName);
       dispatch(setForgotPWDSecurityQuestions(response));
       route.push('/for-your-security'); // Navigate to next step
     } catch (err: any) {
@@ -168,7 +174,6 @@ export default function ForgotUserIdPage() {
                       ? 'w-full text-[var(--text-error)]'
                       : 'w-full'
                   }
-                  onChange={handleChange}
                 />
               </div>
 
@@ -186,14 +191,13 @@ export default function ForgotUserIdPage() {
                   name="SSNLast5"
                   type="password"
                   maxLength={5}
-                  onChange={handleChange}
                 />
               </div>
             </Card>
 
             <Card className="customCard flex w-full gap-3 md:p-6 lg:px-6">
               <div className="w-full sm:w-1/2">
-                <InputField
+                {/* <InputField
                   label="Date of Birth"
                   mandantory
                   className={
@@ -201,13 +205,32 @@ export default function ForgotUserIdPage() {
                       ? 'w-full text-[var(--text-error)]'
                       : 'w-full'
                   }
-                  {...register('dob')}
+                  {...register('dob', {
+                    onChange: (e: any) => {
+                      handleDOBChange(e);
+                    },
+                  })}
                   error={errors.dob?.message}
                   type="date"
                   name="dob"
                   value={dob}
-                  onChange={handleDOBChange}
                   max={new Date().toISOString().split('T')[0]}
+                /> */}
+                <Controller
+                  name="dob"
+                  control={control}
+                  render={({ field, fieldState }: any) => (
+                    <DatePicker
+                      value={field.value}
+                      onChange={(date) => {
+                        handleDOBChange(date ? format(date, 'MM/dd/yyyy') : '');
+                        field.onChange(date ? format(date, 'MM/dd/yyyy') : '');
+                      }}
+                      name={field.name}
+                      label="Date of Birth"
+                      error={fieldState.error?.message}
+                    />
+                  )}
                 />
               </div>
             </Card>
@@ -230,10 +253,13 @@ export default function ForgotUserIdPage() {
                 <div className="w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2">
                   <InputField
                     placeholder="Enter Captcha Code"
-                    {...register('captchaInput')}
+                    {...register('captchaInput', {
+                      onChange: (e: any) => {
+                        handleCaptchaChange(e.target.value);
+                      },
+                    })}
                     error={errors.captchaInput?.message}
                     name="captchaInput"
-                    onChange={(e) => handleCaptchaChange(e.target.value)}
                     className={
                       showCaptchaError
                         ? 'w-full text-[var(--text-error)]'

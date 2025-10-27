@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { type ReactElement, useEffect, useState } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import Card from '@/components/atoms/Card';
 import Image from '@/components/atoms/Image';
@@ -50,6 +50,8 @@ import {
   login as loggedIn,
   setAuthFromStorage,
 } from '@/store/slices/authSlice';
+import { useGetPromotionsQuery } from '@/store/services/bannerPromotionsApi';
+import { generatePromotionImages } from '@/components/molecules/PromotionBanners';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -60,6 +62,8 @@ const Login = () => {
   const [loginUser, { isLoading, error }] = useLoginMutation();
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const { data: promotionData } = useGetPromotionsQuery(1);
+  const [images, setImages] = useState<ReactElement[]>([]);
 
   const {
     register,
@@ -82,6 +86,15 @@ const Login = () => {
       removeCookie('userName');
     }
   }, [dispatch]);
+
+  useEffect(() => {
+    if (!isLoading && promotionData) {
+      const baseUrl =
+        process.env.NEXT_PUBLIC_API_BASE_URL + '/promotion-images?id=';
+      const generatedImages = generatePromotionImages(promotionData, baseUrl);
+      setImages(generatedImages);
+    }
+  }, [promotionData, isLoading]);
 
   const router = useRouter();
 
@@ -123,27 +136,6 @@ const Login = () => {
       );
     }
   };
-
-  const images = [
-    <Image
-      src={BannerImage}
-      alt="Banner 1"
-      className="rounded-[8px]"
-      key="1"
-    />,
-    <Image
-      src={BannerImage}
-      alt="Banner 2"
-      className="rounded-[8px]"
-      key="2"
-    />,
-    <Image
-      src={BannerImage2}
-      alt="Banner 3"
-      className="rounded-[8px]"
-      key="3"
-    />,
-  ];
 
   return (
     // Center horizontally (by width) on all screens while keeping max-width:1152px
