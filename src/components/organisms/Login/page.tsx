@@ -67,6 +67,9 @@ const Login = () => {
     formState: { errors, isValid },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
+    defaultValues: {
+      UserName: UserName ? UserName : '', // 👈 set your default value
+    },
   });
 
   useEffect(() => {
@@ -83,7 +86,6 @@ const Login = () => {
   const router = useRouter();
 
   const remeberDeviceId = localStorage.getItem('rememberDevice');
-  console.log('remeberDeviceId', !remeberDeviceId);
 
   const handleLogin = async (data: any) => {
     dispatch(setUserID(data.UserName));
@@ -96,12 +98,10 @@ const Login = () => {
       }).unwrap();
       localStorage.setItem('userInfo', JSON.stringify(result));
       localStorage.setItem('token', result?.Token);
-      if (
-        rememberMe &&
-        (!result?.Question || result?.Question === '' || !result?.QuestionID)
-      ) {
-        setCookie('userName', result?.UserName, 30 * 24 * 60 * 60); // 30 days
+      if (rememberMe) {
+        setCookie('userName', data.UserName, 30 * 24 * 60 * 60); // 30 days
       } else if (!rememberMe) {
+        dispatch(setUserID(''));
         removeCookie('userName'); // Remove cookie
       }
       if (result?.IsSecurityQuestionsNeeded) {
@@ -150,7 +150,7 @@ const Login = () => {
     <div className="mx-auto flex w-full max-w-[1152px] flex-col gap-4">
       {isLoading && <Loader className="mx-auto mb-4" />}
       <section className="flex w-full gap-4">
-<Card className="flex min-h-[373px] w-full flex-col justify-between !p-3 lg:max-w-[410px]">
+        <Card className="flex min-h-[373px] w-full flex-col justify-between !p-3 lg:max-w-[410px]">
           <div>
             {showError && (
               <CustomAlert type="error" description={errorMessage} />
@@ -171,7 +171,7 @@ const Login = () => {
                   // }
                   // value={UserName}
                   {...register('UserName')}
-                  className='w-full'
+                  className="w-full"
                 />
                 {errors.UserName && (
                   <p className="text-red-500">{errors.UserName.message}</p>
@@ -198,7 +198,7 @@ const Login = () => {
                 <InputField
                   label={USER_PASSWORD_LABEL}
                   type="password"
-                  className='w-full'
+                  className="w-full"
                   // onChange={(e: any) =>
                   //   dispatch(
                   //     setPassword(e.target.value),
