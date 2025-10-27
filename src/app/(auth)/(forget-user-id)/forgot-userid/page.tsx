@@ -158,7 +158,7 @@ export default function RecoverUserIDPage() {
                   name="LastName"
                   // value={form.LastName}
                   className={
-                    showCredentialError ? 'text-[var(--text-error)]' : ''
+                    showCredentialError ? 'text-[var(--text-error)] w-full' : 'w-full'
                   }
                 />
               </div>
@@ -168,7 +168,7 @@ export default function RecoverUserIDPage() {
                   label="Last 5 Digits of SSN"
                   mandantory
                   className={
-                    showCredentialError ? 'text-[var(--text-error)]' : ''
+                    showCredentialError ? 'text-[var(--text-error)] w-full' : 'w-full'
                   }
                   {...register('SSNLast5')}
                   error={errors.SSNLast5?.message}
@@ -185,7 +185,7 @@ export default function RecoverUserIDPage() {
                   label="Date of Birth"
                   mandantory
                   className={
-                    showCredentialError ? 'text-[var(--text-error)]' : ''
+                    showCredentialError ? 'text-[var(--text-error)] w-full' : 'w-full'
                   }
                   {...register('dob')}
                   error={errors.dob?.message}
@@ -213,7 +213,7 @@ export default function RecoverUserIDPage() {
                   </Button>
                 </div>
 
-                <div className="w-1/2">
+                <div className="w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2 ">
                   <InputField
                     placeholder="Enter Captcha Code"
                     {...register('captchaInput')}
@@ -221,7 +221,7 @@ export default function RecoverUserIDPage() {
                     name="captchaInput"
                     onChange={(e) => handleCaptchaChange(e.target.value)}
                     className={
-                      showCaptchaError ? 'text-[var(--text-error)]' : ''
+                      showCaptchaError ? 'text-[var(--text-error)] w-full' : 'w-full'
                     }
                     iconRight={showCaptchaError ? NotSecure : ''}
                   />
