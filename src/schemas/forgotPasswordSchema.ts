@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const forgotPasswordSchema = z.object({
-  UserName: z.string().min(1, 'User ID is required'),
+  UserName: z.string().min(1, 'Required Field'),
   SSNLast5: z
     .string()
     .length(5, 'SSN must be exactly 5 digits')
@@ -18,7 +18,7 @@ export const forgotPasswordSchema = z.object({
     },
   ),
 
-  captchaInput: z.string().min(1, 'Captcha is required'),
+  captchaInput: z.string().min(1, 'Required Field'),
 });
 
 export type ForgotPasswordFormValues = z.infer<typeof forgotPasswordSchema>;

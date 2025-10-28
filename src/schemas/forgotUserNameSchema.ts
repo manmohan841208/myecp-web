@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const forgotUserIdSchema = z.object({
-  LastName: z.string().min(1, 'Last Name is required'),
+  LastName: z.string().min(1, 'Required Field'),
   SSNLast5: z
     .string()
     .length(5, 'SSN must be exactly 5 digits')
@@ -22,7 +22,7 @@ export const forgotUserIdSchema = z.object({
         message: 'Date of Birth cannot be in the future',
       },
     ),
-  captchaInput: z.string().min(1, 'Captcha is required'),
+  captchaInput: z.string().min(1, 'Required Field'),
 });
 
 export type ForgotUserIdFormValues = z.infer<typeof forgotUserIdSchema>;
