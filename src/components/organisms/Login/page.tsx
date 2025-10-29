@@ -52,6 +52,7 @@ import {
 } from '@/store/slices/authSlice';
 import { useGetPromotionsQuery } from '@/store/services/bannerPromotionsApi';
 import { generatePromotionImages } from '@/components/molecules/PromotionBanners';
+import maskUserId from '@/utils/maskUserId';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -73,7 +74,11 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
     mode: 'all',
     defaultValues: {
-      UserName: getCookie('userName') ? getCookie('userName') : '', // 👈 set your default value
+      // UserName: getCookie('userName') ? maskUserId(getCookie('userName')) : '', // 👈 set your default value
+      UserName: (() => {
+        const userName = getCookie('userName');
+        return userName ? maskUserId(userName) : '';
+      })(),
     },
   });
 
