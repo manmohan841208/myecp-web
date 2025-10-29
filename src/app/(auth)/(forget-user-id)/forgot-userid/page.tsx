@@ -203,25 +203,6 @@ export default function RecoverUserIDPage() {
             </Card>
             <Card className="customCard flex w-full gap-3 md:p-6 lg:px-6">
               <div className="w-full sm:w-1/2">
-                {/* <InputField
-                  label="Date of Birth"
-                  mandantory
-                  className={
-                    showCredentialError
-                      ? 'w-full text-[var(--text-error)]'
-                      : 'w-full'
-                  }
-                  {...register('dob', {
-                    onChange: (e: any) => {
-                      handleDOBChange(e.target.value);
-                    },
-                  })}
-                  error={errors.dob?.message}
-                  type="date"
-                  name="dob"
-                  max={new Date().toISOString().split('T')[0]}
-                /> */}
-
                 <Controller
                   name="dob"
                   control={control}

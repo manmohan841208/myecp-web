@@ -93,12 +93,9 @@ const ResetPasswordPage = () => {
         className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
         header={showSuccessAlert ? 'MyECP Password Reset' : 'For Your Security'}
       >
-        <div className="flex flex-col p-4 !pb-0 gap-4">
+        <div className="flex flex-col gap-4 p-4 !pb-0">
           {showAlert ? (
-            <CustomAlert
-              type="error"
-              description={errorMessage}
-            />
+            <CustomAlert type="error" description={errorMessage} />
           ) : (
             ''
           )}
@@ -117,8 +114,8 @@ const ResetPasswordPage = () => {
 
           {showSuccessAlert ? null : (
             <div className="flex justify-end">
-              <b className='!text-[14px]'>
-                <span className="px-1 text-[var(--text-error)] ">*</span>
+              <b className="!text-[14px]">
+                <span className="px-1 text-[var(--text-error)]">*</span>
                 {REQUIRED_FIELDS}
               </b>
             </div>
@@ -165,7 +162,7 @@ const ResetPasswordPage = () => {
                     <PopoverContent
                       side="right"
                       align="start"
-                      className="w-[200px] rounded border-[#F1F1F1] bg-[#F1F1F1] p-0"
+                      className="w-[194px] !rounded-[4px] border-[#cccccc] bg-[#F1F1F1] p-0"
                       onOpenAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift
                       onCloseAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift back
                     >
