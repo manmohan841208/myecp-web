@@ -149,7 +149,7 @@ const TwoFactAuthCodeEntryPage = () => {
             />
           )}
 
-          <div className="flex justify-end ">
+          <div className="flex justify-end">
             <b className="!text-[14px]">
               <span className="px-1 text-[var(--text-error)]">*</span>
               {REQUIRED_FIELDS}

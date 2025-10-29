@@ -62,7 +62,11 @@ const TwoFactorAuthPage = () => {
     resolver: zodResolver(twoFactorSchema),
     mode: 'onChange',
     defaultValues: {
-      otpOption: '',
+      otpOption: userData?.IsSMSOptIn
+        ? 'SMS'
+        : userData?.IsTwoFAEmailOptIn
+          ? 'Email'
+          : '',
     },
   });
 
@@ -159,7 +163,10 @@ const TwoFactorAuthPage = () => {
                       />
                     </div>
                     <div>
-                      <Label htmlFor="mobile" className={`text-base font-bold ${userData?.IsSMSOptIn ? '' : 'text-[var(--color-disabled-text)]'}`}>
+                      <Label
+                        htmlFor="mobile"
+                        className={`text-base font-bold ${userData?.IsSMSOptIn ? '' : 'text-[var(--color-disabled-text)]'}`}
+                      >
                         {PHONE}
                       </Label>
                       <div className="flex items-center justify-start gap-1">
@@ -173,7 +180,9 @@ const TwoFactorAuthPage = () => {
                           }
                           disabled={!userData?.IsSMSOptIn}
                         />
-                        <span className={`  ${userData?.IsSMSOptIn ? '' : 'text-[var(--color-disabled-text)]'}`}>
+                        <span
+                          className={` ${userData?.IsSMSOptIn ? '' : 'text-[var(--color-disabled-text)]'}`}
+                        >
                           {maskPhone(
                             userData?.MobileNo
                               ? userData?.MobileNo
@@ -181,7 +190,9 @@ const TwoFactorAuthPage = () => {
                           )}
                         </span>
                       </div>
-                      <div className={`pl-4  ${userData?.IsSMSOptIn ? '' : 'text-[var(--color-disabled-text)]'}`} >
+                      <div
+                        className={`pl-4 ${userData?.IsSMSOptIn ? '' : 'text-[var(--color-disabled-text)]'}`}
+                      >
                         <p>
                           {YOU_ARE_NOT_ENROLLED_TO_RECIEVE_2FA_CODE_VIA_TEXT}
                         </p>
@@ -190,19 +201,21 @@ const TwoFactorAuthPage = () => {
                     </div>
                   </div>
 
-
                   <div className="flex items-center gap-3 pl-4">
                     <div
                       className={`flex h-15 w-15 items-center justify-center ${userData?.IsTwoFAEmailOptIn ? '' : 'text-[var(--color-disabled-text)]'}`}
                     >
-                      <Image 
-                      src={Email} 
-                      alt="email-img" 
-                      className={` ${userData?.IsTwoFAEmailOptIn ? '' : 'opacity-35'}`}
+                      <Image
+                        src={Email}
+                        alt="email-img"
+                        className={` ${userData?.IsTwoFAEmailOptIn ? '' : 'opacity-35'}`}
                       />
                     </div>
                     <div>
-                      <Label htmlFor="email" className={`text-base font-bold  ${userData?.IsTwoFAEmailOptIn ? '' : 'text-[var(--color-disabled-text)]'}`}>
+                      <Label
+                        htmlFor="email"
+                        className={`text-base font-bold ${userData?.IsTwoFAEmailOptIn ? '' : 'text-[var(--color-disabled-text)]'}`}
+                      >
                         {EMAIL}
                       </Label>
                       <div className="flex items-center justify-center gap-1">
@@ -216,7 +229,11 @@ const TwoFactorAuthPage = () => {
                           }
                           disabled={!userData?.IsTwoFAEmailOptIn}
                         />
-                        <span className={` ${userData?.IsTwoFAEmailOptIn ? '' : 'text-[var(--color-disabled-text)]'}`}>{maskEmail(userData?.EmailAddress)}</span>
+                        <span
+                          className={` ${userData?.IsTwoFAEmailOptIn ? '' : 'text-[var(--color-disabled-text)]'}`}
+                        >
+                          {maskEmail(userData?.EmailAddress)}
+                        </span>
                       </div>
                     </div>
                   </div>

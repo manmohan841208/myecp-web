@@ -157,9 +157,10 @@ const ResetPasswordPage = () => {
                           iconRight={
                             errors.NewPassword?.message
                               ? NotSecure
-                              : showNewPassword ? BlackEyeClose : BlackEyeOpen
+                              : showNewPassword
+                                ? BlackEyeClose
+                                : BlackEyeOpen
                           }
-                          
                         />
                       </div>
                     </PopoverTrigger>
