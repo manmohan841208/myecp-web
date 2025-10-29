@@ -1,4 +1,3 @@
-
 export { default as Calendar } from '@/assets/svg/black/calendar.svg';
 export { default as Card } from '@/assets/svg/black/card.svg';
 export { default as DownArrow } from '@/assets/svg/black/down_arrow.svg';
@@ -40,5 +39,5 @@ export { default as Phone } from '@/assets/svg/extra/phone.svg';
 export { default as Relode } from '@/assets/svg/black/relode.svg';
 export { default as Advertisement1 } from '@/assets/svg/extra/Advertisement2.png';
 export { default as Advertisement2 } from '@/assets/svg/extra/Advertisement1.png';
-export {default as TooltipBlue} from '@/assets/svg/extra/blue-tooltip.svg'
-
+export { default as TooltipBlue } from '@/assets/svg/extra/blue-tooltip.svg';
+export { default as CorrectIcon } from '@/assets/svg/extra/correct.svg';
