@@ -85,12 +85,11 @@ const ResetPasswordPage = () => {
         className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
         header={showSuccessAlert ? 'MyECP Password Reset' : 'For Your Security'}
       >
-        <div className="flex flex-col p-6 !pb-0 sm:gap-4">
+        <div className="flex flex-col p-4 !pb-0 gap-4">
           {showAlert ? (
             <CustomAlert
               type="error"
               description={errorMessage}
-              className="mb-2"
             />
           ) : (
             ''
@@ -111,7 +110,7 @@ const ResetPasswordPage = () => {
           {showSuccessAlert ? null : (
             <div className="flex justify-end">
               <b>
-                <span className="px-1 text-[var(--text-error)]">*</span>
+                <span className="px-1 text-[var(--text-error)] !text-sm">*</span>
                 {REQUIRED_FIELDS}
               </b>
             </div>

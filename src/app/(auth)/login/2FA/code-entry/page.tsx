@@ -140,7 +140,6 @@ const TwoFactAuthCodeEntryPage = () => {
           {showError && (
             <CustomAlert
               type="error"
-               className='my-2'
               description={
                 errorMessage
                   ? errorMessage
@@ -151,7 +150,7 @@ const TwoFactAuthCodeEntryPage = () => {
 
           <div className="flex justify-end pt-3">
             <b>
-              <span className="px-1 text-[var(--text-error)]">*</span>
+              <span className="px-1 text-[var(--text-error)] !text-sm">*</span>
               {REQUIRED_FIELDS}
             </b>
           </div>
