@@ -291,7 +291,7 @@ const Login = () => {
             images={images}
             autoScroll
             interval={3000}
-            className="rounded-lg"
+            className="rounded-lg "
           />
         </Card>
       </section>
