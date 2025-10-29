@@ -17,13 +17,12 @@ import {
   resetPasswordSchema,
   type ResetPasswordFormValues,
 } from '@/schemas/resetPasswordSchema';
+import PasswordRequirements from '@/components/atoms/PwdValidation';
 import {
   Popover,
   PopoverTrigger,
   PopoverContent,
 } from '@/components/ui/popover';
-import PasswordRequirements from '@/components/atoms/PwdValidation';
-
 
 const ResetPasswordPage = () => {
   const router = useRouter();
@@ -50,6 +49,7 @@ const ResetPasswordPage = () => {
   const [pwdNotSame, setPwdNotSame] = useState('');
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+
   const [password, setPassword] = useState('');
   const [open, setOpen] = useState(false);
 
@@ -87,19 +87,15 @@ const ResetPasswordPage = () => {
       }
     }
   };
-
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
         header={showSuccessAlert ? 'MyECP Password Reset' : 'For Your Security'}
       >
-        <div className="flex flex-col p-4 !pb-0 gap-4">
+        <div className="flex flex-col gap-4 p-4 !pb-0">
           {showAlert ? (
-            <CustomAlert
-              type="error"
-              description={errorMessage}
-            />
+            <CustomAlert type="error" description={errorMessage} />
           ) : (
             ''
           )}
@@ -118,8 +114,8 @@ const ResetPasswordPage = () => {
 
           {showSuccessAlert ? null : (
             <div className="flex justify-end">
-              <b className='!text-[14px]'>
-                <span className="px-1 text-[var(--text-error)] ">*</span>
+              <b className="!text-[14px]">
+                <span className="px-1 text-[var(--text-error)]">*</span>
                 {REQUIRED_FIELDS}
               </b>
             </div>
@@ -135,11 +131,15 @@ const ResetPasswordPage = () => {
                   {/* <InputField
                     label="New Password"
                     mandantory={true}
-                    {...register('NewPassword')}
+                    {...register('NewPassword', {
+                      onChange: handleChange,
+                    })}
                     error={errors.NewPassword?.message}
                     name="NewPassword"
                     className="w-full"
-                  /> */}
+                  />
+                  <PasswordRequirements password={form.NewPassword} /> */}
+
                   <Popover open={open} onOpenChange={setOpen}>
                     <PopoverTrigger asChild>
                       <div className="relative w-full">

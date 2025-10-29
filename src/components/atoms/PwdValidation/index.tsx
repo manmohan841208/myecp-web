@@ -16,26 +16,32 @@ export default function PasswordRequirements({
     condition ? 'text-[#318B29] font-medium' : 'text-black-600';
   const getIcon = (condition: boolean) => (condition ? '✓' : '•');
   return (
-        <div className="border-none p-2 h-[136px] w-full text-[12px] flex flex-col gap-2">
-          <p className="font-bold h-4 ">The password must have:</p>
-            <ul className="max-h-[96px] text-[11px] max-w-[168px] flex flex-col ">
-                 <li className={`${getClass(validations.length)} pl-1`}>
-                           {getIcon(validations.length)} <span className='pl-1'>At least 8 characters</span>
-                 </li>
-                 <li className={`${getClass(validations.number)} pl-1`}>
-                           {getIcon(validations.number)} <span className='pl-1'>At least one number</span>
-                 </li>
-                 <li className={`${getClass(validations.uppercase)} pl-1`}>
-                           {getIcon(validations.uppercase)} <span className='pl-1'>At least one uppercase letter</span>
-                 </li>
-                 <li className={`${getClass(validations.lowercase)} pl-1`}>
-                           {getIcon(validations.lowercase)} <span className='pl-1'>At least one lowercase letter</span>
-                 </li>
-                 <li className={`${getClass(validations.special)} pl-1`}>
-                           {getIcon(validations.special)} <span className='pl-1'>At least one special character (&, @,
-                           #, %, $, ^, !, *)</span>
-                 </li>
-            </ul>
-        </div>
+    <div className="flex h-[136px] w-full flex-col gap-2 border-none p-2 text-[12px]">
+      <p className="h-4 font-bold">The password must have:</p>
+      <ul className="flex max-h-[96px] max-w-[168px] flex-col text-[11px]">
+        <li className={`${getClass(validations.length)} pl-1`}>
+          {getIcon(validations.length)}{' '}
+          <span className="pl-1">At least 8 characters</span>
+        </li>
+        <li className={`${getClass(validations.number)} pl-1`}>
+          {getIcon(validations.number)}{' '}
+          <span className="pl-1">At least one number</span>
+        </li>
+        <li className={`${getClass(validations.uppercase)} pl-1`}>
+          {getIcon(validations.uppercase)}{' '}
+          <span className="pl-1">At least one uppercase letter</span>
+        </li>
+        <li className={`${getClass(validations.lowercase)} pl-1`}>
+          {getIcon(validations.lowercase)}{' '}
+          <span className="pl-1">At least one lowercase letter</span>
+        </li>
+        <li className={`${getClass(validations.special)} pl-1`}>
+          {getIcon(validations.special)}{' '}
+          <span className="pl-1">
+            At least one special character (&, @, #, %, $, ^, !, *)
+          </span>
+        </li>
+      </ul>
+    </div>
   );
 }
