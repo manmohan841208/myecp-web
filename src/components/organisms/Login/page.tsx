@@ -143,10 +143,14 @@ const Login = () => {
     <div className="mx-auto flex w-full max-w-[1152px] flex-col gap-4">
       {isLoading && <Loader className="mx-auto mb-4" />}
       <section className="flex w-full gap-4">
-        <Card className="flex min-h-[373px] w-full flex-col justify-between !p-3 lg:max-w-[410px]">
+        <Card className="flex h-[410px] w-full flex-col justify-between !p-3">
           <div>
             {showError && (
-              <CustomAlert type="error" description={errorMessage} />
+              <CustomAlert
+                type="error"
+                description={errorMessage}
+                className="mb-2"
+              />
             )}
             <form
               className="flex flex-col gap-4"
@@ -172,7 +176,7 @@ const Login = () => {
                   {FORGOT}
                   <Link
                     href="/forgot-userid"
-                    className="text-sm text-blue-600 hover:text-blue-800"
+                    className="text-sm text-[var(--color-link)]"
                   >
                     {USER_ID_LABEL}
                   </Link>
@@ -182,7 +186,11 @@ const Login = () => {
                     className="w-[120px] rounded-[4px] bg-black"
                     content="You may recover your User ID"
                   >
-                    <Image src={Tooltip} alt="tooltip icon" />
+                    <Image
+                      src={Tooltip}
+                      alt="tooltip icon"
+                      className="hidden lg:block"
+                    />
                   </DynamicTooltip>
                 </div>
               </div>
@@ -208,7 +216,7 @@ const Login = () => {
                   {FORGOT}
                   <Link
                     href="/forgot-password"
-                    className="text-sm text-blue-600 hover:text-blue-800"
+                    className="text-sm text-[var(--color-link)]"
                   >
                     {FORGOT_PASSWORD}
                   </Link>
@@ -218,7 +226,11 @@ const Login = () => {
                     className="w-[120px] rounded-[4px] bg-black"
                     content="You may recover your Password"
                   >
-                    <Image src={Tooltip} alt="tooltip icon" />
+                    <Image
+                      src={Tooltip}
+                      alt="tooltip icon"
+                      className="hidden lg:block"
+                    />
                   </DynamicTooltip>
                   {/* </div> */}
                 </div>
@@ -247,27 +259,34 @@ const Login = () => {
           </div>
 
           <div className="mt-2 text-center text-sm">
-            <div className="flex items-center justify-center gap-1">
+            <div className="flex flex-col items-center justify-center gap-1 md:flex-row">
               {NEW_TO_MYECP}{' '}
-              <Link
-                href="/create-profile"
-                className="text-sm text-blue-600 hover:text-blue-800"
-              >
-                {PLEASE_REGISTER_HERE}
-              </Link>
+              <p className="flex items-center justify-center gap-1">
+                Please
+                <Link
+                  href="/create-profile"
+                  className="text-sm text-[var(--color-link)]"
+                >
+                  {PLEASE_REGISTER_HERE}
+                </Link>
+              </p>
               <DynamicTooltip
                 side="right"
                 align="center"
                 className="w-[152px] rounded-[4px] bg-black"
                 content="Your MyECP profile is unique to MyECP.com"
               >
-                <Image src={Tooltip} alt="tooltip icon" />
+                <Image
+                  src={Tooltip}
+                  alt="tooltip icon"
+                  className="hidden lg:block"
+                />
               </DynamicTooltip>
             </div>
           </div>
         </Card>
 
-        <Card className="w-ull relative hidden max-h-[373px] overflow-hidden !p-0 shadow-lg lg:block">
+        <Card className="relative hidden h-[410px] w-full overflow-hidden !p-0 shadow-lg lg:block">
           <Carousel
             images={images}
             autoScroll
@@ -307,10 +326,7 @@ const Login = () => {
                   {APPLY_NOW}
                 </Button>
               </div>
-              <Link
-                href="#"
-                className="text-sm text-blue-600 hover:text-blue-800"
-              >
+              <Link href="#" className="text-sm text-[var(--color-link)]">
                 {LEARN_MORE}
               </Link>
             </div>
@@ -326,10 +342,7 @@ const Login = () => {
                   />
                 </div>
 
-                <Link
-                  href="#"
-                  className="text-sm text-blue-600 hover:text-blue-800"
-                >
+                <Link href="#" className="text-[var(--color-link)]">
                   {SEE_REWARDS_TERMS_AND_CONDITIONS}
                 </Link>
               </div>

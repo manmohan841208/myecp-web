@@ -142,7 +142,7 @@ export default function ForgotUserIdPage() {
         header={FORGOT_PASSWORD}
       >
         {isLoading && <Loader className="mx-auto mb-4" />}
-        <div className="flex flex-col p-6 sm:gap-4">
+        <div className="flex flex-col gap-4 p-4">
           {/* {showCredentialError ||
             (showCaptchaError && (
               <CustomAlert
@@ -155,12 +155,12 @@ export default function ForgotUserIdPage() {
             <CustomAlert
               type="error"
               description={errorMessage}
-              className="mb-2"
+              // className="mb-2"
             />
           )}
 
           <div className="flex justify-end">
-            <b>
+            <b className="!text-[14px]">
               <span className="px-1 text-[var(--text-error)]">*</span>
               {REQUIRED_FIELDS}
             </b>
@@ -286,7 +286,7 @@ export default function ForgotUserIdPage() {
                   </Button>
                 </div>
 
-                <div className="w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2">
+                <div className="responsive-captcha w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2">
                   <InputField
                     mandantory
                     placeholder="Enter Captcha Code"
