@@ -17,6 +17,13 @@ import {
   resetPasswordSchema,
   type ResetPasswordFormValues,
 } from '@/schemas/resetPasswordSchema';
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from '@/components/ui/popover';
+import PasswordRequirements from '@/components/atoms/PwdValidation';
+
 
 const ResetPasswordPage = () => {
   const router = useRouter();
@@ -43,6 +50,8 @@ const ResetPasswordPage = () => {
   const [pwdNotSame, setPwdNotSame] = useState('');
   const [showSuccessAlert, setShowSuccessAlert] = useState(false);
   const [successMessage, setSuccessMessage] = useState('');
+  const [password, setPassword] = useState('');
+  const [open, setOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -123,14 +132,43 @@ const ResetPasswordPage = () => {
             {showSuccessAlert ? null : (
               <Card className="customCard flex flex-col gap-3 py-3 sm:flex-row md:p-6 lg:px-6">
                 <div className="w-full sm:w-1/2">
-                  <InputField
+                  {/* <InputField
                     label="New Password"
                     mandantory={true}
                     {...register('NewPassword')}
                     error={errors.NewPassword?.message}
                     name="NewPassword"
                     className="w-full"
-                  />
+                  /> */}
+                  <Popover open={open} onOpenChange={setOpen}>
+                    <PopoverTrigger asChild>
+                      <div className="relative w-full">
+                        <InputField
+                          label="New Password"
+                          mandantory={true}
+                          {...register('NewPassword', {
+                            onChange: (e) => {
+                              setPassword(e.target.value);
+                            },
+                          })}
+                          error={errors.NewPassword?.message}
+                          name="NewPassword"
+                          className="w-full"
+                          onFocus={() => setOpen(true)}
+                          onBlur={() => setOpen(false)}
+                        />
+                      </div>
+                    </PopoverTrigger>
+                    <PopoverContent
+                      side="right"
+                      align="start"
+                      className="w-[194px] !rounded-[4px] border-[#cccccc] bg-[#F1F1F1] p-0"
+                      onOpenAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift
+                      onCloseAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift back
+                    >
+                      <PasswordRequirements password={password} />
+                    </PopoverContent>
+                  </Popover>
                 </div>
 
                 <div className="w-full sm:w-1/2">

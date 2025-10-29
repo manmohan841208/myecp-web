@@ -142,7 +142,7 @@ const Login = () => {
     <div className="mx-auto flex w-full max-w-[1152px] flex-col gap-4">
       {isLoading && <Loader className="mx-auto mb-4" />}
       <section className="flex w-full gap-4 ">
-        <Card className="flex  w-full flex-col justify-between !p-3 h-[410px] ">
+        <Card className="flex  w-full flex-col justify-between !p-3 h-[410px] lg:max-w-[373px]">
           <div>
             {showError && (
               <CustomAlert type="error" description={errorMessage} className='mb-2'/>
