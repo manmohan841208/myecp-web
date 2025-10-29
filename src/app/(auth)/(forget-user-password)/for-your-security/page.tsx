@@ -108,8 +108,8 @@ const ForYourSecurityPage = () => {
           {isLoading && <Loader className="mx-auto mb-4" />}
 
           <div className="flex justify-end">
-            <b>
-              <span className="px-1 text-[var(--text-error)] !text-sm">*</span>
+            <b className='!text-[14px]'>
+              <span className="px-1 text-[var(--text-error)] ">*</span>
               {REQUIRED_FIELDS}
             </b>
           </div>
