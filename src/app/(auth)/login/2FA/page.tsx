@@ -62,7 +62,11 @@ const TwoFactorAuthPage = () => {
     resolver: zodResolver(twoFactorSchema),
     mode: 'onChange',
     defaultValues: {
-      otpOption: '',
+      otpOption: userData?.IsSMSOptIn
+        ? 'SMS'
+        : userData?.IsTwoFAEmailOptIn
+          ? 'Email'
+          : '',
     },
   });
 

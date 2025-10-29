@@ -34,7 +34,7 @@ const rootReducer = combineReducers({
 const persistConfig = {
   key: 'root',
   storage,
-  whitelist: ['login', 'securityQuestions', 'forgotUserName', '2FA'], // only persist this slice
+  whitelist: ['securityQuestions', 'forgotUserName', '2FA'], // only persist this slice
 };
 const persistedReducer = persistReducer(persistConfig, rootReducer);
 
@@ -42,11 +42,11 @@ export const store = configureStore({
   reducer: persistedReducer,
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({
-      // serializableCheck: {
-      //   // Ignore redux-persist actions
-      //   ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
-      // },
-      serializableCheck: false,
+      serializableCheck: {
+        // Ignore redux-persist actions
+        ignoredActions: [FLUSH, REHYDRATE, PAUSE, PERSIST, PURGE, REGISTER],
+      },
+      // serializableCheck: false,
     }).concat(authApi.middleware),
 });
 

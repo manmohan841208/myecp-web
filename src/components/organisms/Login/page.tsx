@@ -73,7 +73,7 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
     mode: 'all',
     defaultValues: {
-      UserName: UserName ? UserName : '', // 👈 set your default value
+      UserName: getCookie('userName') ? getCookie('userName') : '', // 👈 set your default value
     },
   });
 
@@ -291,7 +291,7 @@ const Login = () => {
             images={images}
             autoScroll
             interval={3000}
-            className="rounded-lg "
+            className="rounded-lg"
           />
         </Card>
       </section>
