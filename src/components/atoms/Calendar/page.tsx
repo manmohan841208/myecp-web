@@ -1,6 +1,6 @@
 'use client';
 import React, { useState } from 'react';
-import { format, parse } from 'date-fns';
+import { addYears, format, isAfter, isBefore, parse } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
 import {
   Popover,
@@ -16,6 +16,8 @@ type DatePickerProps = {
   name?: string;
   label?: string;
   error?: string;
+  apiError?: boolean;
+  iconRight?: React.ReactNode;
 };
 
 export default function DatePicker({
@@ -24,6 +26,8 @@ export default function DatePicker({
   name,
   label = 'Date of Birth',
   error,
+  apiError,
+  iconRight,
 }: DatePickerProps) {
   const [inputValue, setInputValue] = useState(value || '');
 
@@ -73,11 +77,12 @@ export default function DatePicker({
             label={label}
             value={inputValue}
             placeholder="MM/DD/YYYY"
-            iconRight={cal}
+            iconRight={iconRight ? iconRight : cal}
             name={name}
             error={error}
             className="w-full text-left"
             onChange={handleInputChange}
+            apiError={apiError}
           />
         </div>
       </PopoverTrigger>
@@ -99,6 +104,13 @@ export default function DatePicker({
           styles={{
             caption: { color: '#4B5563' },
             day: { padding: '0.5rem' },
+          }}
+          toYear={new Date().getFullYear() - 18} // ✅ restrict dropdown to valid years
+          disabled={(date) => {
+            const today = new Date();
+            const eighteenYearsAgo = addYears(today, -18);
+            // ✅ Disable if date is after (younger than 18)
+            return isAfter(date, eighteenYearsAgo);
           }}
         />
       </PopoverContent>

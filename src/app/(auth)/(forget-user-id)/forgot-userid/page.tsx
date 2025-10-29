@@ -46,7 +46,7 @@ export default function RecoverUserIDPage() {
     formState: { errors, isValid },
   } = useForm<ForgotUserIdFormValues>({
     resolver: zodResolver(forgotUserIdSchema),
-    mode: 'onChange',
+    mode: 'all',
   });
 
   const [showCredentialError, setShowCredentialError] = useState(false);
@@ -56,6 +56,7 @@ export default function RecoverUserIDPage() {
   const [captchaVerify, setCaptchaVerify] = useState('');
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [fieldError, setFieldError] = useState(false);
 
   const fetchCaptcha = async () => {
     try {
@@ -89,9 +90,13 @@ export default function RecoverUserIDPage() {
 
     if (!isCaptchaValid) {
       setShowCaptchaError(true);
+      setShowError(true);
+      setErrorMessage('Please enter verification code shown below.');
       return;
     } else {
       setShowCaptchaError(false);
+      setShowError(false);
+      setErrorMessage('');
     }
 
     const payload = {
@@ -104,10 +109,12 @@ export default function RecoverUserIDPage() {
     try {
       const response = await forgotUserName(payload).unwrap();
       setShowCredentialError(false);
+      setFieldError(false);
       dispatch(setForgotUserName(response.UserName));
       route.push('/forgot-success-userid');
     } catch (err: any) {
       setShowError(true);
+      setFieldError(true);
       setErrorMessage(
         err?.data?.Message ||
           err?.data?.message ||
@@ -124,13 +131,6 @@ export default function RecoverUserIDPage() {
       >
         {isLoading && <Loader className="mx-auto mb-4" />}
         <div className="flex flex-col p-6 sm:gap-4">
-          {captchaVerify && (showCredentialError || showCaptchaError) && (
-            <CustomAlert
-              type="error"
-              description={captchaVerify}
-              className="mb-2"
-            />
-          )}
           {showError && <CustomAlert type="error" description={errorMessage} />}
           <div className="flex justify-end">
             <b>
@@ -147,14 +147,31 @@ export default function RecoverUserIDPage() {
                 <InputField
                   label="Last Name"
                   mandantory
-                  {...register('LastName')}
+                  onInput={(e) => {
+                    e.currentTarget.value = e.currentTarget.value.replace(
+                      /[^A-Za-z\s]/g,
+                      '',
+                    );
+                  }}
+                  {...register('LastName', {
+                    onChange: () => {
+                      setFieldError(false);
+                      setShowError(false);
+                      setErrorMessage('');
+                    },
+                  })}
+                  apiError={fieldError}
                   error={errors.LastName?.message}
+                  maxLength={48}
                   name="LastName"
-                  // value={form.LastName}
+                  pattern="[A-Za-z\s]{1,48}"
                   className={
                     showCredentialError
                       ? 'w-full text-[var(--text-error)]'
                       : 'w-full'
+                  }
+                  iconRight={
+                    errors.LastName?.message || fieldError ? NotSecure : ''
                   }
                 />
               </div>
@@ -162,16 +179,25 @@ export default function RecoverUserIDPage() {
                 <InputField
                   label="Last 5 Digits of SSN"
                   mandantory
-                  className={
-                    showCredentialError
-                      ? 'w-full text-[var(--text-error)]'
-                      : 'w-full'
-                  }
-                  {...register('SSNLast5')}
+                  onInput={(e) => {
+                    e.currentTarget.value = e.currentTarget.value.replace(
+                      /[^0-9]/g,
+                      '',
+                    );
+                  }}
+                  {...register('SSNLast5', {
+                    onChange: () => {
+                      setFieldError(false);
+                    },
+                  })}
+                  apiError={fieldError}
                   error={errors.SSNLast5?.message}
                   name="SSNLast5"
                   type="password"
                   maxLength={5}
+                  iconRight={
+                    errors.SSNLast5?.message || fieldError ? NotSecure : ''
+                  }
                 />
               </div>
             </Card>
@@ -202,13 +228,19 @@ export default function RecoverUserIDPage() {
                   render={({ field, fieldState }) => (
                     <DatePicker
                       value={field.value}
+                      {...register(field.name)}
                       onChange={(date) => {
+                        setFieldError(false);
                         handleDOBChange(date ? format(date, 'MM/dd/yyyy') : '');
                         field.onChange(date ? format(date, 'MM/dd/yyyy') : '');
                       }}
                       name={field.name}
                       label="Date of Birth"
+                      apiError={fieldError}
                       error={fieldState.error?.message}
+                      iconRight={
+                        fieldState.error?.message || fieldError ? NotSecure : ''
+                      }
                     />
                   )}
                 />
@@ -229,6 +261,7 @@ export default function RecoverUserIDPage() {
                 </div>
                 <div className="w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2">
                   <InputField
+                    mandantory
                     placeholder="Enter Captcha Code"
                     {...register('captchaInput', {
                       onChange: (e: any) => {
@@ -237,6 +270,7 @@ export default function RecoverUserIDPage() {
                         setCaptchaVerify(value);
                       },
                     })}
+                    apiError={showCaptchaError}
                     error={errors.captchaInput?.message}
                     name="captchaInput"
                     className={
@@ -244,7 +278,11 @@ export default function RecoverUserIDPage() {
                         ? 'w-full text-[var(--text-error)]'
                         : 'w-full'
                     }
-                    iconRight={showCaptchaError ? NotSecure : ''}
+                    iconRight={
+                      showCaptchaError || errors.captchaInput?.message
+                        ? NotSecure
+                        : ''
+                    }
                   />
                 </div>
               </div>
