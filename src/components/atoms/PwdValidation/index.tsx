@@ -58,12 +58,17 @@ export default function PasswordRequirements({
         <li
           className={`${getClass(validations.special)} flex items-center pl-1`}
         >
-          <div className="flex min-w-[15px] items-center justify-center">
+          <div className="flex min-w-[15px] items-start justify-center  h-full ">
             {getIcon(validations.special)}{' '}
           </div>
-          <span className="pl-1">
-            At least one special character (&, @, #, %, $, ^, !, *)
-          </span>
+          <div className='flex flex-col'>
+            <div className="pl-1 ">
+              At least one special character 
+            </div>
+            <div className=' relative left-[-15px]'>
+              (&, @, #, %, $, ^, !, *)
+            </div>
+          </div>
         </li>
       </ul>
     </div>
