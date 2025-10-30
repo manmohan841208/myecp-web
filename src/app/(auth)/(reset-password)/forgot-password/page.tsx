@@ -159,6 +159,7 @@ export default function ForgotUserIdPage() {
             <Card className="customCard flex w-full flex-col gap-4 sm:flex-row md:p-6 lg:px-6">
               <div className="w-full sm:w-1/2">
                 <InputField
+                  autoFocus
                   label="User ID"
                   mandantory
                   onInput={(e) => {
