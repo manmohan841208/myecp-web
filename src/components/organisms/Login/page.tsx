@@ -65,6 +65,7 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { data: promotionData } = useGetPromotionsQuery(1);
   const [images, setImages] = useState<ReactElement[]>([]);
+  const [originalId, setOriginalId] = useState(getCookie('userName') || '');
 
   const {
     register,
@@ -76,8 +77,7 @@ const Login = () => {
     defaultValues: {
       // UserName: getCookie('userName') ? maskUserId(getCookie('userName')) : '', // 👈 set your default value
       UserName: (() => {
-        const userName = getCookie('userName');
-        return userName ? maskUserId(userName) : '';
+        return originalId ? maskUserId(originalId) : '';
       })(),
     },
   });
@@ -85,7 +85,7 @@ const Login = () => {
   useEffect(() => {
     const userNameCookie: any = getCookie('userName');
     if (userNameCookie) {
-      dispatch(setUserID(userNameCookie));
+      setOriginalId(userNameCookie);
       dispatch(setRememberMe(true));
     } else if (!userNameCookie) {
       dispatch(setRememberMe(false));
@@ -107,22 +107,32 @@ const Login = () => {
   const remeberDeviceId = localStorage.getItem('rememberDevice');
 
   const handleLogin = async (data: any) => {
-    dispatch(setUserID(data.UserName));
-    dispatch(setPassword(data.password));
     try {
+      const userNameToSend = originalId || data.UserName;
+
       const result: any = await loginUser({
-        UserName: data.UserName,
+        UserName: userNameToSend,
         Password: data.password,
         IsSecurityQuestionNeeded: !remeberDeviceId,
       }).unwrap();
+
+      // Store credentials in Redux
+      dispatch(setUserID(userNameToSend));
+      dispatch(setPassword(data.password));
+
+      // Persist user info and token
       localStorage.setItem('userInfo', JSON.stringify(result));
       localStorage.setItem('token', result?.Token);
+
+      // Handle remember me
       if (rememberMe) {
-        setCookie('userName', data.UserName, 30 * 24 * 60 * 60); // 30 days
-      } else if (!rememberMe) {
+        setCookie('userName', userNameToSend, 30 * 24 * 60 * 60); // 30 days
+      } else {
         dispatch(setUserID(''));
-        removeCookie('userName'); // Remove cookie
+        removeCookie('userName');
       }
+
+      // Handle login flow
       if (result?.IsSecurityQuestionsNeeded) {
         router.push('/security-questions');
       } else if (result?.Is2FANeeded) {
@@ -134,12 +144,12 @@ const Login = () => {
         router.push('/account-summary');
       }
     } catch (err: any) {
+      const message =
+        err.data?.Message ||
+        err.data?.message ||
+        'Login failed. Please try again.';
       setShowError(true);
-      setErrorMessage(
-        err.data?.Message
-          ? err.data?.Message
-          : err.data?.message || 'Login failed. Please try again.',
-      );
+      setErrorMessage(message);
     }
   };
 

@@ -30,6 +30,7 @@ import {
 } from '@/constants/securityQuestionsConstants';
 import { CANCEL, CONTINUE, REQUIRED_FIELDS } from '@/constants/commonConstants';
 import { setSession } from '@/lib/session';
+import { setCookie } from '@/components/utils/cookies';
 
 export default function SecurityForm() {
   const [securityQuestion, setSecurityQuestion] = useState('');
@@ -94,6 +95,7 @@ export default function SecurityForm() {
           'rememberDevice',
           rememberDevice ? 'true' : 'false',
         );
+        setCookie('rememberDevice', rememberDevice ? 'true' : 'false', 7);
         setSession(response?.Token);
         localStorage.setItem('userInfo', response);
         dispatch(setAuthFromStorage(response?.Token));
