@@ -141,7 +141,8 @@ export default function DatePicker({
       </PopoverTrigger>
       <PopoverContent
         side={popoverSide}
-        className="box-shadow w-full rounded-[16px] border-none bg-white p-0 dark:bg-gray-800"
+        sideOffset={popoverSide === "top" ? -250 : 4}
+        className="box-shadow w-full rounded-[16px] border-none bg-white p-0 dark:bg-gray-800 "
         onOpenAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift
         onCloseAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift back
       >
