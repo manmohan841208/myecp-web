@@ -164,6 +164,7 @@ const ResetPasswordPage = () => {
                           onIconClick={() =>
                             setShowNewPassword((prev) => !prev)
                           }
+                          
                         />
                       </div>
                     </PopoverTrigger>
