@@ -202,6 +202,7 @@ export default function RecoverUserIDPage() {
                   error={errors.SSNLast5?.message}
                   name="SSNLast5"
                   type="password"
+                  className="w-full"
                   maxLength={5}
                   iconRight={
                     errors.SSNLast5?.message || fieldError ? NotSecure : ''

@@ -1,5 +1,5 @@
 'use client';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { format, parse, isValid, addYears, isAfter } from 'date-fns';
 import { Calendar } from '@/components/ui/calendar';
 import {
@@ -40,6 +40,18 @@ export default function DatePicker({
       : undefined,
   );
   const [inputValue, setInputValue] = useState(value || '');
+
+  const [windowWidth, setWindowWidth] = useState<number>(
+    typeof window !== 'undefined' ? window.innerWidth : 1024,
+  );
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const popoverSide = windowWidth <= 768 ? 'top' : 'right'; // ✅ mobile threshold
 
   const formatInput = (raw: string) => {
     const digits = raw.replace(/\D/g, '');
@@ -128,7 +140,7 @@ export default function DatePicker({
         </div>
       </PopoverTrigger>
       <PopoverContent
-        side="right"
+        side={popoverSide}
         className="box-shadow w-full rounded-[16px] border-none bg-white p-0 dark:bg-gray-800"
         onOpenAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift
         onCloseAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift back
