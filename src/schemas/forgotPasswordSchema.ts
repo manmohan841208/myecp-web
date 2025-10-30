@@ -18,7 +18,6 @@ export const forgotPasswordSchema = z.object({
       /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/,
       'Date of Birth must be in MM/DD/YYYY format',
     )
-
     .refine(
       (date) => {
         const [month, day, year] = date.split('/');

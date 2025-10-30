@@ -2,7 +2,7 @@
 import Button from '@/components/atoms/Button';
 import Card from '@/components/atoms/Card';
 import { InputField } from '@/components/atoms/InputField';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CustomAlert from '@/components/atoms/AlertMessage';
 import { useResetPasswordMutation } from '@/store/services/resetPasswordApi';
@@ -58,6 +58,17 @@ const ResetPasswordPage = () => {
 
   const [password, setPassword] = useState('');
   const [open, setOpen] = useState(false);
+  const [windowWidth, setWindowWidth] = useState<number>(
+    typeof window !== 'undefined' ? window.innerWidth : 1024,
+  );
+
+  useEffect(() => {
+    const handleResize = () => setWindowWidth(window.innerWidth);
+    window.addEventListener('resize', handleResize);
+    return () => window.removeEventListener('resize', handleResize);
+  }, []);
+
+  const popoverSide = windowWidth <= 768 ? 'bottom' : 'right'; // ✅ mobile threshold
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -172,7 +183,7 @@ const ResetPasswordPage = () => {
                       </div>
                     </PopoverTrigger>
                     <PopoverContent
-                      side="right"
+                      side={popoverSide}
                       align="start"
                       className="w-[194px] !rounded-[4px] border-[#cccccc] bg-[#F1F1F1] p-0"
                       onOpenAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift
