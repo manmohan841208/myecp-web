@@ -143,7 +143,7 @@ export default function RecoverUserIDPage() {
             className="flex flex-col gap-4"
             onSubmit={handleSubmit((data: any) => handleValidate(data))}
           >
-            <Card className="customCard flex w-full flex-col gap-3 py-3 sm:flex-row md:p-6 lg:px-6">
+            <Card className="customCard flex w-full flex-col gap-4 sm:flex-row md:p-6 lg:px-6">
               <div className="w-full sm:w-1/2">
                 <InputField
                   label="Last Name"
@@ -240,7 +240,7 @@ export default function RecoverUserIDPage() {
                 />
               </div>
             </Card>
-            <Card className="customCard flex flex-col py-4 md:p-6 lg:px-6">
+            <Card className="customCard flex flex-col md:p-6 lg:px-6">
               <div className="flex flex-col gap-4">
                 <div className="flex gap-2">
                   <div className="bg-[#000f73] px-[12px] py-1 text-xl text-white">
