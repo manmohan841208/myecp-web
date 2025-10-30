@@ -192,6 +192,7 @@ export default function ForgotUserIdPage() {
               <div className="w-full sm:w-1/2">
                 <InputField
                   label="Last 5 Digits of SSN"
+                  className='w-full'
                   mandantory
                   onInput={(e) => {
                     e.currentTarget.value = e.currentTarget.value.replace(
@@ -221,7 +222,7 @@ export default function ForgotUserIdPage() {
             </Card>
 
             <Card className="customCard flex w-full gap-3 md:p-6 lg:px-6">
-              <div className="w-full sm:w-1/2">
+              <div className="w-full sm:w-1/2  pr-[6px]">
                 <Controller
                   name="dob"
                   control={control}
@@ -267,7 +268,7 @@ export default function ForgotUserIdPage() {
                   </Button>
                 </div>
 
-                <div className="responsive-captcha w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2">
+                <div className="responsive-captcha w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2  pr-[6px]">
                   <InputField
                     mandantory
                     placeholder="Enter Captcha Code"

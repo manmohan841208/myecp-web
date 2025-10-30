@@ -182,6 +182,7 @@ export default function RecoverUserIDPage() {
                 <InputField
                   label="Last 5 Digits of SSN"
                   mandantory
+                  className='w-full'
                   onInput={(e) => {
                     e.currentTarget.value = e.currentTarget.value.replace(
                       /[^0-9]/g,
@@ -208,8 +209,8 @@ export default function RecoverUserIDPage() {
                 />
               </div>
             </Card>
-            <Card className="customCard flex w-full gap-3 md:p-6 lg:px-6">
-              <div className="w-full sm:w-1/2">
+            <Card className="customCard flex w-full gap-3 md:p-6 lg:px-6  ">
+              <div className="w-full sm:w-1/2 pr-[6px]">
                 <Controller
                   name="dob"
                   control={control}
@@ -252,7 +253,7 @@ export default function RecoverUserIDPage() {
                     <Image src={Relode} alt="relode-img" />
                   </Button>
                 </div>
-                <div className="responsive-captcha w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2">
+                <div className="responsive-captcha w-2/3 sm:w-2/3 md:w-1/2 lg:w-1/2  pr-[6px]">
                   <InputField
                     mandantory
                     placeholder="Enter Captcha Code"
