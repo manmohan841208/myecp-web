@@ -11,7 +11,7 @@ import { setResetPasswordMessage } from '@/store/slices/resetPasswordSlice';
 import { CANCEL, REQUIRED_FIELDS } from '@/constants/commonConstants';
 import { LOGIN, SUBMIT } from '@/constants/forgotPwdSQConstants';
 import { Loader } from '@/components/atoms/Loader';
-import { useForm } from 'react-hook-form';
+import { useForm, useWatch } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import {
   resetPasswordSchema,
@@ -31,16 +31,11 @@ const ResetPasswordPage = () => {
   const [resetPassword, { isLoading }] = useResetPasswordMutation();
   const dispatch = useDispatch();
 
-  const [form, setForm] = useState({
-    NewPassword: '',
-    ConfirmPassword: '',
-    UserName: localStorage.getItem('forgotPwdUserName') || '',
-  });
-
   const {
     register,
     handleSubmit,
     clearErrors,
+    control,
     formState: { errors, isValid },
   } = useForm<ResetPasswordFormValues>({
     resolver: zodResolver(resetPasswordSchema),
@@ -62,6 +57,12 @@ const ResetPasswordPage = () => {
     typeof window !== 'undefined' ? window.innerWidth : 1024,
   );
 
+  // ✅ Watch all form values
+  const values = useWatch({ control });
+
+  // ✅ Check validity using Zod schema
+  const isFormValid = resetPasswordSchema.safeParse(values).success;
+
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
@@ -69,17 +70,6 @@ const ResetPasswordPage = () => {
   }, []);
 
   const popoverSide = windowWidth <= 768 ? 'bottom' : 'right'; // ✅ mobile threshold
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const { name, value } = e.target;
-    setErrorMessage('');
-    setShowAlert(false);
-    setPwdNotSame('');
-    setForm((prev) => ({
-      ...prev,
-      [name]: value,
-    }));
-  };
 
   const resetPasswordSubmit = async (data: ResetPasswordFormValues) => {
     if (isValid) {
@@ -233,10 +223,10 @@ const ResetPasswordPage = () => {
                   </Button>
 
                   <Button
-                    variant={isValid ? 'primary' : 'disable'}
+                    variant={isFormValid ? 'primary' : 'disable'}
                     className="disabled:cursor-not-allowed disabled:opacity-50"
                     type="submit"
-                    disabled={!isValid}
+                    disabled={!isFormValid}
                   >
                     {SUBMIT}
                   </Button>

@@ -9,6 +9,7 @@ import {
 } from '@/components/ui/popover';
 import { Calendar as cal } from '@/assets/svg';
 import { InputField } from '../InputField';
+import { enUS } from 'date-fns/locale';
 
 type DatePickerProps = {
   value?: string;
@@ -103,6 +104,10 @@ export default function DatePicker({
     }
   };
 
+  const customWeekdayFormat = {
+    formatWeekday: (date: Date) => format(date, 'EEEEE', { locale: enUS }), // 'EEEEE' gives single-letter weekday
+  };
+
   const handleOk = () => {
     if (tempDate) {
       const formatted = format(tempDate, 'MM/dd/yyyy');
@@ -147,6 +152,9 @@ export default function DatePicker({
       >
         <Calendar
           mode="single"
+          formatters={{
+            formatWeekdayName: (date) => format(date, 'EEEEE'), // ✅ Single letter
+          }}
           selected={tempDate}
           onSelect={handleCalendarSelect}
           initialFocus
