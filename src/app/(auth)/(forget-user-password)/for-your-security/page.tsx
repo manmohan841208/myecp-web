@@ -123,8 +123,8 @@ const ForYourSecurityPage = () => {
                       <div className="flex gap-1">
                         <p className="text-black">
                           {securityQuestions?.Question1Text}
+                          <span className="text-[var(--text-error)] pr-1">*</span>
                         </p>
-                        <span className="text-[var(--text-error)]">*</span>
                       </div>
                     }
                     {...register('Answer1', {
@@ -147,8 +147,9 @@ const ForYourSecurityPage = () => {
                       <div className="flex gap-1">
                         <p className="text-black">
                           {securityQuestions?.Question2Text}
+                          <span className="text-[var(--text-error)] pr-1">*</span>
                         </p>
-                        <span className="text-[var(--text-error)]">*</span>
+                        
                       </div>
                     }
                     {...register('Answer2', {

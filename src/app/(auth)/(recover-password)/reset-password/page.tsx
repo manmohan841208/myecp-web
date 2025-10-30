@@ -98,7 +98,7 @@ const ResetPasswordPage = () => {
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
-        header={showSuccessAlert ? 'MyECP Password Reset' : 'For Your Security'}
+        header={showSuccessAlert ? 'MyECP Password Reset' : 'Reset Password'}
       >
         <div className="flex flex-col gap-4 p-4 !pb-0">
           {showAlert ? (
