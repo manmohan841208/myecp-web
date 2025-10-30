@@ -10,6 +10,8 @@ import {
   RewardImg,
   BannerImage,
   BannerImage2,
+  BlackEyeClose,
+  BlackEyeOpen,
 } from '@/assets/svg';
 import Button from '@/components/atoms/Button';
 import { InputField } from '@/components/atoms/InputField';
@@ -66,6 +68,7 @@ const Login = () => {
   const { data: promotionData } = useGetPromotionsQuery(1);
   const [images, setImages] = useState<ReactElement[]>([]);
   const [originalId, setOriginalId] = useState(getCookie('userName') || '');
+  const [showPassword, setShowPassword] = useState(false);
 
   const {
     register,
@@ -212,21 +215,12 @@ const Login = () => {
               <div className="flex flex-col gap-1">
                 <InputField
                   label={USER_PASSWORD_LABEL}
-                  type="password"
+                  type={showPassword ? 'text' : 'password'}
                   className="w-full"
-                  // onChange={(e: any) =>
-                  //   dispatch(
-                  //     setPassword(e.target.value),
-                  //     setShowError(false),
-                  //     setErrorMessage(''),
-                  //   )
-                  // }
                   {...register('password')}
-                  // error={errors.password?.message}
+                  iconRight={showPassword ? BlackEyeClose : BlackEyeOpen}
+                  onIconClick={() => setShowPassword((prev) => !prev)}
                 />
-                {/* {errors.password && (
-                  <p className="text-red-500">{errors.password.message}</p>
-                )} */}
                 <div className="flex items-center justify-end gap-1">
                   {FORGOT}
                   <Link
