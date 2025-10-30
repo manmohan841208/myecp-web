@@ -161,10 +161,13 @@ const ResetPasswordPage = () => {
                                 ? BlackEyeClose
                                 : BlackEyeOpen
                           }
-                          onIconClick={() =>
-                            setShowNewPassword((prev) => !prev)
-                          }
-                          
+                          onIconClick={() => {
+                            if (errors.NewPassword?.message) {
+                              return;
+                            } else {
+                              setShowNewPassword((prev) => !prev);
+                            }
+                          }}
                         />
                       </div>
                     </PopoverTrigger>
@@ -199,7 +202,13 @@ const ResetPasswordPage = () => {
                           ? BlackEyeClose
                           : BlackEyeOpen
                     }
-                    onIconClick={() => setShowConfirmPassword((prev) => !prev)}
+                    onIconClick={() => {
+                      if (errors.ConfirmPassword?.message) {
+                        return;
+                      } else {
+                        setShowConfirmPassword((prev) => !prev);
+                      }
+                    }}
                   />
                 </div>
               </Card>
