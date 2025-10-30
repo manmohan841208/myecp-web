@@ -93,19 +93,23 @@ const InputField: React.FC<InputFieldProps> = ({
 
         {iconRight && (
           <div
-            className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[var(--color-grey-medium)]"
+            className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[var(--color-grey-medium)] h-10 w-10 flex justify-center items-center "
             onMouseDown={(e) => {
               e.preventDefault(); // ✅ Prevent input blur
               onIconClick?.(); // ✅ Call the optional click handler
             }}
           >
-            {typeof iconRight === 'string' ? (
-              <Image src={iconRight} width={25} height={25} alt="icon" />
-            ) : React.isValidElement(iconRight) ? (
-              iconRight
-            ) : iconRight?.src ? (
-              <Image src={iconRight.src} width={25} height={25} alt="icon" />
-            ) : null}
+            
+          {typeof iconRight === 'string' ? (
+                <Image src={iconRight} width={24} height={24} alt="icon" />
+              ) : React.isValidElement(iconRight) ? (
+                iconRight
+              ) : typeof iconRight === 'object' &&
+                iconRight !== null &&
+                'src' in iconRight ? (
+                <Image src={(iconRight as { src: string }).src} width={24} height={24} alt="icon" />
+          ) : null}
+
           </div>
         )}
       </div>
