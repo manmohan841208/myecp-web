@@ -67,7 +67,12 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState('');
   const { data: promotionData } = useGetPromotionsQuery(1);
   const [images, setImages] = useState<ReactElement[]>([]);
+
   const [originalId, setOriginalId] = useState(getCookie('userName') || '');
+  const [maskedId, setMaskedId] = useState(
+    originalId ? maskUserId(originalId) : '',
+  );
+
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -78,10 +83,7 @@ const Login = () => {
     resolver: zodResolver(loginSchema),
     mode: 'all',
     defaultValues: {
-      // UserName: getCookie('userName') ? maskUserId(getCookie('userName')) : '', // 👈 set your default value
-      UserName: (() => {
-        return originalId ? maskUserId(originalId) : '';
-      })(),
+      UserName: maskedId || '',
     },
   });
 
@@ -178,7 +180,14 @@ const Login = () => {
                 <InputField
                   label={USER_ID_LABEL}
                   {...register('UserName', {
-                    onChange: () => {
+                    onChange: (e: any) => {
+                      const value = e.target.value;
+
+                      // If user starts typing something different from maskedId, clear originalId
+                      if (originalId && value !== maskUserId(originalId)) {
+                        setOriginalId(''); // ✅ Now payload will use typed value
+                      }
+
                       setShowError(false);
                       setErrorMessage('');
                     },
@@ -186,11 +195,7 @@ const Login = () => {
                   autoFocus={originalId ? false : true}
                   name="UserName"
                   className="w-full"
-                  // error={errors.UserName?.message}
                 />
-                {/* {errors.UserName && (
-                  <p className="text-red-500">{errors.UserName.message}</p>
-                )} */}
                 <div className="flex items-center justify-end gap-1">
                   {FORGOT}
                   <Link
