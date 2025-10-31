@@ -305,6 +305,7 @@ const Login = () => {
             autoScroll
             interval={3000}
             className="rounded-lg"
+            data={promotionData}
           />
         </Card>
       </section>
