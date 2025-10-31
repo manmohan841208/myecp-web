@@ -50,14 +50,13 @@ export default function Carousel({
             key={index}
             className="banner-img !h-full w-full flex-shrink-0 rounded object-cover"
           >
-            <a
-              target="_blank"
-              href={
-                data[index]?.PromotionLink ? data[index]?.PromotionLink : '#'
-              }
-            >
-              {img}
-            </a>
+            {data[index]?.PromotionLink ? (
+              <a target="_blank" href={data[index]?.PromotionLink}>
+                {img}
+              </a>
+            ) : (
+              img
+            )}
           </div>
         ))}
       </div>
