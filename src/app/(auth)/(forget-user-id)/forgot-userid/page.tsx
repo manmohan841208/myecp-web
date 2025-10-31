@@ -226,9 +226,8 @@ export default function RecoverUserIDPage() {
                       value={field.value}
                       {...register(field.name)}
                       onChange={(date) => {
-                        setFieldError(false);
-                        handleDOBChange(date ? format(date, 'MM/dd/yyyy') : '');
-                        field.onChange(date ? format(date, 'MM/dd/yyyy') : '');
+                        handleDOBChange(date);
+                        field.onChange(date);
                       }}
                       onBlur={field.onBlur}
                       onFocus={() => {
