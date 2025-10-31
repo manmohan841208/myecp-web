@@ -39,7 +39,7 @@ export default function Navbar() {
 
   return (
     <nav className="navbar shadow-md ">
-      <div className="mx-auto max-w-[1152px] !text-sm relative flex items-center justify-between px-4 ">
+      <div className="mx-auto max-w-[1152px] !text-sm relative flex items-center justify-between px-[16px]">
       <div className="flex w-full items-center gap-4 py-3.5 md:gap-5 ">
         <Link href="/">
           <Image src={MilitryStarLogo} alt="Logo" className="cursor-pointer" />

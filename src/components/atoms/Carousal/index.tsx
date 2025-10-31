@@ -65,15 +65,19 @@ export default function Carousel({
       {/* Arrows icons */}
       <button
         onClick={prevSlide}
-        className="absolute top-1/2 left-2 z-20 h-10 w-10 -translate-y-1/2 cursor-pointer rounded-full bg-black p-3 opacity-20 shadow"
+        className="h-10 w-10 absolute left-2 top-1/2  -translate-y-1/2 bg-black opacity-20 p-3 rounded-full shadow z-20 cursor-pointer flex justify-center items-center"
       >
-        <ChevronLeft size={24} className="h-full w-full text-white" />
+        <div className='w-6 h-6'>
+          <ChevronLeft size={24} className='text-white w-full h-full '  />
+        </div>
       </button>
       <button
         onClick={nextSlide}
-        className="absolute top-1/2 right-2 z-20 h-10 w-10 -translate-y-1/2 cursor-pointer rounded-full bg-black p-3 opacity-20 shadow"
+        className="h-10 w-10 absolute right-2 top-1/2 -translate-y-1/2 bg-black opacity-20  p-3 rounded-full shadow z-20 cursor-pointer flex justify-center items-center"
       >
-        <ChevronRight size={24} className="h-full w-full text-white" />
+        <div className='w-6 h-6'>
+          <ChevronRight size={24} className='text-white  w-full h-full '/>
+        </div>
       </button>
 
       {/* Bullets */}
