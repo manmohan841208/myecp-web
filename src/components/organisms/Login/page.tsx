@@ -279,10 +279,7 @@ const Login = () => {
               {NEW_TO_MYECP}{' '}
               <p className="flex items-center justify-center gap-1">
                 Please
-                <Link
-                  href="/create-profile"
-                  className="text-sm text-[var(--color-link)]"
-                >
+                <Link href="#" className="text-sm text-[var(--color-link)]">
                   {PLEASE_REGISTER_HERE}
                 </Link>
               </p>

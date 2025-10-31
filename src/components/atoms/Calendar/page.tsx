@@ -75,7 +75,7 @@ export default function DatePicker({
     const rawValue = e.target.value;
     const formatted = formatInput(rawValue);
     setInputValue(formatted);
-
+    onChange?.(formatted);
     // Trigger onChange if the input is a valid date
     if (/^\d{2}\/\d{2}\/\d{4}$/.test(formatted)) {
       const parsed = parse(formatted, 'MM/dd/yyyy', new Date());
@@ -102,10 +102,6 @@ export default function DatePicker({
           : undefined,
       );
     }
-  };
-
-  const customWeekdayFormat = {
-    formatWeekday: (date: Date) => format(date, 'EEEEE', { locale: enUS }), // 'EEEEE' gives single-letter weekday
   };
 
   const handleOk = () => {
@@ -146,8 +142,8 @@ export default function DatePicker({
       </PopoverTrigger>
       <PopoverContent
         side={popoverSide}
-        sideOffset={popoverSide === "top" ? -250 : 4}
-        className="box-shadow w-full  rounded-[16px] border-none bg-white p-0 dark:bg-gray-800 "
+        sideOffset={popoverSide === 'top' ? -250 : 4}
+        className="box-shadow w-full rounded-[16px] border-none bg-white p-0 dark:bg-gray-800"
         onOpenAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift
         onCloseAutoFocus={(e) => e.preventDefault()} // ✅ Prevent focus shift back
       >
@@ -169,6 +165,7 @@ export default function DatePicker({
             caption: { color: '#4B5563' },
             day: { padding: '0.5rem' },
           }}
+          toMonth={addYears(new Date(), -18)} // ✅ restrict dropdown to valid months
           toYear={new Date().getFullYear() - 18} // ✅ restrict dropdown to valid years
           disabled={(date) => {
             const today = new Date();
