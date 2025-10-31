@@ -18,7 +18,7 @@ const PasswordSuccessfullRecoverPage = () => {
           />
 
           <div className="flex items-center justify-end gap-2 mb-4 h-10">
-            <Button variant="primary" className='h-full'>Login</Button>
+            <Button variant="primary" className='h-full'>Log In</Button>
           </div>
         </div>
       </Card>

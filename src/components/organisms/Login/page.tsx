@@ -240,7 +240,7 @@ const Login = () => {
                     side="right"
                     align="center"
                     className="w-[120px] rounded-[4px] bg-black"
-                    content="You may recover your Password"
+                    content="You may reset your Password"
                   >
                     <Image
                       src={Tooltip}
