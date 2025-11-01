@@ -1,3 +1,4 @@
+import { isValid, parse } from 'date-fns';
 import { z } from 'zod';
 
 export const forgotUserIdSchema = z.object({
@@ -7,6 +8,7 @@ export const forgotUserIdSchema = z.object({
     .max(48, 'Last Name cannot exceed 48 characters'),
   SSNLast5: z
     .string()
+    .min(1, 'Required Field')
     .length(5, 'SSN must be exactly 5 digits')
     .regex(/^\d{5}$/, 'SSN must be numeric'),
   dob: z
@@ -15,6 +17,15 @@ export const forgotUserIdSchema = z.object({
     .regex(
       /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/,
       'Date of Birth must be in MM/DD/YYYY format',
+    )
+    .refine(
+      (date) => {
+        const parsedDate = parse(date, 'MM/dd/yyyy', new Date());
+        return isValid(parsedDate);
+      },
+      {
+        message: 'Date of Birth must be in MM/DD/YYYY format',
+      },
     )
     .refine(
       (date) => {

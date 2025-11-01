@@ -120,6 +120,16 @@ export default function DatePicker({
     setOpen(false);
   };
 
+  const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
+    if (!open) {
+      onBlur?.();
+    }
+  };
+
+  const handleInputFocus = () => {
+    onFocus?.();
+  };
+
   return (
     <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
@@ -134,8 +144,8 @@ export default function DatePicker({
             className="w-full text-left"
             iconRight={iconRight ? iconRight : cal}
             onChange={handleInputChange}
-            onFocus={onFocus}
-            onBlur={onBlur}
+            onFocus={handleInputFocus}
+            onBlur={handleInputBlur}
             apiError={apiError}
           />
         </div>
