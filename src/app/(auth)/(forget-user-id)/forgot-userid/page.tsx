@@ -44,6 +44,7 @@ export default function RecoverUserIDPage() {
     register,
     handleSubmit,
     clearErrors,
+    setValue,
     formState: { errors, isValid },
   } = useForm<ForgotUserIdFormValues>({
     resolver: zodResolver(forgotUserIdSchema),
@@ -120,6 +121,9 @@ export default function RecoverUserIDPage() {
       dispatch(setForgotUserName(response.UserName));
       route.push('/forgot-success-userid');
     } catch (err: any) {
+      fetchCaptcha();
+      setCaptchaVerify('');
+      setValue('captchaInput', '');
       setShowError(true);
       setFieldError(true);
       setErrorMessage(
@@ -229,7 +233,16 @@ export default function RecoverUserIDPage() {
                         handleDOBChange(date);
                         field.onChange(date);
                       }}
-                      onBlur={field.onBlur}
+                      // onBlur={field.onBlur}
+                      onBlur={() => {
+                        // Check if the current value is undefined, null, or empty
+                        if (!field.value) {
+                          field.onChange(''); // Set RHF value to empty string
+                        }
+
+                        // Call the original onBlur provided by RHF
+                        field.onBlur();
+                      }}
                       onFocus={() => {
                         clearErrors('dob');
                         setFieldError(false);

@@ -54,6 +54,7 @@ export default function ForgotUserIdPage() {
     register,
     clearErrors,
     handleSubmit,
+    setValue,
     formState: { errors, isValid },
   } = useForm<ForgotPasswordFormValues>({
     resolver: zodResolver(forgotPasswordSchema),
@@ -120,6 +121,8 @@ export default function ForgotUserIdPage() {
       dispatch(setForgotPWDSecurityQuestions(response));
       route.push('/for-your-security'); // Navigate to next step
     } catch (err: any) {
+      fetchCaptcha();
+      setValue('captchaInput', '');
       setShowError(true);
       setFieldError(true);
       setErrorMessage(
@@ -235,7 +238,14 @@ export default function ForgotUserIdPage() {
                         handleDOBChange(date);
                         field.onChange(date);
                       }}
-                      onBlur={field.onBlur}
+                      onBlur={() => {
+                        // Check if the current value is undefined, null, or empty
+                        if (!field.value) {
+                          field.onChange(''); // Set RHF value to empty string
+                        }
+                        // Call the original onBlur provided by RHF
+                        field.onBlur();
+                      }}
                       onFocus={() => {
                         setFieldError(false);
                         clearErrors('dob');

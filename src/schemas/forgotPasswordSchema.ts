@@ -15,6 +15,7 @@ export const forgotPasswordSchema = z.object({
 
   dob: z
     .string()
+    .min(1, 'Required Field')
     .regex(
       /^(0[1-9]|1[0-2])\/(0[1-9]|[12]\d|3[01])\/\d{4}$/,
       'Date of Birth must be in MM/DD/YYYY format',
