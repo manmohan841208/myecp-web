@@ -36,11 +36,12 @@ export default function SuccessRecoverUserIDPage() {
             <hr className="border-[var(--text-disabled)]" />
 
             <div className="flex items-center justify-start gap-1 pt-4 pr-4 pb-2 pl-6">
-              <p>{YOUR_USERID_IS}</p> <p className='font-bold tracking-tight'>{userName}.</p>
+              <p>{YOUR_USERID_IS}</p>{' '}
+              <p className="font-bold tracking-tight">{userName}</p>
             </div>
           </div>
 
-          <div className="flex items-center justify-end ">
+          <div className="flex items-center justify-end">
             <div className="flex items-center justify-center gap-2">
               <Button variant={'primary'} onClick={() => router.push('/login')}>
                 {LOGIN}

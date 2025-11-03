@@ -46,11 +46,19 @@ export default function DatePicker({
     typeof window !== 'undefined' ? window.innerWidth : 1024,
   );
 
+  const inputRef = React.useRef<HTMLInputElement>(null);
+
   useEffect(() => {
     const handleResize = () => setWindowWidth(window.innerWidth);
     window.addEventListener('resize', handleResize);
     return () => window.removeEventListener('resize', handleResize);
   }, []);
+
+  const handleIconRightClick = () => {
+    if (inputRef.current && iconRight === cal) {
+      inputRef.current.focus();
+    }
+  };
 
   const popoverSide = windowWidth <= 768 ? 'top' : 'right'; // ✅ mobile threshold
 
@@ -135,6 +143,7 @@ export default function DatePicker({
       <PopoverTrigger asChild>
         <div className="w-full">
           <InputField
+            ref={inputRef} // Attach the ref here
             onClick={(e) => e.stopPropagation()}
             label={label}
             value={inputValue}
@@ -147,6 +156,7 @@ export default function DatePicker({
             onFocus={handleInputFocus}
             onBlur={handleInputBlur}
             apiError={apiError}
+            onIconClick={handleIconRightClick}
           />
         </div>
       </PopoverTrigger>
