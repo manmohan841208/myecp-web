@@ -138,6 +138,15 @@ export default function ForgotUserIdPage() {
     setCaptchaVerify(value);
   };
 
+  const cancelButtonRef = React.useRef<HTMLButtonElement>(null);
+
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (cancelButtonRef.current) {
+      cancelButtonRef.current.focus();
+    }
+  };
+
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
@@ -320,7 +329,12 @@ export default function ForgotUserIdPage() {
             </Card>
 
             <div className="flex items-center justify-end gap-2">
-              <Button variant="outline" onClick={() => route.back()}>
+              <Button
+                variant="outline"
+                ref={cancelButtonRef}
+                onMouseDown={handleCancel}
+                onClick={() => route.back()}
+              >
                 {CANCEL}
               </Button>
 

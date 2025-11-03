@@ -16,18 +16,22 @@ export default function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const isFlutterApp =
+    typeof navigator !== 'undefined' &&
+    navigator.userAgent.includes('MMA-Mobile-Flutter-App');
+
   return (
     <html lang="en">
-      <body className="bg-[#D3D3D3] text-[14px] antialiased font-arial min-h-screen flex flex-col">
+      <body className="font-arial flex min-h-screen flex-col bg-[#D3D3D3] text-[14px] antialiased">
         <AuthProvider>
           <Providers>
-            <Navbar />
-            <main className="flex-grow">
-              {children}
-            </main>
-            <div>
-              <Footer />
-            </div>
+            {!isFlutterApp ? <Navbar /> : null}
+            <main className="flex-grow">{children}</main>
+            {!isFlutterApp ? (
+              <div>
+                <Footer />
+              </div>
+            ) : null}
           </Providers>
         </AuthProvider>
       </body>

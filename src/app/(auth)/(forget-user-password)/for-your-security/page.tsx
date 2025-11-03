@@ -92,6 +92,15 @@ const ForYourSecurityPage = () => {
     }
   };
 
+  const cancelButtonRef = React.useRef<HTMLButtonElement>(null);
+
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (cancelButtonRef.current) {
+      cancelButtonRef.current.focus();
+    }
+  };
+
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
@@ -123,7 +132,9 @@ const ForYourSecurityPage = () => {
                       <div className="flex gap-1">
                         <p className="text-black">
                           {securityQuestions?.Question1Text}
-                          <span className="text-[var(--text-error)] pr-1">*</span>
+                          <span className="pr-1 text-[var(--text-error)]">
+                            *
+                          </span>
                         </p>
                       </div>
                     }
@@ -147,9 +158,10 @@ const ForYourSecurityPage = () => {
                       <div className="flex gap-1">
                         <p className="text-black">
                           {securityQuestions?.Question2Text}
-                          <span className="text-[var(--text-error)] pr-1">*</span>
+                          <span className="pr-1 text-[var(--text-error)]">
+                            *
+                          </span>
                         </p>
-                        
                       </div>
                     }
                     {...register('Answer2', {
@@ -169,6 +181,8 @@ const ForYourSecurityPage = () => {
                 <Button
                   variant="outline"
                   className="h-full"
+                  ref={cancelButtonRef}
+                  onMouseDown={handleCancel}
                   onClick={() => router.back()}
                 >
                   {CANCEL}

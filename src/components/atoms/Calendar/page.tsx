@@ -55,7 +55,7 @@ export default function DatePicker({
   }, []);
 
   const handleIconRightClick = () => {
-    if (inputRef.current && iconRight === cal) {
+    if (inputRef.current) {
       inputRef.current.focus();
     }
   };
@@ -122,10 +122,16 @@ export default function DatePicker({
       onChange?.('');
     }
     setOpen(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   const handleCancel = () => {
     setOpen(false);
+    if (inputRef.current) {
+      inputRef.current.focus();
+    }
   };
 
   const handleInputBlur = (e: React.FocusEvent<HTMLInputElement>) => {
@@ -144,7 +150,7 @@ export default function DatePicker({
         <div className="w-full">
           <InputField
             ref={inputRef} // Attach the ref here
-            onClick={(e) => e.stopPropagation()}
+            // onClick={(e) => e.stopPropagation()}
             label={label}
             value={inputValue}
             placeholder="MM/DD/YYYY"

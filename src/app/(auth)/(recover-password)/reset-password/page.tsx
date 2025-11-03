@@ -94,6 +94,16 @@ const ResetPasswordPage = () => {
       }
     }
   };
+
+  const cancelButtonRef = React.useRef<HTMLButtonElement>(null);
+
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    if (cancelButtonRef.current) {
+      cancelButtonRef.current.focus();
+    }
+  };
+
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
@@ -218,7 +228,12 @@ const ResetPasswordPage = () => {
             <div className="flex items-center justify-end gap-2 pb-4">
               {!showSuccessAlert ? (
                 <>
-                  <Button variant="outline" onClick={() => router.back()}>
+                  <Button
+                    variant="outline"
+                    onClick={() => router.back()}
+                    ref={cancelButtonRef}
+                    onMouseDown={handleCancel}
+                  >
                     {CANCEL}
                   </Button>
 
