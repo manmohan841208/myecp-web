@@ -1,5 +1,5 @@
 'use client';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import Button from '@/components/atoms/Button';
 import Card from '@/components/atoms/Card';
 import { InputField } from '@/components/atoms/InputField';
@@ -132,6 +132,21 @@ export default function RecoverUserIDPage() {
           'Something went wrong. Please try again.',
       );
     }
+  };
+
+  const cancelButtonRef = useRef<HTMLButtonElement>(null);
+
+  const handleCancel = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+    // Prevent the default action immediately
+    e.preventDefault();
+
+    // Explicitly focus the button itself on mousedown
+    // This forces the currently focused input to blur gracefully
+    if (cancelButtonRef.current) {
+      cancelButtonRef.current.focus();
+    }
+
+    // Now you can run your logic in onClick, as focus has already shifted
   };
 
   return (
@@ -312,7 +327,12 @@ export default function RecoverUserIDPage() {
               </p>
             </Card>
             <div className="flex items-center justify-end gap-2">
-              <Button variant="outline" onClick={() => route.back()}>
+              <Button
+                variant="outline"
+                ref={cancelButtonRef}
+                onMouseDown={handleCancel}
+                onClick={() => route.back()}
+              >
                 {CANCEL}
               </Button>
               <Button

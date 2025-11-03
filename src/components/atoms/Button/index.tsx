@@ -17,6 +17,8 @@ interface ButtonProps {
   onClick?: (e: any) => void;
   className?: string;
   disabled?: boolean;
+  ref?: React.Ref<HTMLButtonElement>;
+  onMouseDown?: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }
 
 const Button: React.FC<ButtonProps> = ({
@@ -26,6 +28,7 @@ const Button: React.FC<ButtonProps> = ({
   onClick,
   className,
   disabled,
+  ref,
 }) => {
   return (
     <UIButton
@@ -34,6 +37,8 @@ const Button: React.FC<ButtonProps> = ({
       onClick={onClick}
       className={className}
       disabled={disabled}
+      ref={ref}
+      onMouseDown={(e: any) => e.preventDefault()}
     >
       {children}
     </UIButton>

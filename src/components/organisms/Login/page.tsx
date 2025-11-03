@@ -179,6 +179,7 @@ const Login = () => {
               <div className="flex flex-col gap-1">
                 <InputField
                   label={USER_ID_LABEL}
+                  pasteDisabled={false}
                   {...register('UserName', {
                     onChange: (e: any) => {
                       const value = e.target.value;

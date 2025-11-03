@@ -16,6 +16,12 @@ interface InputFieldProps extends React.ComponentProps<'input'> {
   placeholder?: string;
   apiError?: boolean;
   onIconClick?: () => void; // ✅ new optional prop
+  onPaste?: () => void;
+  onCut?: () => void;
+  onCopy?: () => void;
+  pasteDisabled?: boolean;
+  copyDisabled?: boolean;
+  cutDisabled?: boolean;
 }
 
 const InputField: React.FC<InputFieldProps> = ({
@@ -30,9 +36,33 @@ const InputField: React.FC<InputFieldProps> = ({
   placeholder = '',
   apiError = false,
   onIconClick,
+  onPaste,
+  onCopy,
+  onCut,
+  pasteDisabled = true,
+  copyDisabled = true,
+  cutDisabled = true,
   ...props
 }) => {
   const hasError = error !== undefined;
+
+  const handlePaste = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    if (pasteDisabled) {
+      e.preventDefault();
+    }
+  };
+
+  const handleCopy = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    if (copyDisabled) {
+      e.preventDefault();
+    }
+  };
+
+  const handleCut = (e: React.ClipboardEvent<HTMLInputElement>) => {
+    if (cutDisabled) {
+      e.preventDefault();
+    }
+  };
 
   return (
     <div className="flex flex-col gap-2">
@@ -84,31 +114,33 @@ const InputField: React.FC<InputFieldProps> = ({
           aria-invalid={hasError}
           placeholder={placeholder}
           {...props}
+          onCopy={handleCopy}
+          onPaste={handlePaste}
+          onCut={handleCut}
         />
-        {/* {iconRight && (
-          <div className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[var(--color-grey-medium)]">
-            <Image src={iconRight as string} alt="img" />
-          </div>
-        )} */}
 
         {iconRight && (
           <div
-            className="absolute top-1/2 right-3 -translate-y-1/2 cursor-pointer text-[var(--color-grey-medium)] h-10 w-10 flex justify-center items-center "
+            className="absolute top-1/2 right-3 flex h-10 w-10 -translate-y-1/2 cursor-pointer items-center justify-center text-[var(--color-grey-medium)]"
             onMouseDown={(e) => {
               e.preventDefault(); // ✅ Prevent input blur
               onIconClick?.(); // ✅ Call the optional click handler
             }}
           >
-            
-          {typeof iconRight === 'string' ? (
-                <Image src={iconRight} width={24} height={24} alt="icon" />
-              ) : React.isValidElement(iconRight) ? (
-                iconRight
-              ) : typeof iconRight === 'object' &&
-                iconRight !== null &&
-                'src' in iconRight ? (
-                <Image src={(iconRight as { src: string }).src} width={24} height={24} alt="icon" />
-          ) : null}
+            {typeof iconRight === 'string' ? (
+              <Image src={iconRight} width={24} height={24} alt="icon" />
+            ) : React.isValidElement(iconRight) ? (
+              iconRight
+            ) : typeof iconRight === 'object' &&
+              iconRight !== null &&
+              'src' in iconRight ? (
+              <Image
+                src={(iconRight as { src: string }).src}
+                width={24}
+                height={24}
+                alt="icon"
+              />
+            ) : null}
           </div>
         )}
       </div>
