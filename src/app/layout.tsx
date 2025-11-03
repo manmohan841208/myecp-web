@@ -20,6 +20,8 @@ export default function RootLayout({
     typeof navigator !== 'undefined' &&
     navigator.userAgent.includes('MMA-Mobile-Flutter-App');
 
+  console.log('isFlutterApp', isFlutterApp);
+
   return (
     <html lang="en">
       <body className="font-arial flex min-h-screen flex-col bg-[#D3D3D3] text-[14px] antialiased">

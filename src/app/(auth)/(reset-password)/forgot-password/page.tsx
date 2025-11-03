@@ -234,7 +234,7 @@ export default function ForgotUserIdPage() {
             </Card>
 
             <Card className="customCard flex w-full gap-4 md:p-6 lg:px-6">
-              <div className="w-full pr-[6px] sm:w-1/2">
+              <div className="sm:pr[0px] w-full sm:w-1/2 md:pr-[8px]">
                 <Controller
                   name="dob"
                   control={control}
@@ -287,7 +287,7 @@ export default function ForgotUserIdPage() {
                   </Button>
                 </div>
 
-                <div className="responsive-captcha w-2/3 pr-[6px] sm:w-2/3 md:w-1/2 lg:w-1/2">
+                <div className="responsive-captcha w-2/3 sm:w-2/3 sm:pr-[0px] md:w-1/2 md:pr-[8px] lg:w-1/2">
                   <InputField
                     mandantory
                     placeholder="Enter Captcha Code"
