@@ -150,7 +150,7 @@ export default function DatePicker({
         <div className="w-full">
           <InputField
             ref={inputRef} // Attach the ref here
-            // onClick={(e) => e.stopPropagation()}
+            onClick={(e) => e.stopPropagation()}
             label={label}
             value={inputValue}
             placeholder="MM/DD/YYYY"
