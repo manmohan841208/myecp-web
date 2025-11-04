@@ -55,6 +55,7 @@ import {
 import { useGetPromotionsQuery } from '@/store/services/bannerPromotionsApi';
 import { generatePromotionImages } from '@/components/molecules/PromotionBanners';
 import maskUserId from '@/utils/maskUserId';
+import { set } from 'date-fns';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -62,7 +63,8 @@ const Login = () => {
   const { UserName, Password, rememberMe } = useSelector(
     (state: any) => state.login,
   );
-  const [loginUser, { isLoading, error }] = useLoginMutation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [loginUser, { error }] = useLoginMutation();
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const { data: promotionData } = useGetPromotionsQuery(1);
@@ -113,6 +115,7 @@ const Login = () => {
 
   const handleLogin = async (data: any) => {
     try {
+      setIsLoading(true);
       const userNameToSend = originalId || data.UserName;
 
       const result: any = await loginUser({
@@ -153,6 +156,7 @@ const Login = () => {
         err.data?.Message ||
         err.data?.message ||
         'Login failed. Please try again.';
+      setIsLoading(false);
       setShowError(true);
       setErrorMessage(message);
     }
