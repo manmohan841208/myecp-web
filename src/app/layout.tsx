@@ -5,22 +5,27 @@ import Navbar from '@/components/molecules/Navbar';
 import Footer from '@/components/molecules/Footer';
 import { Providers } from './providers';
 import { AuthProvider } from '@/context/AuthProvider';
+import { headers } from 'next/headers';
+import { userAgent } from 'next/server';
 
 export const metadata: Metadata = {
   title: 'MILITARY STAR',
   description: 'Created by AAFES web team',
 };
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const isFlutterApp =
-    typeof navigator !== 'undefined' &&
-    navigator.userAgent.includes('MMA-Mobile-Flutter-App');
+  const headersList = await headers();
+  const userAgentString = headersList.get('user-agent');
 
-  console.log('isFlutterApp', isFlutterApp);
+  const isFlutterApp =
+    typeof userAgentString !== 'undefined' &&
+    userAgentString?.includes('MMA-Mobile-Flutter-App');
+
+  console.log('isFlutterApp', isFlutterApp, userAgentString);
 
   return (
     <html lang="en">
