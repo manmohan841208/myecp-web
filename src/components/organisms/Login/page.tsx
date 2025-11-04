@@ -153,9 +153,10 @@ const Login = () => {
       }
     } catch (err: any) {
       const message =
-        err.data?.Message ||
-        err.data?.message ||
-        'Login failed. Please try again.';
+        err.data?.messageDesc || // Check messageDesc first
+        err.data?.Message || // Fallback to Message
+        err.data?.message || // Fallback to message
+        'Login failed. Please try again.'; // Fallback to default message
       setIsLoading(false);
       setShowError(true);
       setErrorMessage(message);
