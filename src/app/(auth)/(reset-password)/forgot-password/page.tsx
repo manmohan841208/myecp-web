@@ -198,6 +198,7 @@ export default function ForgotUserIdPage() {
                       ? 'w-full text-[var(--text-error)]'
                       : 'w-full'
                   }
+                  pasteDisabled={false}
                   iconRight={
                     errors.UserName?.message || fieldError ? NotSecure : ''
                   }
