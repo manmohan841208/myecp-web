@@ -149,7 +149,8 @@ export default function ForgotUserIdPage() {
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    route.push('/');
+    // route.push('/');
+    window.location.href = 'mmaapp://close';
   };
 
   return (
@@ -341,7 +342,7 @@ export default function ForgotUserIdPage() {
                 variant="outline"
                 ref={cancelButtonRef}
                 onMouseDown={handleCancel}
-                onClick={() => route.back()}
+                // onClick={() => route.back()}
               >
                 {CANCEL}
               </Button>
