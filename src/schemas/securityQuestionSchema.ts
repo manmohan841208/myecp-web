@@ -1,7 +1,7 @@
 import { z } from 'zod';
 
 export const securityQuestionSchema = z.object({
-  answer: z.string().min(1, 'Required Field'),
+  answer: z.string().min(1, 'Required Field').regex(/\S/, 'Required Field'),
   rememberDevice: z.boolean().optional(),
 });
 

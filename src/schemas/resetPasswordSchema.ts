@@ -6,11 +6,15 @@ export const resetPasswordSchema = z
     NewPassword: z
       .string()
       .min(8, 'Password does not meet all requirements')
+      .regex(/\S/, 'Required Field')
       .regex(
         /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/,
         'Password does not meet all requirements',
       ),
-    ConfirmPassword: z.string().min(8, 'Required Field'),
+    ConfirmPassword: z
+      .string()
+      .min(8, 'Required Field')
+      .regex(/\S/, 'Required Field'),
   })
   .refine((data) => data.NewPassword === data.ConfirmPassword, {
     message: 'Your passwords do not match. Please re-enter your passwords.',
