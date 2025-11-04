@@ -117,6 +117,8 @@ const InputField: React.FC<InputFieldProps> = ({
           onCopy={handleCopy}
           onPaste={handlePaste}
           onCut={handleCut}
+          onDrag={(e: any) => e.preventDefault()}
+          onDrop={(e: any) => e.preventDefault()}
         />
 
         {iconRight && (
