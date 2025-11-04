@@ -5,10 +5,12 @@ export const forgotUserIdSchema = z.object({
   LastName: z
     .string()
     .min(1, 'Required Field')
+    .regex(/\S/, 'Required Field')
     .max(48, 'Last Name cannot exceed 48 characters'),
   SSNLast5: z
     .string()
     .min(1, 'Required Field')
+    .regex(/\S/, 'Required Field')
     .length(5, 'SSN must be exactly 5 digits')
     .regex(/^\d{5}$/, 'SSN must be numeric'),
   dob: z
@@ -43,7 +45,10 @@ export const forgotUserIdSchema = z.object({
         message: 'You must be at least 18 years old',
       },
     ),
-  captchaInput: z.string().min(1, 'Required Field'),
+  captchaInput: z
+    .string()
+    .min(1, 'Required Field')
+    .regex(/\S/, 'Required Field'),
 });
 
 export type ForgotUserIdFormValues = z.infer<typeof forgotUserIdSchema>;

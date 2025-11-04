@@ -55,7 +55,6 @@ import {
 import { useGetPromotionsQuery } from '@/store/services/bannerPromotionsApi';
 import { generatePromotionImages } from '@/components/molecules/PromotionBanners';
 import maskUserId from '@/utils/maskUserId';
-import { set } from 'date-fns';
 
 const Login = () => {
   const dispatch = useDispatch();
@@ -80,6 +79,7 @@ const Login = () => {
   const {
     register,
     handleSubmit,
+    setValue,
     formState: { errors, isValid },
   } = useForm<LoginFormValues>({
     resolver: zodResolver(loginSchema),
@@ -160,6 +160,15 @@ const Login = () => {
       setIsLoading(false);
       setShowError(true);
       setErrorMessage(message);
+    }
+  };
+
+  const clearUserId = () => {
+    if (rememberMe && originalId) {
+      setMaskedId('');
+      setOriginalId('');
+      setValue('UserName', '');
+      removeCookie('userName');
     }
   };
 
@@ -264,6 +273,7 @@ const Login = () => {
                     label={REMEMBER_USER_ID}
                     checked={rememberMe}
                     onChange={() => {
+                      clearUserId();
                       dispatch(setRememberMe(!rememberMe));
                     }}
                   />
