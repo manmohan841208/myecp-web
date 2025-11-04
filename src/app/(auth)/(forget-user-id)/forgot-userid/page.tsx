@@ -27,8 +27,9 @@ import { format } from 'date-fns';
 
 export default function RecoverUserIDPage() {
   const route = useRouter();
+  const [isLoading, setIsLoading] = useState(false);
 
-  const [forgotUserName, { isLoading }] = useForgotUserNameMutation();
+  const [forgotUserName] = useForgotUserNameMutation();
   const dispatch = useDispatch();
 
   const [form, setForm] = useState({
@@ -115,12 +116,14 @@ export default function RecoverUserIDPage() {
       DOB_Year: form.DOB_Year,
     };
     try {
+      setIsLoading(true);
       const response = await forgotUserName(payload).unwrap();
       setShowCredentialError(false);
       setFieldError(false);
       dispatch(setForgotUserName(response.UserName));
       route.push('/forgot-success-userid');
     } catch (err: any) {
+      setIsLoading(false);
       fetchCaptcha();
       setCaptchaVerify('');
       setValue('captchaInput', '');

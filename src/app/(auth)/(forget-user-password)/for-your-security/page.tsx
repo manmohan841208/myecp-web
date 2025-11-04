@@ -26,7 +26,9 @@ const ForYourSecurityPage = () => {
   const securityQuestions = useSelector(
     (state: RootState) => state.securityQuestions,
   );
-  const [validateAnswers, { isLoading }] = useValidateSecurityAnswersMutation();
+
+  const [isLoading, setIsLoading] = useState(false);
+  const [validateAnswers] = useValidateSecurityAnswersMutation();
   const [showAlert, setShowAlert] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
   const router = useRouter();
@@ -71,8 +73,10 @@ const ForYourSecurityPage = () => {
     };
 
     try {
+      setIsLoading(true);
       const response: any = await validateAnswers(payload).unwrap();
       if (response?.error) {
+        setIsLoading(false);
         setShowAlert(true);
         setErrorMessage(
           response?.error?.data?.Message ||
@@ -83,6 +87,7 @@ const ForYourSecurityPage = () => {
         router.push('/reset-password');
       }
     } catch (err: any) {
+      setIsLoading(false);
       setShowAlert(true);
       setErrorMessage(
         err?.data?.Message ||

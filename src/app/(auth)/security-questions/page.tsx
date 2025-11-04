@@ -39,13 +39,14 @@ export default function SecurityForm() {
   const [errorMessage, setErrorMessage] = useState('');
   const [rememberDevice, setRememberDevice] = useState(false);
   const [userInfo, setUserInfo] = useState<any>(null);
+  const [isLoading, setIsLoading] = useState(false);
   const dispatch = useDispatch();
 
   const rememberMe = useSelector((state: any) => {
     return state?.login?.rememberMe;
   });
 
-  const [verifySecurityQuestion, { data, isLoading, error }] =
+  const [verifySecurityQuestion, { data, error }] =
     useVerifySecurityQuestionMutation();
 
   const {
@@ -90,18 +91,16 @@ export default function SecurityForm() {
     };
 
     try {
+      setIsLoading(true);
       const response: any = await verifySecurityQuestion(payload).unwrap();
       if (response?.Message) {
+        setIsLoading(false);
         setErrorMessage(
           response?.Message
             ? response?.Message
             : 'Oops! The answer you entered is incorrect.',
         );
       } else {
-        localStorage.setItem(
-          'rememberDevice',
-          rememberDevice ? 'true' : 'false',
-        );
         setCookie('rememberDevice', rememberDevice ? 'true' : 'false', 7);
         setSession(response?.Token);
         localStorage.setItem('userInfo', response);
@@ -110,6 +109,7 @@ export default function SecurityForm() {
         router.push('/account-summary');
       }
     } catch (err: any) {
+      setIsLoading(false);
       setErrorMessage(
         err?.data?.Message
           ? err?.data?.Message

@@ -44,8 +44,9 @@ import {
 
 const TwoFactorAuthPage = () => {
   const route = useRouter();
+  const [isLoading, setIsLoading] = React.useState(false);
   const userData: any = JSON.parse(localStorage.getItem('userInfo') || 'null');
-  const [sendOtpTrigger, { data, isLoading, error }] = useSendOtpMutation();
+  const [sendOtpTrigger, { data, error }] = useSendOtpMutation();
   const [selectedOtpOption, setSelectedOtpOption] = React.useState<
     'Email' | 'SMS' | ''
   >('');
@@ -92,6 +93,7 @@ const TwoFactorAuthPage = () => {
       return;
     }
     try {
+      setIsLoading(true);
       const payload: SendOtpPayload = {
         UserId: userData?.UserId?.toString(),
         OtpOption: data?.otpOption,
@@ -104,6 +106,7 @@ const TwoFactorAuthPage = () => {
         route.push('/login/2FA/code-entry');
       }
     } catch (err: any) {
+      setIsLoading(false);
       setShowError(true);
       setErrorMessage(
         err?.data?.message || `Oops! Something went wrong. Please try again.`,
