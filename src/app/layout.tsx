@@ -6,7 +6,7 @@ import Footer from '@/components/molecules/Footer';
 import { Providers } from './providers';
 import { AuthProvider } from '@/context/AuthProvider';
 import { headers } from 'next/headers';
-import { userAgent } from 'next/server';
+import ReduxInitializer from '@/providers/ReduxInitializer';
 
 export const metadata: Metadata = {
   title: 'MILITARY STAR',
@@ -25,13 +25,12 @@ export default async function RootLayout({
     typeof userAgentString !== 'undefined' &&
     userAgentString?.includes('MMA-Mobile-Flutter-App');
 
-  console.log('isFlutterApp', isFlutterApp, userAgentString);
-
   return (
     <html lang="en">
       <body className="font-arial flex min-h-screen flex-col bg-[#D3D3D3] text-[14px] antialiased">
         <AuthProvider>
           <Providers>
+            <ReduxInitializer isFlutterApp={isFlutterApp} />
             {!isFlutterApp ? <Navbar /> : null}
             <main className="flex-grow">{children}</main>
             {!isFlutterApp ? (

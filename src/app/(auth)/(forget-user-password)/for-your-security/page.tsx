@@ -21,6 +21,7 @@ import {
   TO_VERIFY_AND_PROTECT_YOUR_ACCOUNT,
 } from '@/constants/forgotPwdSQConstants';
 import { Loader } from '@/components/atoms/Loader';
+import { CloseIcon } from '@/assets/svg';
 
 const ForYourSecurityPage = () => {
   const securityQuestions = useSelector(
@@ -106,11 +107,22 @@ const ForYourSecurityPage = () => {
     }
   };
 
+  const isFlutterApp = useSelector(
+    (state: RootState) => state.app.isFlutterApp,
+  );
+
+  const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    router.push('/');
+  };
+
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
         header="For Your Security"
+        closeIcon={isFlutterApp ? CloseIcon : null}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleClose(e)}
       >
         <div className="flex flex-col gap-4 p-4 !pb-0">
           {showAlert && <CustomAlert type="error" description={errorMessage} />}
