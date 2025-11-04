@@ -3,7 +3,7 @@
 import Card from '@/components/atoms/Card';
 import Image from '@/components/atoms/Image';
 import React, { useState } from 'react';
-import { Email } from '@/assets/svg';
+import { CloseIcon, Email } from '@/assets/svg';
 import { InputField } from '@/components/atoms/InputField';
 import Link from 'next/link';
 import Button from '@/components/atoms/Button';
@@ -34,6 +34,7 @@ import {
   setAuthFromStorage,
 } from '@/store/slices/authSlice';
 import { setSession } from '@/lib/session';
+import type { RootState } from '@/store/store';
 
 const TwoFactAuthCodeEntryPage = () => {
   const [code, setCode] = useState('');
@@ -140,11 +141,22 @@ const TwoFactAuthCodeEntryPage = () => {
     }
   };
 
+  const isFlutterApp = useSelector(
+    (state: RootState) => state.app.isFlutterApp,
+  );
+
+  const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    router.push('/');
+  };
+
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
         header={'For Your Added Security'}
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
+        closeIcon={isFlutterApp ? CloseIcon : null}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleClose(e)}
       >
         {(isVerifying || isLoading) && <Loader className="mx-auto mb-4" />}
         <div className="flex flex-col gap-4 px-4 pt-4">

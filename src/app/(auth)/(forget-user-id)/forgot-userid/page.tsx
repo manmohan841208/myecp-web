@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import Button from '@/components/atoms/Button';
 import Card from '@/components/atoms/Card';
 import { InputField } from '@/components/atoms/InputField';
-import { Relode } from '@/assets/svg';
+import { CloseIcon, Relode } from '@/assets/svg';
 import Image from '@/components/atoms/Image';
 import CustomAlert from '@/components/atoms/AlertMessage';
 import { NotSecure } from '@/assets/svg';
@@ -11,7 +11,7 @@ import { useRouter } from 'next/navigation';
 import { useLazyGetCaptchaImageQuery } from '@/store/services/getCaptchaApi';
 import { extractTextFromCaptchaBlob } from '@/utils/blobToText';
 import { useForgotUserNameMutation } from '@/store/services/forgotUserNameApi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setForgotUserName } from '@/store/slices/forgotUserNameSlice';
 import { CANCEL, REQUIRED_FIELDS } from '@/constants/commonConstants';
 import { useForm, Controller, useWatch } from 'react-hook-form';
@@ -24,6 +24,7 @@ import { PLEASE_ENTER_THE_STRING_AS_SHOWN_ABOVE } from '@/constants/forgotUserId
 import { Loader } from '@/components/atoms/Loader';
 import DatePicker from '@/components/atoms/Calendar/page';
 import { format } from 'date-fns';
+import type { RootState } from '@/store/store';
 
 export default function RecoverUserIDPage() {
   const route = useRouter();
@@ -152,11 +153,22 @@ export default function RecoverUserIDPage() {
     // Now you can run your logic in onClick, as focus has already shifted
   };
 
+  const isFlutterApp = useSelector(
+    (state: RootState) => state.app.isFlutterApp,
+  );
+
+  const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    route.push('/');
+  };
+
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
         header="Forgot User ID?"
+        closeIcon={isFlutterApp ? CloseIcon : null}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleClose(e)}
       >
         {isLoading && <Loader className="mx-auto mb-4" />}
         <div className="flex flex-col gap-4 p-4">

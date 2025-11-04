@@ -41,3 +41,4 @@ export { default as Advertisement1 } from '@/assets/svg/extra/Advertisement2.png
 export { default as Advertisement2 } from '@/assets/svg/extra/Advertisement1.png';
 export { default as TooltipBlue } from '@/assets/svg/extra/blue-tooltip.svg';
 export { default as CorrectIcon } from '@/assets/svg/extra/correct.svg';
+export { default as CloseIcon } from '@/assets/svg/white/close.svg';

@@ -3,13 +3,13 @@ import React, { useEffect, useState } from 'react';
 import Button from '@/components/atoms/Button';
 import Card from '@/components/atoms/Card';
 import { InputField } from '@/components/atoms/InputField';
-import { Relode } from '@/assets/svg';
+import { CloseIcon, Relode } from '@/assets/svg';
 import Image from '@/components/atoms/Image';
 import CustomAlert from '@/components/atoms/AlertMessage';
 import { NotSecure } from '@/assets/svg';
 import { useRouter } from 'next/navigation';
 import { setForgotPWDSecurityQuestions } from '@/store/slices/forgotSecurityQuestionsSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useForgotPasswordMutation } from '@/store/services/forgotPasswordApi';
 import { useLazyGetCaptchaImageQuery } from '@/store/services/getCaptchaApi';
 import { extractTextFromCaptchaBlob } from '@/utils/blobToText';
@@ -23,15 +23,17 @@ import { CANCEL, REQUIRED_FIELDS } from '@/constants/commonConstants';
 import { Loader } from '@/components/atoms/Loader';
 import { FORGOT_PASSWORD } from '@/constants/forgotPasswordConstants';
 import { PLEASE_ENTER_THE_STRING_AS_SHOWN_ABOVE } from '@/constants/forgotUserIdConstants';
-import { set } from 'zod';
 import DatePicker from '@/components/atoms/Calendar/page';
-import { format } from 'date-fns';
+import type { RootState } from '@/store/store';
 
 export default function ForgotUserIdPage() {
   const [isLoading, setIsLoading] = useState(false);
   const [forgotPassword] = useForgotPasswordMutation();
   const dispatch = useDispatch();
   const route = useRouter();
+  const isFlutterApp = useSelector(
+    (state: RootState) => state.app.isFlutterApp,
+  );
 
   const [captchaVerify, setCaptchaVerify] = useState('');
   const [form, setForm] = useState({
@@ -136,11 +138,6 @@ export default function ForgotUserIdPage() {
     }
   };
 
-  const handleCaptchaChange = (value: string) => {
-    setShowCaptchaError(false);
-    setCaptchaVerify(value);
-  };
-
   const cancelButtonRef = React.useRef<HTMLButtonElement>(null);
 
   const handleCancel = (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -150,11 +147,18 @@ export default function ForgotUserIdPage() {
     }
   };
 
+  const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    route.push('/');
+  };
+
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
         header={FORGOT_PASSWORD}
+        closeIcon={isFlutterApp ? CloseIcon : null}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleClose(e)}
       >
         {isLoading && <Loader className="mx-auto mb-4" />}
         <div className="flex flex-col gap-4 p-4">

@@ -5,7 +5,7 @@ import Card from '@/components/atoms/Card';
 import React from 'react';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { Label } from '@/components/ui/label';
-import { Email, Phone } from '@/assets/svg';
+import { CloseIcon, Email, Phone } from '@/assets/svg';
 import Image from '@/components/atoms/Image';
 import CustomCheckbox from '@/components/atoms/Checkbox';
 // import CustomAccordion from "@/components/atoms/Accordion";
@@ -14,7 +14,7 @@ import { useSendOtpMutation } from '@/store/services/sendOtpApi';
 import maskEmail from '@/utils/maskEmail';
 import maskPhone from '@/utils/maskPhone';
 import CustomAlert from '@/components/atoms/AlertMessage';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setSelectedOption, setOtpResponse } from '@/store/slices/sendOtpSlice';
 
 import { useForm, useWatch } from 'react-hook-form';
@@ -41,6 +41,7 @@ import {
   YOU_ARE_NOT_ENROLLED_TO_RECIEVE_2FA_CODE_VIA_TEXT,
   YOU_CAN_ENROLL_BY_GOING_TO_MY_PROFILE_ANYTIME,
 } from '@/constants/twoFactorConstants';
+import type { RootState } from '@/store/store';
 
 const TwoFactorAuthPage = () => {
   const route = useRouter();
@@ -114,11 +115,22 @@ const TwoFactorAuthPage = () => {
     }
   };
 
+  const isFlutterApp = useSelector(
+    (state: RootState) => state.app.isFlutterApp,
+  );
+
+  const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    route.push('/');
+  };
+
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:max-w-[860px]"
         header={FOR_YOUR_ADDED_SECURITY}
+        closeIcon={isFlutterApp ? CloseIcon : null}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleClose(e)}
       >
         {isLoading && <Loader className="mx-auto mb-4" />}
         <div className="flex flex-col gap-4 px-4">

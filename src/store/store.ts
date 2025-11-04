@@ -7,6 +7,7 @@ import forgotUserNameReducer from './slices/forgotUserNameSlice';
 import sendOtpSliceReducer from './slices/sendOtpSlice';
 import authReducer from './slices/authSlice';
 import navReducer from './slices/navSlice';
+import appReducer from './slices/appSlice';
 
 import {
   persistStore,
@@ -23,6 +24,7 @@ import storage from 'redux-persist/lib/storage';
 const rootReducer = combineReducers({
   login: loginReducer,
   auth: authReducer,
+  app: appReducer,
   navigation: navReducer,
   securityQuestions: forgotPWDSecurityQuestionsReducer,
   resetPassword: resetPasswordReducer,

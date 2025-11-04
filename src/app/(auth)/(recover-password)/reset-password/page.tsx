@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import CustomAlert from '@/components/atoms/AlertMessage';
 import { useResetPasswordMutation } from '@/store/services/resetPasswordApi';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { setResetPasswordMessage } from '@/store/slices/resetPasswordSlice';
 import { CANCEL, REQUIRED_FIELDS } from '@/constants/commonConstants';
 import { LOGIN, SUBMIT } from '@/constants/forgotPwdSQConstants';
@@ -23,8 +23,14 @@ import {
   PopoverTrigger,
   PopoverContent,
 } from '@/components/ui/popover';
-import { NotSecure, BlackEyeOpen, BlackEyeClose } from '@/assets/svg';
+import {
+  NotSecure,
+  BlackEyeOpen,
+  BlackEyeClose,
+  CloseIcon,
+} from '@/assets/svg';
 import Image from '@/components/atoms/Image';
+import type { RootState } from '@/store/store';
 
 const ResetPasswordPage = () => {
   const router = useRouter();
@@ -104,11 +110,22 @@ const ResetPasswordPage = () => {
     }
   };
 
+  const isFlutterApp = useSelector(
+    (state: RootState) => state.app.isFlutterApp,
+  );
+
+  const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    router.push('/');
+  };
+
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
         className="w-full bg-[var(--color-white)] !p-0 md:w-[74.65%]"
         header={showSuccessAlert ? 'MyECP Password Reset' : 'Reset Password'}
+        closeIcon={!showSuccessAlert && isFlutterApp ? CloseIcon : null}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleClose(e)}
       >
         <div className="flex flex-col gap-4 p-4 !pb-0">
           {showAlert ? (
