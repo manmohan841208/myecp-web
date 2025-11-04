@@ -159,7 +159,16 @@ export default function RecoverUserIDPage() {
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    route.push('/');
+    window.location.href = 'mmaapp://close';
+  };
+
+  const handleRoute = () => {
+    console.log('handleRoute called');
+    if (isFlutterApp) {
+      window.location.href = 'mmaapp://close';
+    } else {
+      route.push('/');
+    }
   };
 
   return (
@@ -346,7 +355,7 @@ export default function RecoverUserIDPage() {
                 variant="outline"
                 ref={cancelButtonRef}
                 onMouseDown={handleCancel}
-                onClick={() => route.back()}
+                onClick={() => handleRoute()}
               >
                 {CANCEL}
               </Button>

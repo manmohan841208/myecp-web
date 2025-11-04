@@ -111,9 +111,17 @@ const ForYourSecurityPage = () => {
     (state: RootState) => state.app.isFlutterApp,
   );
 
+  const handleRoute = () => {
+    if (isFlutterApp) {
+      window.location.href = 'mmaapp://close';
+    } else {
+      router.push('/forgot-password');
+    }
+  };
+
   const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    router.push('/');
+    window.location.href = 'mmaapp://close';
   };
 
   return (
@@ -200,7 +208,7 @@ const ForYourSecurityPage = () => {
                   className="h-full"
                   ref={cancelButtonRef}
                   onMouseDown={handleCancel}
-                  onClick={() => router.back()}
+                  onClick={() => handleRoute()}
                 >
                   {CANCEL}
                 </Button>

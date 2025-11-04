@@ -147,9 +147,16 @@ export default function ForgotUserIdPage() {
     }
   };
 
+  const handleRoute = () => {
+    if (isFlutterApp) {
+      window.location.href = 'mmaapp://close';
+    } else {
+      route.push('/');
+    }
+  };
+
   const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    // route.push('/');
     window.location.href = 'mmaapp://close';
   };
 
@@ -342,7 +349,7 @@ export default function ForgotUserIdPage() {
                 variant="outline"
                 ref={cancelButtonRef}
                 onMouseDown={handleCancel}
-                // onClick={() => route.back()}
+                onClick={() => handleRoute()}
               >
                 {CANCEL}
               </Button>

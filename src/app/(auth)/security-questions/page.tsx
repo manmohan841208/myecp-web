@@ -31,6 +31,8 @@ import {
 import { CANCEL, CONTINUE, REQUIRED_FIELDS } from '@/constants/commonConstants';
 import { setSession } from '@/lib/session';
 import { setCookie } from '@/components/utils/cookies';
+import type { RootState } from '@/store/store';
+import { CloseIcon } from '@/assets/svg';
 
 export default function SecurityForm() {
   const [securityQuestion, setSecurityQuestion] = useState('');
@@ -119,11 +121,22 @@ export default function SecurityForm() {
     }
   };
 
+  const isFlutterApp = useSelector(
+    (state: RootState) => state.app.isFlutterApp,
+  );
+
+  const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+    window.location.href = 'mmaapp://close';
+  };
+
   return (
     <div className="mx-auto max-w-[1152px] p-4 !text-base">
       <Card
         className="w-full bg-[var(--color-white)] !px-0 md:max-w-[860px]"
         header={FOR_YOUR_ADDED_SECURITY}
+        closeIcon={isFlutterApp ? CloseIcon : null}
+        onClick={(e: React.MouseEvent<HTMLButtonElement>) => handleClose(e)}
       >
         {isLoading && <Loader className="mx-auto mb-4" />}
         <div className="flex flex-col gap-4 px-4 pt-4">

@@ -121,7 +121,15 @@ const TwoFactorAuthPage = () => {
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    route.push('/');
+    window.location.href = 'mmaapp://close';
+  };
+
+  const handleRoute = () => {
+    if (isFlutterApp) {
+      window.location.href = 'mmaapp://close';
+    } else {
+      route.push('/');
+    }
   };
 
   return (
@@ -277,7 +285,7 @@ const TwoFactorAuthPage = () => {
               <Button
                 variant={'outline'}
                 className="h-full"
-                onClick={() => route.back()}
+                onClick={() => handleRoute()}
               >
                 {CANCEL}
               </Button>

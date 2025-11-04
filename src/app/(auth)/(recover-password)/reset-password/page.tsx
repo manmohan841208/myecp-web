@@ -116,7 +116,15 @@ const ResetPasswordPage = () => {
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    router.push('/');
+    window.location.href = 'mmaapp://close';
+  };
+
+  const handleRoute = () => {
+    if (isFlutterApp) {
+      window.location.href = 'mmaapp://close';
+    } else {
+      router.push('/');
+    }
   };
 
   return (
@@ -247,7 +255,7 @@ const ResetPasswordPage = () => {
                 <>
                   <Button
                     variant="outline"
-                    onClick={() => router.back()}
+                    onClick={() => handleRoute()}
                     ref={cancelButtonRef}
                     onMouseDown={handleCancel}
                   >

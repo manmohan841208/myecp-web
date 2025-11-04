@@ -147,7 +147,15 @@ const TwoFactAuthCodeEntryPage = () => {
 
   const handleClose = (e: React.MouseEvent<HTMLButtonElement>) => {
     e.preventDefault();
-    router.push('/');
+    window.location.href = 'mmaapp://close';
+  };
+
+  const handleRoute = () => {
+    if (isFlutterApp) {
+      window.location.href = 'mmaapp://close';
+    } else {
+      router.push('/');
+    }
   };
 
   return (
@@ -245,7 +253,7 @@ const TwoFactAuthCodeEntryPage = () => {
             <Button
               variant={'outline'}
               className="h-full"
-              onClick={() => router.back()}
+              onClick={() => handleRoute()}
             >
               {CANCEL}
             </Button>
