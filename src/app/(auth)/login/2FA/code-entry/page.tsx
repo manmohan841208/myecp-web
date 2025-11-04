@@ -39,10 +39,11 @@ const TwoFactAuthCodeEntryPage = () => {
   const [code, setCode] = useState('');
   const [showError, setShowError] = useState(false);
   const [errorMessage, setErrorMessage] = useState('');
+  const [isLoading, setIsLoading] = useState(false);
+  const [isVerifying, setIsVerifying] = useState(false);
   const userData: any = JSON.parse(localStorage.getItem('userInfo') || 'null');
-  const [sendOtpTrigger, { data, isLoading, error }] = useSendOtpMutation();
-  const [verifyOtpTrigger, { data: verifyData, isLoading: isVerifying }] =
-    useVerifyOtpMutation();
+  const [sendOtpTrigger, { data, error }] = useSendOtpMutation();
+  const [verifyOtpTrigger, { data: verifyData }] = useVerifyOtpMutation();
   const dispatch = useDispatch();
   const selectedOption = useSelector((state: any) => {
     return state?.sendOtpSlice?.selectedOption;
@@ -50,8 +51,6 @@ const TwoFactAuthCodeEntryPage = () => {
   const encryptedOtp = useSelector((state: any) => {
     return state?.sendOtpSlice?.otpResponse;
   });
-
-  const isEmpty = code.trim().length < 6;
 
   const router = useRouter();
 
@@ -75,7 +74,7 @@ const TwoFactAuthCodeEntryPage = () => {
   const isFormValid = verifyOtpSchema.safeParse(values).success;
 
   const onSubmit = async (data: VerifyOtpFormValues) => {
-    if (!isValid) {
+    if (!isFormValid) {
       setShowError(true);
       setErrorMessage(`Please enter the 6-digit authentication code.`);
       return;
@@ -88,6 +87,7 @@ const TwoFactAuthCodeEntryPage = () => {
     };
 
     try {
+      setIsVerifying(true);
       const result: any = await verifyOtpTrigger(payload).unwrap();
       if (result?.Token) {
         localStorage.setItem('userInfo', JSON.stringify(result));
@@ -99,6 +99,7 @@ const TwoFactAuthCodeEntryPage = () => {
       }
     } catch (err: any) {
       setShowError(true);
+      setIsVerifying(false);
       setErrorMessage(
         err?.data?.message ||
           `We're sorry! The code you entered is either expired or invalid. Please try again.`,
@@ -108,6 +109,7 @@ const TwoFactAuthCodeEntryPage = () => {
 
   const getOtp = async () => {
     try {
+      setIsLoading(true);
       const payload: any = {
         UserId: userData?.UserId?.toString(),
         OtpOption: selectedOption,
@@ -115,10 +117,12 @@ const TwoFactAuthCodeEntryPage = () => {
 
       const response = await sendOtpTrigger(payload).unwrap();
       if (response?.Otp) {
+        setIsLoading(false);
         dispatch(setSelectedOption(selectedOption));
         dispatch(setOtpResponse(response?.Otp));
       }
     } catch (err: any) {
+      setIsLoading(false);
       setShowError(true);
       setErrorMessage(
         err?.data?.message || `Something went wrong! Please try again.`,

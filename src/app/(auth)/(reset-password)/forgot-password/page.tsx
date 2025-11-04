@@ -28,7 +28,8 @@ import DatePicker from '@/components/atoms/Calendar/page';
 import { format } from 'date-fns';
 
 export default function ForgotUserIdPage() {
-  const [forgotPassword, { isLoading }] = useForgotPasswordMutation();
+  const [isLoading, setIsLoading] = useState(false);
+  const [forgotPassword] = useForgotPasswordMutation();
   const dispatch = useDispatch();
   const route = useRouter();
 
@@ -116,11 +117,13 @@ export default function ForgotUserIdPage() {
     };
 
     try {
+      setIsLoading(true);
       const response: any = await forgotPassword(payload).unwrap();
       localStorage.setItem('forgotPwdUserName', data.UserName);
       dispatch(setForgotPWDSecurityQuestions(response));
       route.push('/for-your-security'); // Navigate to next step
     } catch (err: any) {
+      setIsLoading(false);
       fetchCaptcha();
       setValue('captchaInput', '');
       setShowError(true);
