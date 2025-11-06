@@ -1,33 +1,40 @@
 import React from "react";
+import Button from "@/components/atoms/Button";
 
-const HorizontalStepper = () => {
+interface HorizontalStepperProps {
+  steps: number;
+  activeStep: number;
+  onStepClick?: (step: number) => void;
+}
+
+const HorizontalStepper: React.FC<HorizontalStepperProps> = ({
+  steps,
+  activeStep,
+  onStepClick,
+}) => {
+  const stepButtons = Array.from({ length: steps }, (_, index) => {
+    const stepNumber = index + 1;
+    const isActive = stepNumber === activeStep;
+
+    return (
+      <Button
+        key={stepNumber}
+        className={`flex h-[25px] w-[25px] items-center justify-center rounded-full ${
+          isActive ? "bg-[var(--color-blue)] text-white" : "bg-white"
+        }`}
+        variant={isActive ? "primary" : "outline"}
+        onClick={() => onStepClick?.(stepNumber)}
+      >
+        {stepNumber}
+      </Button>
+    );
+  });
+
   return (
-
-    <div data-testid="stepper-container" className="min-h-screen bg-[#f3f5f6] flex justify-center items-center">
-      <div className="min-h-screen bg-[#f3f5f6] flex justify-center items-center ">
-        <div className="w-[700px] ">
-          <div className="w-full flex justify-between relative">
-            {/* Red intersecting line */}
-            <div className="w-full h-[5px] bg-red-500 absolute top-1/2 left-0 -z-10">sdfs</div>
-
-            {/* Step circles */}
-            <div className="w-[50px] h-[50px] bg-[#43880f] rounded-full relative">
-              <span className="absolute top-[150%] left-[9%] text-[#141d0d]">Step&nbsp;1</span>
-              <i className="fa-solid fa-check absolute top-[35%] left-[35%] block"></i>
-            </div>
-            <div className="w-[50px] h-[50px] bg-white rounded-full relative">
-              <span className="absolute top-[150%] left-[9%] text-[#141d0d]">Step&nbsp;2</span>
-              <i className="fa-solid fa-check absolute top-[35%] left-[35%] hidden"></i>
-            </div>
-            <div className="w-[50px] h-[50px] bg-white rounded-full relative">
-              <span className="absolute top-[150%] left-[9%] text-[#141d0d]">Step&nbsp;3</span>
-              <i className="fa-solid fa-check absolute top-[35%] left-[35%] hidden"></i>
-            </div>
-            <div className="w-[50px] h-[50px] bg-white rounded-full relative">
-              <span className="absolute top-[150%] left-[9%] text-[#141d0d]">Step&nbsp;4</span>
-              <i className="fa-solid fa-check absolute top-[35%] left-[35%] hidden"></i>
-            </div>
-          </div>
+    <div className="w-full pt-2 pr-6 pl-6">
+      <div className="flex h-10 w-full items-center justify-evenly">
+        <div className="flex h-[1px] w-4/5 items-center justify-between bg-[var(--color-blue)]">
+          {stepButtons}
         </div>
       </div>
     </div>
